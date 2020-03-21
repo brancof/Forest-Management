@@ -6459,11 +6459,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Asus\\Desktop\\ProjetoLI4\\GestaoFlorestas\\GestaoFlorestas.WebSite\\GestaoFlorestas.WebSite.csproj",
+      "projectUniqueName": "C:\\Users\\Asus\\Documents\\GitHub\\LI4-G3\\GestaoFlorestas\\GestaoFlorestas.WebSite\\GestaoFlorestas.WebSite.csproj",
       "projectName": "GestaoFlorestas.WebSite",
-      "projectPath": "C:\\Users\\Asus\\Desktop\\ProjetoLI4\\GestaoFlorestas\\GestaoFlorestas.WebSite\\GestaoFlorestas.WebSite.csproj",
+      "projectPath": "C:\\Users\\Asus\\Documents\\GitHub\\LI4-G3\\GestaoFlorestas\\GestaoFlorestas.WebSite\\GestaoFlorestas.WebSite.csproj",
       "packagesPath": "C:\\Users\\Asus\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Asus\\Desktop\\ProjetoLI4\\GestaoFlorestas\\GestaoFlorestas.WebSite\\obj\\",
+      "outputPath": "C:\\Users\\Asus\\Documents\\GitHub\\LI4-G3\\GestaoFlorestas\\GestaoFlorestas.WebSite\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Asus\\AppData\\Roaming\\NuGet\\NuGet.Config",

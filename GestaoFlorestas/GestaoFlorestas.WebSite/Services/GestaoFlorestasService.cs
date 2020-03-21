@@ -147,5 +147,19 @@ namespace GestaoFlorestas.WebSite.Services
         }
 
 
+
+
+        public void trocaProprietarioTerreno(int idTerreno,String nifNovoProp)
+        {
+            Terreno t = this.terrenos.get(idTerreno);
+            t.setNif(nifNovoProp);
+            Proprietario p = this.proprietarios.getByNif(nifNovoProp);
+            t.setProp(p.getUsername()); // se o cidadao como nif nao tiver registado, o username estará a null.
+            terrenos.put(t);
+        }
+
+
+
+
     }
 }

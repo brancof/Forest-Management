@@ -163,6 +163,61 @@ namespace GestaoFlorestas.WebSite.Services
             return new Proprietario(nome,mail,nif,password,username,terrenos);
 
         }
-        
+
+
+        public Proprietario getByNif(String usenif)
+        {
+            int usernif = Int32.Parse(usenif);
+            String username = "";
+            String password = "";
+            String nif = "";
+            String mail = "";
+            String nome = "";
+            string query = "Select * from proprietario " +
+                               "where nif=@nif ;";
+
+            SqlCommand cmd = new SqlCommand(query, con);
+            cmd.Parameters.AddWithValue("@nif", usernif);
+
+            if (this.OpenConnection() == true)
+            {
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+
+                    reader.Read();
+
+                    username = (String)reader[0];
+                    password = (String)reader[1];
+                    nif = "" + ((int)reader[2]);
+                    mail = ((String)reader[3]);
+                    nome = ((String)reader[4]);
+
+                }
+                this.CloseConnection();
+            }
+
+            List<int> terrenos = new List<int>();
+
+            query = "Select idTerreno from terreno " +
+                               "where nifProprietario=@nif ;";
+
+            cmd = new SqlCommand(query, con);
+            cmd.Parameters.AddWithValue("@nif", nif);
+            if (this.OpenConnection() == true)
+            {
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+
+                    while (reader.Read())
+                    {
+                        terrenos.Add((int)reader[0]);
+                    }
+                }
+                this.CloseConnection();
+            }
+            return new Proprietario(nome, mail, nif, password, username, terrenos);
+
+        }
+
     }
 }

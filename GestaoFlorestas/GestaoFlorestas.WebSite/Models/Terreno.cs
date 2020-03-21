@@ -91,8 +91,9 @@ namespace GestaoFlorestas.WebSite.Models
 
         public void setInspecoes(List<Inspecao>inspecs) { this.inspecoes = inspecs; }
 
-       
+        public void setNif(String novoNif) { this.nif = novoNif; }
 
+        public void setProp(String prop) { this.proprietario = prop; }
         
     }
 
