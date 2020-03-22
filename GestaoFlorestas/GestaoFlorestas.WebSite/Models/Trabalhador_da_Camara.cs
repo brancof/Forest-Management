@@ -11,6 +11,7 @@ namespace GestaoFlorestas.WebSite.Models
         private String nome;
         private String username;
         private String password;
+        private String email;
         private List<int> idsLimpezasPendentes;
         private TerrenoDAO terrenosALimpar;
         private String concelho;
@@ -22,24 +23,27 @@ namespace GestaoFlorestas.WebSite.Models
             this.username = "";
             this.password = "";
             this.concelho = "";
+            this.email = "";
         }
 
 
-        public Trabalhador_da_Camara(String nome, String username, String password, String concel, List<int> lp)
+        public Trabalhador_da_Camara(String nome, String username, String email, String password, String concel, List<int> lp)
         {
             this.nome = nome;
             this.username = username;
             this.password = password;
             this.concelho = concel;
             this.idsLimpezasPendentes = lp;
+            this.email = email;
         }
 
-        public Trabalhador_da_Camara(String nome, String username, String password, String concel)
+        public Trabalhador_da_Camara(String nome, String username, String email, String password, String concel)
         {
             this.nome = nome;
             this.username = username;
             this.password = password;
             this.concelho = concel;
+            this.email = email;
             this.idsLimpezasPendentes = null;
         }
 
@@ -49,13 +53,14 @@ namespace GestaoFlorestas.WebSite.Models
             this.username = t.getUsername();
             this.password = t.getPassword();
             this.concelho = t.getConcelho();
+            this.email = t.getEmail();
         }
 
         public String getNome() { return this.nome; }
         public String getUsername() { return this.username; }
         public String getPassword() { return this.password; }
         public String getConcelho() { return this.concelho; }
-
+        public String getEmail() { return this.email; }
         public List<int> getTerrenosPendentes() { return this.idsLimpezasPendentes; } 
 
         public void setNome(String nome) { this.nome = nome; }

@@ -10,6 +10,7 @@ namespace GestaoFlorestas.WebSite.Models
     {
         private String nome;
         private String username;
+        private String email;
         private String password;
         private List<int> terrenosAInspecionar;
         private TerrenoDAO terrenos;
@@ -19,26 +20,29 @@ namespace GestaoFlorestas.WebSite.Models
             this.nome = "";
             this.username = "";
             this.password = "";
+            this.email = "";
             this.terrenosAInspecionar = null;
             this.terrenos = new TerrenoDAO();
 
         }
 
-        public Inspetor(String nome, String username, String password, List<int> terrenosAInspec)
+        public Inspetor(String nome, String username, String email, String password, List<int> terrenosAInspec)
         {
             this.nome = nome;
             this.username = username;
+            this.email = email;
             this.password = password;
             this.terrenosAInspecionar = terrenosAInspec;
             this.terrenos = new TerrenoDAO();
             
         }
 
-        public Inspetor(String nome, String username, String password)
+        public Inspetor(String nome, String username, String email, String password)
         {
             this.nome = nome;
             this.username = username;
             this.password = password;
+            this.email = email;
             this.terrenosAInspecionar = null;
             this.terrenos = new TerrenoDAO();
 
@@ -49,6 +53,7 @@ namespace GestaoFlorestas.WebSite.Models
             this.nome = I.getNome();
             this.username = I.getUsername();
             this.password = I.getPassword();
+            this.email = I.getEmail();
             this.terrenos = new TerrenoDAO();
             this.terrenosAInspecionar = I.getTerrenosAInspecionar();
         }
@@ -56,6 +61,7 @@ namespace GestaoFlorestas.WebSite.Models
         public String getNome() { return this.nome; }
         public String getPassword() { return this.password; }
         public String getUsername() { return this.username; }
+        public String getEmail() { return this.email; }
         public List<int> getTerrenosAInspecionar() { return this.terrenosAInspecionar; }
         public void setNome(String nome) { this.nome = nome; }
         public void setUsername(String username) { this.username = username; }

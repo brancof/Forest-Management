@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Collections.Generic;
 using System.Text;
 using GestaoFlorestas.WebSite.Models;
+using System.Security.Cryptography;
 
 namespace GestaoFlorestas.WebSite.Services
 {
@@ -66,23 +67,93 @@ namespace GestaoFlorestas.WebSite.Services
                 }
             }
 
+            private byte[] createSalt()
+            {
+                byte[] salt;
+                new RNGCryptoServiceProvider().GetBytes(salt = new byte[16]);
+                return salt;
+            }
+
+            private byte[] creatHash(String password, byte[] salt)
+            {
+                var pbkdf2 = new Rfc2898DeriveBytes(password, salt, 10000);
+                byte[] hash = pbkdf2.GetBytes(20);
+                return hash;
+            }
+
+            private String creatHash(String password, String salt)
+            {
+                var pbkdf2 = new Rfc2898DeriveBytes(password, Convert.FromBase64String(salt), 10000);
+                byte[] hash = pbkdf2.GetBytes(20);
+                return Convert.ToBase64String(hash);
+            }
+
+            private bool PassEquals(byte[] hashDb, byte[] hashVerificar)
+            {
+                for (int i = 0; i < 20; i++)
+                    if (hashDb[i] != hashVerificar[i])
+                        return false;
+                return true;
+            }
+
+            public bool verificarPassword(String pass, String user)
+            {
+                String passDb = null;
+                byte[] salt = null;
+                string query = "Select password,salt from proprietario " +
+                               "where username=@username ;";
+
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@username", user);
+
+                if (this.OpenConnection() == true)
+                {
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+
+                        reader.Read();
+                        passDb = (String)reader[0];
+                        salt = Convert.FromBase64String((String)reader[1]);
+                    }
+                    this.CloseConnection();
+                }
+                if (passDb != null && salt != null)
+                {
+                    byte[] hashDb = Convert.FromBase64String(passDb);
+
+                    var pbkdf2 = new Rfc2898DeriveBytes(pass, salt, 10000);
+                    byte[] hashVerificar = pbkdf2.GetBytes(20);
+                    return PassEquals(hashDb, hashVerificar);
+                }
+                else return false; //User inexistente
+            }
+
+
             public void put(Proprietario p)
             {
+                int i;
+                String password = "";
                 String query;
+                String salt = "";
                 if (contains(p.getUsername()))
                 {
-                    query = "UPDATE proprietario SET password=@password,nif=@nif,email=@email,nome=@nome WHERE username=@username ;";
+                    i = 0;
+                    query = "UPDATE proprietario SET nif=@nif,email=@email,nome=@nome WHERE username=@username ;";
                 }
                 else
                 {
-                    query = "INSERT INTO proprietario (username,password,nif,email,nome) VALUES(@username,@password,@nif,@email,@nome);";
+                    i = 1;
+                    query = "INSERT INTO proprietario (username,password,nif,email,nome,salt) VALUES(@username,@password,@nif,@email,@nome,@salt);";
+                    salt = Convert.ToBase64String(createSalt());
+                    password = creatHash(p.getPassword(), salt);
                 }
                 SqlCommand cmd = new SqlCommand(query, con);
                 cmd.Parameters.AddWithValue("@username", p.getUsername());
-                cmd.Parameters.AddWithValue("@password", p.getPassword());
+                if (i == 1) cmd.Parameters.AddWithValue("@password", password);
                 cmd.Parameters.AddWithValue("@nif", Int32.Parse(p.getNif()));
                 cmd.Parameters.AddWithValue("@email", p.getMail());
                 cmd.Parameters.AddWithValue("@nome", p.getNome());
+                if (i == 1) cmd.Parameters.AddWithValue("@salt", salt);
                 if (this.OpenConnection() == true)
                 {
                     int r = cmd.ExecuteNonQuery();
@@ -218,6 +289,8 @@ namespace GestaoFlorestas.WebSite.Services
             return new Proprietario(nome, mail, nif, password, username, terrenos);
 
         }
+
+
 
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using GestaoFlorestas.WebSite.Models;
 using System.Data.SqlClient;
+using System.Security.Cryptography;
 
 namespace GestaoFlorestas.WebSite.Services
 {
@@ -66,20 +67,91 @@ namespace GestaoFlorestas.WebSite.Services
             }
         }
 
+        private byte[] createSalt()
+        {
+            byte[] salt;
+            new RNGCryptoServiceProvider().GetBytes(salt = new byte[16]);
+            return salt;
+        }
+
+        private byte[] creatHash(String password, byte[] salt)
+        {
+            var pbkdf2 = new Rfc2898DeriveBytes(password, salt, 10000);
+            byte[] hash = pbkdf2.GetBytes(20);
+            return hash;
+        }
+
+        private String creatHash(String password, String salt)
+        {
+            var pbkdf2 = new Rfc2898DeriveBytes(password, Convert.FromBase64String(salt), 10000);
+            byte[] hash = pbkdf2.GetBytes(20);
+            return Convert.ToBase64String(hash);
+        }
+
+        private bool PassEquals(byte[] hashDb, byte[] hashVerificar)
+        {
+            for (int i = 0; i < 20; i++)
+                if (hashDb[i] != hashVerificar[i])
+                    return false;
+            return true;
+        }
+
+        public bool verificarPassword(String pass, String user)
+        {
+            String passDb = null;
+            byte[] salt = null;
+            string query = "Select password,salt from inspetor " +
+                           "where username=@username ;";
+
+            SqlCommand cmd = new SqlCommand(query, con);
+            cmd.Parameters.AddWithValue("@username", user);
+
+            if (this.OpenConnection() == true)
+            {
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+
+                    reader.Read();
+                    passDb = (String)reader[0];
+                    salt = Convert.FromBase64String((String)reader[1]);
+                }
+                this.CloseConnection();
+            }
+            if (passDb != null && salt != null)
+            {
+                byte[] hashDb = Convert.FromBase64String(passDb);
+
+                var pbkdf2 = new Rfc2898DeriveBytes(pass, salt, 10000);
+                byte[] hashVerificar = pbkdf2.GetBytes(20);
+                return PassEquals(hashDb, hashVerificar);
+            }
+            else return false; //User inexistente
+        }
+
+
         public void put(Inspetor i)
         {
+            int j;
+            String password = "";
             String query;
+            String salt = "";
             if (contains(i.getUsername()))
             {
-                query = "UPDATE Inspetor SET password=@password,nome=@nome WHERE username=@username ;";
+                j = 0;
+                query = "UPDATE Inspetor SET nome=@nome,email=@email WHERE username=@username ;";
             }
             else
             {
-                query = "INSERT INTO Inspetor VALUES(@username,@password,@nome);";
+                j = 1;
+                query = "INSERT INTO Inspetor VALUES(@username,@password,@nome,@email,@salt);";
+                salt = Convert.ToBase64String(createSalt());
+                password = creatHash(i.getPassword(), salt);
             }
             SqlCommand cmd = new SqlCommand(query, con);
             cmd.Parameters.AddWithValue("@username", i.getUsername());
-            cmd.Parameters.AddWithValue("@password", i.getPassword());
+            cmd.Parameters.AddWithValue("@email", i.getEmail());
+            if (j == 1) cmd.Parameters.AddWithValue("@password", password);
+            if (j == 1) cmd.Parameters.AddWithValue("@salt", salt);
             cmd.Parameters.AddWithValue("@nome", i.getNome());
 
             if (this.OpenConnection() == true)
@@ -201,6 +273,7 @@ namespace GestaoFlorestas.WebSite.Services
             String username = user;
             String password = "";
             String nome = "";
+            String email = "";
             List<int> terrenosAInspecionar = new List<int>();
 
             string query = "Select * from Inspetor " +
@@ -216,8 +289,9 @@ namespace GestaoFlorestas.WebSite.Services
 
                     reader.Read();
                     
-                        password = (String)reader[1];
-                        nome = (String)reader[2];
+                    password = (String)reader[1];
+                    nome = (String)reader[2];
+                    email = (String)reader[3];
                     
                 }
                 this.CloseConnection();
@@ -242,7 +316,7 @@ namespace GestaoFlorestas.WebSite.Services
                 this.CloseConnection();
             }
 
-            return new Inspetor(username, password, nome, terrenosAInspecionar);
+            return new Inspetor(nome, username, email, password, terrenosAInspecionar);
 
 
         }
