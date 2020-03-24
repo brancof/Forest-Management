@@ -6,41 +6,6 @@
   overflow: hidden;
 }
 
-/*.container.login-container {
-  padding-top: 5%;
-}*/
-
-.card.login-card {
-  padding: 8% 10% 100%;
-}
-
-.form.login-form {
-  max-width: 350px;
-  margin: auto;
-}
-
-.card-text.login-text {
-  margin: 10px 0 30px;
-}
-
-.form-group {
-  margin: 2% 20% 0 20%;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-button.login-btn {
-  margin: 1rem;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
 
 .App-header {
   background-color: #282c34;
