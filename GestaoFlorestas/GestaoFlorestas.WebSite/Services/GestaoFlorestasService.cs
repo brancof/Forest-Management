@@ -54,12 +54,12 @@ namespace GestaoFlorestas.WebSite.Services
 
 
         //Inspetores
-        public void registoInspetores(String username, String nome, String mail, String nif, String password)
+        public void registoInspetores(String username, String nome, String mail, String password)
         {
             //falta encriptação password
             if (!inspetores.contains(username))
             {
-                Inspetor i = new Inspetor(nome,username,password);
+                Inspetor i = new Inspetor(nome,username,mail,password);
                 inspetores.put(i);
             }
             //else -> inspetor username de inspetor ja em utilização.
@@ -80,12 +80,12 @@ namespace GestaoFlorestas.WebSite.Services
         }
 
         //Supervisores
-        public void registoSupervisor(String nome, String username, String password, String concelho)
+        public void registoSupervisor(String nome, String username, String mail, String password, String concelho)
         {
             //falta encriptação password
             if (!supervisores.contains(username))
             {
-                Supervisor_Concelho s = new Supervisor_Concelho(nome, username, password,concelho);
+                Supervisor_Concelho s = new Supervisor_Concelho(nome, username,mail, password,concelho);
                 supervisores.put(s);
             }
             //else -> inspetor username de inspetor ja em utilização.
@@ -106,12 +106,12 @@ namespace GestaoFlorestas.WebSite.Services
         }
 
         //Trabalhadores
-        public void registoTrabalhadores(String nome, String username, String password, String concelho)
+        public void registoTrabalhadores(String nome, String username,String mail, String password, String concelho)
         {
             //falta encriptação password
             if (!trabalhadores.containsTrabalhador(username))
             {
-                Trabalhador_da_Camara s = new Trabalhador_da_Camara(nome, username, password, concelho);
+                Trabalhador_da_Camara s = new Trabalhador_da_Camara(nome, username, mail, password, concelho);
                 trabalhadores.put(s);
             }
             //else -> inspetor username de inspetor ja em utilização.

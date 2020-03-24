@@ -203,7 +203,6 @@ C:\Users\Asus\Documents\GitHub\LI4-G3\GestaoFlorestas\GestaoFlorestas.WebSite\bi
 C:\Users\Asus\Documents\GitHub\LI4-G3\GestaoFlorestas\GestaoFlorestas.WebSite\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
 C:\Users\Asus\Documents\GitHub\LI4-G3\GestaoFlorestas\GestaoFlorestas.WebSite\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
 C:\Users\Asus\Documents\GitHub\LI4-G3\GestaoFlorestas\GestaoFlorestas.WebSite\obj\Debug\netcoreapp3.1\GestaoFlorestas.WebSite.csprojAssemblyReference.cache
-C:\Users\Asus\Documents\GitHub\LI4-G3\GestaoFlorestas\GestaoFlorestas.WebSite\obj\Debug\netcoreapp3.1\GestaoFlorestas.WebSite.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\Asus\Documents\GitHub\LI4-G3\GestaoFlorestas\GestaoFlorestas.WebSite\obj\Debug\netcoreapp3.1\GestaoFlorestas.WebSite.RazorAssemblyInfo.cache
 C:\Users\Asus\Documents\GitHub\LI4-G3\GestaoFlorestas\GestaoFlorestas.WebSite\obj\Debug\netcoreapp3.1\GestaoFlorestas.WebSite.RazorAssemblyInfo.cs
 C:\Users\Asus\Documents\GitHub\LI4-G3\GestaoFlorestas\GestaoFlorestas.WebSite\obj\Debug\netcoreapp3.1\GestaoFlorestas.WebSite.AssemblyInfoInputs.cache
@@ -226,3 +225,5 @@ C:\Users\Asus\Documents\GitHub\LI4-G3\GestaoFlorestas\GestaoFlorestas.WebSite\ob
 C:\Users\Asus\Documents\GitHub\LI4-G3\GestaoFlorestas\GestaoFlorestas.WebSite\obj\Debug\netcoreapp3.1\staticwebassets\GestaoFlorestas.WebSite.StaticWebAssets.xml
 C:\Users\Asus\Documents\GitHub\LI4-G3\GestaoFlorestas\GestaoFlorestas.WebSite\obj\Debug\netcoreapp3.1\GestaoFlorestas.WebSite.dll
 C:\Users\Asus\Documents\GitHub\LI4-G3\GestaoFlorestas\GestaoFlorestas.WebSite\obj\Debug\netcoreapp3.1\GestaoFlorestas.WebSite.pdb
+C:\Users\Asus\Documents\GitHub\LI4-G3\GestaoFlorestas\GestaoFlorestas.WebSite\obj\Debug\netcoreapp3.1\GestaoFlorestas.WebSite.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Asus\Documents\GitHub\LI4-G3\GestaoFlorestas\GestaoFlorestas.WebSite\bin\Debug\netcoreapp3.1\RestSharp.dll

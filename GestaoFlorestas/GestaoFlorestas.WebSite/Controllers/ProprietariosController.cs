@@ -6,6 +6,8 @@ using GestaoFlorestas.WebSite.Models;
 using GestaoFlorestas.WebSite.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Web;
+
 
 namespace GestaoFlorestas.WebSite.Controllers
 {
@@ -30,9 +32,24 @@ namespace GestaoFlorestas.WebSite.Controllers
                                 [FromQuery] string Nif, 
                                 [FromQuery] string Password)
         {
-            this.GestaoFlorestasService.registoProprietario(Username, Nome, Mail, Nif, Password);
+            this.GestaoFlorestasService.registoSupervisor(Username, Nome, Mail, Nif, Password);
             
             return Ok();
         }
+
+        [Route("Login")]
+        [HttpGet]
+
+        public ActionResult GetL([FromQuery] string Username,
+                                [FromQuery] string Password)
+        {
+            this.GestaoFlorestasService.loginProprietario(Username, Password);
+
+            
+            Response.Cookies.Append("UserCookie","P"+Username);//colocar aqui o cookie.
+            return Ok();
+        }
+
+
     }
 }

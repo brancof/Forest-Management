@@ -538,6 +538,15 @@
           "lib/netstandard1.6/NuGet.Frameworks.dll": {}
         }
       },
+      "RestSharp/106.10.1": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/RestSharp.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/RestSharp.dll": {}
+        }
+      },
       "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
         "type": "package",
         "runtimeTargets": {
@@ -2784,6 +2793,21 @@
         "lib/netstandard1.6/NuGet.Frameworks.xml",
         "nuget.frameworks.4.7.0.nupkg.sha512",
         "nuget.frameworks.nuspec"
+      ]
+    },
+    "RestSharp/106.10.1": {
+      "sha512": "MhR4w8LbArVaRA5T/oAR3ZnF852QXtDXRBO84GsvyYzsm7FsjXHJ+JaM8x/nR/B/OCB1WbolGH7hqMT1GZpNJw==",
+      "type": "package",
+      "path": "restsharp/106.10.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net452/RestSharp.dll",
+        "lib/net452/RestSharp.xml",
+        "lib/netstandard2.0/RestSharp.dll",
+        "lib/netstandard2.0/RestSharp.xml",
+        "restsharp.106.10.1.nupkg.sha512",
+        "restsharp.nuspec"
       ]
     },
     "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
@@ -6450,23 +6474,24 @@
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 3.1.1",
+      "RestSharp >= 106.10.1",
       "System.Data.SqlClient >= 4.6.1"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\branc\\.nuget\\packages\\": {}
+    "C:\\Users\\Asus\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\branc\\Desktop\\LI4\\LI4-G3\\GestaoFlorestas\\GestaoFlorestas.WebSite\\GestaoFlorestas.WebSite.csproj",
+      "projectUniqueName": "C:\\Users\\Asus\\Documents\\GitHub\\LI4-G3\\GestaoFlorestas\\GestaoFlorestas.WebSite\\GestaoFlorestas.WebSite.csproj",
       "projectName": "GestaoFlorestas.WebSite",
-      "projectPath": "C:\\Users\\branc\\Desktop\\LI4\\LI4-G3\\GestaoFlorestas\\GestaoFlorestas.WebSite\\GestaoFlorestas.WebSite.csproj",
-      "packagesPath": "C:\\Users\\branc\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\branc\\Desktop\\LI4\\LI4-G3\\GestaoFlorestas\\GestaoFlorestas.WebSite\\obj\\",
+      "projectPath": "C:\\Users\\Asus\\Documents\\GitHub\\LI4-G3\\GestaoFlorestas\\GestaoFlorestas.WebSite\\GestaoFlorestas.WebSite.csproj",
+      "packagesPath": "C:\\Users\\Asus\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Asus\\Documents\\GitHub\\LI4-G3\\GestaoFlorestas\\GestaoFlorestas.WebSite\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\branc\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Asus\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -6493,6 +6518,10 @@
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
             "target": "Package",
             "version": "[3.1.1, )"
+          },
+          "RestSharp": {
+            "target": "Package",
+            "version": "[106.10.1, )"
           },
           "System.Data.SqlClient": {
             "target": "Package",
