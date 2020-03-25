@@ -49,7 +49,7 @@ class Login extends React.Component {
     }
 
     handleRegisterButton(event) {
-            axios.get('https://localhost:44301/proprietarios/registo', {
+        axios.get('https://localhost:44301/proprietarios/registo', {
             params: {
                 Username: this.state.username,
                 Nome: this.state.nome,
@@ -57,7 +57,15 @@ class Login extends React.Component {
                 Nif: this.state.nif,
                 Password: this.state.password
             }
+        })
+        .then(response => {
+            alert("Utilizador registado!")
+            console.log(response)
         }) 
+        .catch(response => {
+            alert("Username já existente.");
+            console.log(response)
+        })
         event.preventDefault();
     }
 

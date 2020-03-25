@@ -27,8 +27,8 @@ namespace GestaoFlorestas.WebSite.Controllers
 
 
         [Route("Registo")]
-        [HttpPost]
-        public ActionResult Get([FromBody] string Username, 
+        [HttpGet]
+        public ActionResult Get([FromQuery] string Username, 
                                 [FromQuery] string Nome, 
                                 [FromQuery] string Mail, 
                                 [FromQuery] string Nif, 
