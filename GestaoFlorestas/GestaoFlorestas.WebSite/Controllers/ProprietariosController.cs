@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Web;
 using System.Web.Http.Cors;
-
+using GestaoFlorestas.WebSite.Exceptions;
 
 namespace GestaoFlorestas.WebSite.Controllers
 {
@@ -27,14 +27,21 @@ namespace GestaoFlorestas.WebSite.Controllers
 
 
         [Route("Registo")]
-        [HttpGet]
-        public ActionResult Get([FromQuery] string Username, 
+        [HttpPost]
+        public ActionResult Get([FromBody] string Username, 
                                 [FromQuery] string Nome, 
                                 [FromQuery] string Mail, 
                                 [FromQuery] string Nif, 
                                 [FromQuery] string Password)
         {
-            this.GestaoFlorestasService.registoProprietario(Username, Nome, Mail, Nif, Password);
+            try
+            {
+                this.GestaoFlorestasService.registoProprietario(Username, Nome, Mail, Nif, Password);
+            }
+            catch (ExistingUserException e)
+            {
+                return Unauthorized();
+            }
             
             return Ok();
         }

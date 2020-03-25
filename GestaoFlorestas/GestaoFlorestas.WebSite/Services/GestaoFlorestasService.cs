@@ -1,4 +1,5 @@
-﻿using GestaoFlorestas.WebSite.Models;
+﻿using GestaoFlorestas.WebSite.Exceptions;
+using GestaoFlorestas.WebSite.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,10 +33,13 @@ namespace GestaoFlorestas.WebSite.Services
         //Proprietarios
         public void registoProprietario(String username, String nome,String mail,String nif,String password) {
             //falta encriptação password
-            if (!proprietarios.contains(username)){
+            if (!proprietarios.contains(username))
+            {
                 Proprietario p = new Proprietario(nome, mail, nif, password, username);
                 proprietarios.put(p);
             }
+            else throw new ExistingUserException();
+            
         }
 
         public void loginProprietario(String username,String password)
