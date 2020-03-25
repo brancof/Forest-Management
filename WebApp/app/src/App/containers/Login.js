@@ -6,14 +6,15 @@ class Login extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: '',
+            username: '',
             password: '',
-            poke: '' //temptest
+            accounttype: 'proprietarios'
         };
 
         this.handleLoginButton = this.handleLoginButton.bind(this);
         this.handleChangePassword = this.handleChangePassword.bind(this);
-        this.handleChangeEmail = this.handleChangeEmail.bind(this);
+        this.handleChangeUsername = this.handleChangeUsername.bind(this);
+        this.handleChangeDropdown = this.handleChangeDropdown.bind(this);
     }
 
     componentDidMount() {
@@ -24,24 +25,30 @@ class Login extends React.Component {
         this.setState({password: event.target.value});
     }
 
-    handleChangeEmail(event) {
-        this.setState({email: event.target.value});
+    handleChangeUsername(event) {
+        this.setState({username: event.target.value});
+    }
+
+    handleChangeDropdown(event) {
+        this.setState({accounttype: event.target.value});
     }
 
     handleLoginButton(event) {
         //alert(this.state.email);
-            axios.get('https://localhost:44301/Proprietarios/Login', {
+            axios.get('https://localhost:44301/' + this.state.accounttype + '/login', {
             params: {
-                Username: this.state.email,
+                Username: this.state.username,
                 Password: this.state.password
             }
-        }) //Access-Control-Allow-Origin requests on server*/
-        /*axios.get('https://pokeapi.co/api/v2/pokemon/'+this.state.email)
-            .then(res => {
-                const poke = res.data;
-                this.setState({poke});        
-                alert(this.state.poke.name);
-            })*/
+        })
+        .then(response => {
+            alert("Login efectuado com successo.");
+            console.log(response);
+        }) 
+        .catch(response => {
+            alert("Username/password incorretos.");
+            console.log(response);
+        })
 
         event.preventDefault();
     }
@@ -59,7 +66,7 @@ class Login extends React.Component {
                                 e organização de florestas e territórios.</p>
                                 <form className="login-form">
                                     <div className="form-group">
-                                        <input type="email" value={this.state.email} className="form-control" id="emailInput" onChange={this.handleChangeEmail} placeholder="Email"></input>
+                                        <input type="text" value={this.state.username} className="form-control" id="usernameInput" onChange={this.handleChangeUsername} placeholder="Username"></input>
                                     </div>
                                     <div className="form-group">
                                         <input type="password" value={this.state.password} className="form-control" id="passwordInput" onChange={this.handleChangePassword} placeholder="Password"></input>
@@ -67,11 +74,11 @@ class Login extends React.Component {
                                     <div className="form-group">
                                         <label>
                                             Tipo de conta:<br></br>  
-                                            <select value={this.state.value} onChange={this.handleChangeDropdown}>
-                                                <option value="proprietario">Proprietário</option>
-                                                <option value="inspetor">Inspetor</option>
-                                                <option value="supervisor">Supervisor</option>
-                                                <option value="funcionario">Funcionário da Câmara</option>
+                                            <select value={this.state.accounttype} onChange={this.handleChangeDropdown}>
+                                                <option value="proprietarios">Proprietário</option>
+                                                <option value="inspetores">Inspetor</option>
+                                                <option value="supervisores">Supervisor</option>
+                                                <option value="trabalhadores">Funcionário da Câmara</option>
                                             </select>
                                         </label>
                                     </div>
