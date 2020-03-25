@@ -52,8 +52,8 @@ class Login extends React.Component {
             axios.get('https://localhost:44301/proprietarios/registo', {
             params: {
                 Username: this.state.username,
-                Nome: this.state.name,
-                Mail: this.state.mail,
+                Nome: this.state.nome,
+                Mail: this.state.email,
                 Nif: this.state.nif,
                 Password: this.state.password
             }
