@@ -47,13 +47,13 @@ namespace GestaoFlorestas.WebSite.Services
             if (proprietarios.contains(username))
             {
                 Proprietario p = proprietarios.get(username);
-                if (p.getPassword().Equals(password))
+                if (this.proprietarios.verificarPassword(password,username))
                 {
                     estado = this.estado = new Estado(1, username);
                 }
-                // else -> password incorreta
+                else throw new ExistingUserException();
             }
-            //else -> proprietario nao registado
+            else throw new ExistingUserException();
         }
 
 
@@ -66,7 +66,7 @@ namespace GestaoFlorestas.WebSite.Services
                 Inspetor i = new Inspetor(nome,username,mail,password);
                 inspetores.put(i);
             }
-            //else -> inspetor username de inspetor ja em utilização.
+            else throw new ExistingUserException();
         }
 
         public void loginInspetor(String username, String password)

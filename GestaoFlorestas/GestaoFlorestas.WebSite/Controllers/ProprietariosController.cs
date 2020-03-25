@@ -27,8 +27,8 @@ namespace GestaoFlorestas.WebSite.Controllers
 
 
         [Route("Registo")]
-        [HttpPost]
-        public ActionResult Get([FromBody] string Username, 
+        [HttpGet]
+        public ActionResult Get([FromQuery] string Username, 
                                 [FromQuery] string Nome, 
                                 [FromQuery] string Mail, 
                                 [FromQuery] string Nif, 
@@ -52,10 +52,16 @@ namespace GestaoFlorestas.WebSite.Controllers
         public ActionResult GetL([FromQuery] string Username,
                                 [FromQuery] string Password)
         {
-            this.GestaoFlorestasService.loginProprietario(Username, Password);
+            try
+            {
+                this.GestaoFlorestasService.loginProprietario(Username, Password);
+            }
+            catch (ExistingUserException e)
+            {
+                return Unauthorized();
+            }
 
-            
-            Response.Cookies.Append("UserCookie","P"+Username);//colocar aqui o cookie.
+            //Response.Cookies.Append("UserCookie","P"+Username);//colocar aqui o cookie.
             return Ok();
         }
 
