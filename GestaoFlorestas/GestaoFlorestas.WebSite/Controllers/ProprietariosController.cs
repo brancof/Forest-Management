@@ -7,10 +7,12 @@ using GestaoFlorestas.WebSite.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Web;
+using System.Web.Http.Cors;
 
 
 namespace GestaoFlorestas.WebSite.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     [Route("[controller]")]
     [ApiController]
     public class ProprietariosController : ControllerBase
@@ -32,7 +34,7 @@ namespace GestaoFlorestas.WebSite.Controllers
                                 [FromQuery] string Nif, 
                                 [FromQuery] string Password)
         {
-            this.GestaoFlorestasService.registoSupervisor(Username, Nome, Mail, Nif, Password);
+            this.GestaoFlorestasService.registoProprietario(Username, Nome, Mail, Nif, Password);
             
             return Ok();
         }

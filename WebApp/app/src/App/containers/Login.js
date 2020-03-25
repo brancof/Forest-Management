@@ -30,18 +30,18 @@ class Login extends React.Component {
 
     handleLoginButton(event) {
         //alert(this.state.email);
-                /*axios.get('https://localhost:5001/Login', {
+            axios.get('https://localhost:44301/Proprietarios/Login', {
             params: {
                 Username: this.state.email,
                 Password: this.state.password
             }
-        }) Access-Control-Allow-Origin requests on server*/
-        axios.get('https://pokeapi.co/api/v2/pokemon/'+this.state.email)
+        }) //Access-Control-Allow-Origin requests on server*/
+        /*axios.get('https://pokeapi.co/api/v2/pokemon/'+this.state.email)
             .then(res => {
                 const poke = res.data;
                 this.setState({poke});        
                 alert(this.state.poke.name);
-            })
+            })*/
 
         event.preventDefault();
     }
@@ -64,9 +64,19 @@ class Login extends React.Component {
                                     <div className="form-group">
                                         <input type="password" value={this.state.password} className="form-control" id="passwordInput" onChange={this.handleChangePassword} placeholder="Password"></input>
                                     </div>
+                                    <div className="form-group">
+                                        <label>
+                                            Tipo de conta:<br></br>  
+                                            <select value={this.state.value} onChange={this.handleChangeDropdown}>
+                                                <option value="proprietario">Proprietário</option>
+                                                <option value="inspetor">Inspetor</option>
+                                                <option value="supervisor">Supervisor</option>
+                                                <option value="funcionario">Funcionário da Câmara</option>
+                                            </select>
+                                        </label>
+                                    </div>
                                     <input className="btn login-btn btn-success btn-sm" type='submit' onClick={this.handleLoginButton} value="Login" />
                                     <input className="btn login-btn btn-success btn-sm" type='button' value="Registar" />
-
                                 </form>
                             </div>
                         </div>

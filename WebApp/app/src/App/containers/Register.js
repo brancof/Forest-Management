@@ -6,6 +6,7 @@ class Login extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            username: '',
             nome: '',
             nif: '',
             email: '',
@@ -15,14 +16,20 @@ class Login extends React.Component {
         };
 
         this.handleChangeName = this.handleChangeName.bind(this);
+        this.handleChangeUsername = this.handleChangeUsername.bind(this);
         this.handleChangeNif = this.handleChangeNif.bind(this);
         this.handleChangeEmail = this.handleChangeEmail.bind(this);
         this.handleChangePassword = this.handleChangePassword.bind(this);
         this.handleChangePasswordConfirm = this.handleChangePasswordConfirm.bind(this);
+        this.handleRegisterButton = this.handleRegisterButton.bind(this);
     }
 
     handleChangeName(event) {
         this.setState({nome: event.target.value});
+    }
+
+    handleChangeUsername(event) {
+        this.setState({username: event.target.value});
     }
 
     handleChangeNif(event) {
@@ -41,6 +48,19 @@ class Login extends React.Component {
         this.setState({passwordconfirm: event.target.value});
     }
 
+    handleRegisterButton(event) {
+            axios.get('https://localhost:44301/Proprietarios/Registo', {
+            params: {
+                Username: this.state.username,
+                Nome: this.state.name,
+                Mail: this.state.mail,
+                Nif: this.state.nif,
+                Password: this.state.password
+            }
+        }) 
+        event.preventDefault();
+    }
+
     render() {
         return (
             <div className="container login-container">
@@ -52,6 +72,9 @@ class Login extends React.Component {
                                 <h4 className="card-title login-title">Gestão de Florestas</h4>
                                 <p className="card-text login-text">Registar novo utilizador</p>
                                 <form className="login-form">
+                                <div className="form-group">
+                                        <input type="text" value={this.state.username} className="form-control" id="usernameInput" onChange={this.handleChangeUsername} placeholder="Username"></input>
+                                    </div>
                                     <div className="form-group">
                                         <input type="text" value={this.state.nome} className="form-control" id="textInput" onChange={this.handleChangeName} placeholder="Nome"></input>
                                     </div>
@@ -78,7 +101,7 @@ class Login extends React.Component {
                                             </select>
                                         </label>
                                     </div>
-                                    <input className="btn login-btn btn-success btn-sm" type='submit' onClick={this.handleSubmit} value="Registar" />
+                                    <input className="btn login-btn btn-success btn-sm" type='submit' onClick={this.handleRegisterButton} value="Registar" />
                                     <input className="btn login-btn btn-success btn-sm" type='button' value="Voltar" />
 
                                 </form>
