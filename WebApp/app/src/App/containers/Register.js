@@ -49,7 +49,7 @@ class Login extends React.Component {
     }
 
     handleRegisterButton(event) {
-            axios.get('https://localhost:44301/Proprietarios/Registo', {
+            axios.get('https://localhost:44301/proprietarios/registo', {
             params: {
                 Username: this.state.username,
                 Nome: this.state.name,
