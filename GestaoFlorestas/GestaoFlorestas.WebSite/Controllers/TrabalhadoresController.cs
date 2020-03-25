@@ -5,9 +5,12 @@ using System.Threading.Tasks;
 using GestaoFlorestas.WebSite.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Web.Http.Cors;
+using GestaoFlorestas.WebSite.Exceptions;
 
 namespace GestaoFlorestas.WebSite.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     [Route("[controller]")]
     [ApiController]
     public class TrabalhadoresController : ControllerBase
@@ -29,7 +32,14 @@ namespace GestaoFlorestas.WebSite.Controllers
                                     [FromQuery] string Password,
                                     [FromQuery] string Concelho)
         {
-            this.GestaoFlorestasService.registoTrabalhadores(Nome, Username, Mail, Password,Concelho);
+            try
+            {
+                this.GestaoFlorestasService.registoTrabalhadores(Nome, Username, Mail, Password, Concelho);
+            }
+            catch (ExistingUserException e)
+            {
+                return Unauthorized();
+            }
 
             return Ok();
         }
@@ -40,10 +50,17 @@ namespace GestaoFlorestas.WebSite.Controllers
         public ActionResult Login([FromQuery] string Username,
                                   [FromQuery] string Password)
         {
-            this.GestaoFlorestasService.loginTrabalhadores(Username, Password);
+            try
+            {
+                this.GestaoFlorestasService.loginTrabalhadores(Username, Password);
+            }
+            catch (ExistingUserException e)
+            {
+                return Unauthorized();
+            }
 
 
-            Response.Cookies.Append("UserCookie", "T" + Username);//colocar aqui o cookie.
+            //Response.Cookies.Append("UserCookie", "T" + Username);//colocar aqui o cookie.
             return Ok();
         }
     }

@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GestaoFlorestas.WebSite.Exceptions;
 using GestaoFlorestas.WebSite.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Web.Http.Cors;
 
 namespace GestaoFlorestas.WebSite.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     [Route("[controller]")]
     [ApiController]
     public class InspetoresController : ControllerBase
@@ -27,8 +30,14 @@ namespace GestaoFlorestas.WebSite.Controllers
                                     [FromQuery] string Mail,
                                     [FromQuery] string Password)
         {
-            this.GestaoFlorestasService.registoInspetores(Username, Nome, Mail, Password);
-
+            try
+            {
+                this.GestaoFlorestasService.registoInspetores(Username, Nome, Mail, Password);
+            }
+            catch (ExistingUserException e)
+            {
+                return Unauthorized();
+            }
             return Ok();
         }
 
@@ -38,10 +47,17 @@ namespace GestaoFlorestas.WebSite.Controllers
         public ActionResult Login([FromQuery] string Username,
                                   [FromQuery] string Password)
         {
-            this.GestaoFlorestasService.loginInspetor(Username, Password);
+            try
+            {
+                this.GestaoFlorestasService.loginInspetor(Username, Password);
+            }
+            catch (ExistingUserException e)
+            {
+                return Unauthorized();
+            }
 
 
-            Response.Cookies.Append("UserCookie", "I" + Username);//colocar aqui o cookie.
+            //Response.Cookies.Append("UserCookie", "I" + Username);//colocar aqui o cookie.
             return Ok();
         }
     }

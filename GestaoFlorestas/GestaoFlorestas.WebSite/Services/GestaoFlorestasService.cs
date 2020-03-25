@@ -32,7 +32,7 @@ namespace GestaoFlorestas.WebSite.Services
 
         //Proprietarios
         public void registoProprietario(String username, String nome,String mail,String nif,String password) {
-            //falta encriptação password
+            
             if (!proprietarios.contains(username))
             {
                 Proprietario p = new Proprietario(nome, mail, nif, password, username);
@@ -44,7 +44,7 @@ namespace GestaoFlorestas.WebSite.Services
 
         public void loginProprietario(String username,String password)
         {
-            if (proprietarios.contains(username))
+            if (inspetores.contains(username))
             {
                 Proprietario p = proprietarios.get(username);
                 if (this.proprietarios.verificarPassword(password,username))
@@ -60,7 +60,7 @@ namespace GestaoFlorestas.WebSite.Services
         //Inspetores
         public void registoInspetores(String username, String nome, String mail, String password)
         {
-            //falta encriptação password
+           
             if (!inspetores.contains(username))
             {
                 Inspetor i = new Inspetor(nome,username,mail,password);
@@ -71,68 +71,68 @@ namespace GestaoFlorestas.WebSite.Services
 
         public void loginInspetor(String username, String password)
         {
-            if (proprietarios.contains(username))
+            if (inspetores.contains(username))
             {
                 Inspetor p = inspetores.get(username);
-                if (p.getPassword().Equals(password))
+                if (this.inspetores.verificarPassword(password, username))
                 {
                     estado = this.estado = new Estado(2, username);
                 }
-                // else -> password incorreta
+                else throw new ExistingUserException();
             }
-            //else -> proprietario nao registado
+            else throw new ExistingUserException();
         }
 
         //Supervisores
         public void registoSupervisor(String nome, String username, String mail, String password, String concelho)
         {
-            //falta encriptação password
+            
             if (!supervisores.contains(username))
             {
                 Supervisor_Concelho s = new Supervisor_Concelho(nome, username,mail, password,concelho);
                 supervisores.put(s);
             }
-            //else -> inspetor username de inspetor ja em utilização.
+            else throw new ExistingUserException();
         }
 
         public void loginSupervisor(String username, String password)
         {
-            if (proprietarios.contains(username))
+            if (supervisores.contains(username))
             {
                 Supervisor_Concelho p = supervisores.get(username);
-                if (p.getPassword().Equals(password))
+                if (this.supervisores.verificarPassword(password,username))
                 {
                     estado = this.estado = new Estado(3, username);
                 }
-                // else -> password incorreta
+                else throw new ExistingUserException();
             }
-            //else -> proprietario nao registado
+            else throw new ExistingUserException();
         }
 
-        //Trabalhadores
+        
         public void registoTrabalhadores(String nome, String username,String mail, String password, String concelho)
         {
-            //falta encriptação password
+            
             if (!trabalhadores.containsTrabalhador(username))
             {
                 Trabalhador_da_Camara s = new Trabalhador_da_Camara(nome, username, mail, password, concelho);
                 trabalhadores.put(s);
             }
-            //else -> inspetor username de inspetor ja em utilização.
+            else throw new ExistingUserException();
         }
 
         public void loginTrabalhadores(String username, String password)
         {
-            if (proprietarios.contains(username))
+            if (trabalhadores.containsTrabalhador(username))
             {
                 Trabalhador_da_Camara p = trabalhadores.get(username);
-                if (p.getPassword().Equals(password))
+                if (this.trabalhadores.verificarPassword(password, username))
                 {
                     estado = this.estado = new Estado(4, username);
                 }
-                // else -> password incorreta
+                else throw new ExistingUserException();
             }
-            //else -> proprietario nao registado
+            else throw new ExistingUserException();
         }
 
 

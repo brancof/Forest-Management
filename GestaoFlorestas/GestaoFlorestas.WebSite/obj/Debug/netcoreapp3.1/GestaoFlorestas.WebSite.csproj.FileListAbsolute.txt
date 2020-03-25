@@ -349,3 +349,8 @@ C:\Users\andre\Documents\Uni\LI4\LI4-G3\GestaoFlorestas\GestaoFlorestas.WebSite\
 C:\Users\andre\Documents\Uni\LI4\LI4-G3\GestaoFlorestas\GestaoFlorestas.WebSite\bin\Debug\netcoreapp3.1\System.Web.Http.dll
 C:\Users\andre\Documents\Uni\LI4\LI4-G3\GestaoFlorestas\GestaoFlorestas.WebSite\bin\Debug\netcoreapp3.1\System.Web.Http.Cors.dll
 C:\Users\andre\Documents\Uni\LI4\LI4-G3\GestaoFlorestas\GestaoFlorestas.WebSite\bin\Debug\netcoreapp3.1\Newtonsoft.Json.Bson.dll
+C:\Users\Asus\Documents\GitHub\LI4-G3\GestaoFlorestas\GestaoFlorestas.WebSite\bin\Debug\netcoreapp3.1\System.Web.Cors.dll
+C:\Users\Asus\Documents\GitHub\LI4-G3\GestaoFlorestas\GestaoFlorestas.WebSite\bin\Debug\netcoreapp3.1\System.Net.Http.Formatting.dll
+C:\Users\Asus\Documents\GitHub\LI4-G3\GestaoFlorestas\GestaoFlorestas.WebSite\bin\Debug\netcoreapp3.1\System.Web.Http.dll
+C:\Users\Asus\Documents\GitHub\LI4-G3\GestaoFlorestas\GestaoFlorestas.WebSite\bin\Debug\netcoreapp3.1\System.Web.Http.Cors.dll
+C:\Users\Asus\Documents\GitHub\LI4-G3\GestaoFlorestas\GestaoFlorestas.WebSite\bin\Debug\netcoreapp3.1\Newtonsoft.Json.Bson.dll
