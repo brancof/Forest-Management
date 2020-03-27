@@ -121,7 +121,6 @@ class Login extends React.Component {
             })
             .then(response => {
                 alert("Utilizador registado!");
-                console.log(response);
             }) 
             .catch(response => {
                 alert("Username já existente.");

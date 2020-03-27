@@ -43,7 +43,7 @@ namespace GestaoFlorestas.WebSite.Models
             this.username = username;
             this.password = password;
             this.email = email;
-            this.terrenosAInspecionar = null;
+            this.terrenosAInspecionar = new List<int>();
             this.terrenos = new TerrenoDAO();
 
         }

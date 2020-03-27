@@ -44,7 +44,7 @@ namespace GestaoFlorestas.WebSite.Models
             this.password = password;
             this.concelho = concel;
             this.email = email;
-            this.idsLimpezasPendentes = null;
+            this.idsLimpezasPendentes = new List<int>();
         }
 
         public Trabalhador_da_Camara(Trabalhador_da_Camara t)

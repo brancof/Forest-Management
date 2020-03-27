@@ -46,7 +46,7 @@ class Login extends React.Component {
             console.log(response);
         }) 
         .catch(response => {
-            alert("Username/password incorretos.");
+            alert("Username já existente.");
             console.log(response);
         })
 

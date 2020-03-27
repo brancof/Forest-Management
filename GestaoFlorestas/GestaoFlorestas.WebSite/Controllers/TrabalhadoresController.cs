@@ -26,8 +26,8 @@ namespace GestaoFlorestas.WebSite.Controllers
 
         [Route("Registo")]
         [HttpGet] //Put ou Post???
-        public ActionResult Registo([FromQuery] string Nome, 
-                                    [FromQuery] string Username,
+        public ActionResult Registo([FromQuery] string Username, 
+                                    [FromQuery] string Nome,
                                     [FromQuery] string Mail,
                                     [FromQuery] string Password,
                                     [FromQuery] string Concelho)

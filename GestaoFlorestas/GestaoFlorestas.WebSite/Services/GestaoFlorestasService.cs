@@ -125,7 +125,7 @@ namespace GestaoFlorestas.WebSite.Services
         {
             if (trabalhadores.containsTrabalhador(username))
             {
-                Trabalhador_da_Camara p = trabalhadores.get(username);
+                //Trabalhador_da_Camara p = trabalhadores.get(username);
                 if (this.trabalhadores.verificarPassword(password, username))
                 {
                     estado = this.estado = new Estado(4, username);
