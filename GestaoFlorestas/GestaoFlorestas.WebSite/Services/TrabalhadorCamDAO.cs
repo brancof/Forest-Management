@@ -253,7 +253,7 @@ namespace GestaoFlorestas.WebSite.Services
 
             List<int> terrenos = new List<int>();
 
-            query = "Select idTerreno from Limpeza " +
+            query = "Select idTerreno from LimpezaPendentes " +
                                "where Trabalhador=@tp ;";
 
             cmd = new SqlCommand(query, con);
