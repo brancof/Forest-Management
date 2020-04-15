@@ -150,7 +150,8 @@ namespace GestaoFlorestas.WebSite.Services
                 SqlCommand cmd = new SqlCommand(query, con);
                 cmd.Parameters.AddWithValue("@username", p.getUsername());
                 if (i == 1) cmd.Parameters.AddWithValue("@password", password);
-                cmd.Parameters.AddWithValue("@nif", Int32.Parse(p.getNif()));
+                //cmd.Parameters.AddWithValue("@nif", Int32.Parse(p.getNif()));
+                cmd.Parameters.AddWithValue("@nif", 12345);
                 cmd.Parameters.AddWithValue("@email", p.getMail());
                 cmd.Parameters.AddWithValue("@nome", p.getNome());
                 if (i == 1) cmd.Parameters.AddWithValue("@salt", salt);

@@ -8,12 +8,12 @@ namespace GestaoFlorestas.WebSite.Models
 {
     public class Proprietario
     {
-        private String nome;
-        private String mail;
-        private String nif;
-        private String password;
-        private String username;
-        private List<int> propriedades;
+        public String nome { get; set; }
+        public String mail { get; set; }
+        private String nif { get; set; }
+        private String password { get; set; }
+        public String username { get; set; }
+        public List<int> propriedades { get; set; }
         private TerrenoDAO terrenos;
 
 

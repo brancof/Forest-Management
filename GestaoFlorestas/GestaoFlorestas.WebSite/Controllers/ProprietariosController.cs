@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Web;
 using System.Web.Http.Cors;
 using GestaoFlorestas.WebSite.Exceptions;
+using Newtonsoft.Json;
+
 
 namespace GestaoFlorestas.WebSite.Controllers
 {
@@ -27,16 +29,13 @@ namespace GestaoFlorestas.WebSite.Controllers
 
 
         [Route("Registo")]
-        [HttpGet]
-        public ActionResult Get([FromQuery] string Username, 
-                                [FromQuery] string Nome, 
-                                [FromQuery] string Mail, 
-                                [FromQuery] string Nif, 
-                                [FromQuery] string Password)
+        [HttpPost]
+        public ActionResult PostProprietario([FromBody] string proprietario)
         {
+            string[] campos = proprietario.Split(',');
             try
             {
-                this.GestaoFlorestasService.registoProprietario(Username, Nome, Mail, Nif, Password);
+                this.GestaoFlorestasService.registoProprietario(campos[0], campos[1], campos[2], campos[3], campos[4]);
             }
             catch (ExistingUserException e)
             {
@@ -52,17 +51,21 @@ namespace GestaoFlorestas.WebSite.Controllers
         public ActionResult GetL([FromQuery] string Username,
                                 [FromQuery] string Password)
         {
+            Proprietario p;
+            String result = "";
             try
             {
-                this.GestaoFlorestasService.loginProprietario(Username, Password);
+               p = this.GestaoFlorestasService.loginProprietario(Username, Password);
+               result = JsonConvert.SerializeObject(p);
             }
             catch (ExistingUserException e)
             {
                 return Unauthorized();
             }
+            
 
             //Response.Cookies.Append("UserCookie","P"+Username);//colocar aqui o cookie.
-            return Ok();
+            return new JsonResult(p);
         }
 
 

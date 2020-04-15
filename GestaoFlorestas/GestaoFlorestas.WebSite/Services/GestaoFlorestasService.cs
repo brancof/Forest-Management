@@ -42,7 +42,7 @@ namespace GestaoFlorestas.WebSite.Services
             
         }
 
-        public void loginProprietario(String username,String password)
+        public Proprietario loginProprietario(String username,String password)
         {
             if (inspetores.contains(username))
             {
@@ -50,10 +50,13 @@ namespace GestaoFlorestas.WebSite.Services
                 if (this.proprietarios.verificarPassword(password,username))
                 {
                     estado = this.estado = new Estado(1, username);
+                    return p;
                 }
                 else throw new ExistingUserException();
             }
             else throw new ExistingUserException();
+
+            
         }
 
 

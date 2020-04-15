@@ -24,15 +24,12 @@ namespace GestaoFlorestas.WebSite.Controllers
 
         [Route("Registo")]
         [HttpGet] //Put ou Post???
-        public ActionResult Registo([FromQuery] string Username,
-                                    [FromQuery] string Nome,
-                                    [FromQuery] string Mail,
-                                    [FromQuery] string Password,
-                                    [FromQuery] string Concelho)
+        public ActionResult Registo([FromBody] string supervisor)
         {
+            string[] campos = supervisor.Split(',');
             try
             {
-                this.GestaoFlorestasService.registoSupervisor(Nome, Username, Mail, Password, Concelho);
+                this.GestaoFlorestasService.registoSupervisor(campos[0], campos[1], campos[2], campos[3], campos[4]);
             }
             catch (ExistingUserException e)
             {

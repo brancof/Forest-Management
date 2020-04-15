@@ -24,15 +24,13 @@ namespace GestaoFlorestas.WebSite.Controllers
 
 
         [Route("Registo")]
-        [HttpGet] //Put ou Post???
-        public ActionResult Registo([FromQuery] string Username,
-                                    [FromQuery] string Nome,
-                                    [FromQuery] string Mail,
-                                    [FromQuery] string Password)
+        [HttpPost] //Put ou Post???
+        public ActionResult PostInspetor([FromBody] string inspetor)
         {
+            string[] campos = inspetor.Split(',');
             try
             {
-                this.GestaoFlorestasService.registoInspetores(Username, Nome, Mail, Password);
+                this.GestaoFlorestasService.registoInspetores(campos[0], campos[1], campos[2], campos[3]);
             }
             catch (ExistingUserException e)
             {
