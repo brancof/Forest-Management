@@ -116,10 +116,10 @@ namespace GestaoFlorestas.WebSite.Services
         {
             String codigoPostal = codigoP;
             int area = 0;
-            Double latitude = 0;
-            Double longitude = 0;
+            Decimal latitude = 0;
+            Decimal longitude = 0;
             String nomeFreguesia = "";
-            Double nivelCritico = 0;
+            Decimal nivelCritico = 0;
             string query = "Select * from Zona " +
                                "where Cod_Postal=@cod ;";
 
@@ -134,16 +134,16 @@ namespace GestaoFlorestas.WebSite.Services
                     reader.Read();
 
                     area = (int)reader[1];
-                    latitude = ((Double)reader[2]);
-                    longitude = ((Double)reader[3]);
+                    latitude = ((Decimal)reader[2]);
+                    longitude = ((Decimal)reader[3]);
                     nomeFreguesia = ((String)reader[4]);
-                    nivelCritico = ((Double)reader[5]);
+                    nivelCritico = ((Decimal)reader[5]);
 
                 }
                 this.CloseConnection();
             }
 
-           return new Zona(nivelCritico, area, codigoPostal, latitude, longitude, nomeFreguesia);
+           return new Zona(Decimal.ToDouble(nivelCritico), area, codigoPostal, Decimal.ToDouble(latitude), Decimal.ToDouble(longitude), nomeFreguesia);
 
         }
 
