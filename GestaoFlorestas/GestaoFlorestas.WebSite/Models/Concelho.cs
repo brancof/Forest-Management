@@ -8,14 +8,14 @@ namespace GestaoFlorestas.WebSite.Models
 {
     public class Concelho
     {
-        private int codigo;
-        private String nome;
-        private int area;
-        private Distrito distrito;
+        public int codigo { get; set; }
+        public String nome { get; set; }
+        public int area { get; set; }
+        public Distrito distrito { get; set; }
         private TerrenoDAO terrenosCamara;
-        private List<int> idsTerrenos;
+        public List<int> idsTerrenos { get; set; }
 
-       
+
 
 
         public Concelho()

@@ -19,7 +19,7 @@ namespace GestaoFlorestas.WebSite.Controllers
     [ApiController]
     public class ProprietariosController : ControllerBase
     {
-        
+
         public ProprietariosController(GestaoFlorestasService gestaoFlorestasService)
         {
             this.GestaoFlorestasService = gestaoFlorestasService;
@@ -41,7 +41,7 @@ namespace GestaoFlorestas.WebSite.Controllers
             {
                 return Unauthorized();
             }
-            
+
             return Ok();
         }
 
@@ -52,22 +52,184 @@ namespace GestaoFlorestas.WebSite.Controllers
                                 [FromQuery] string Password)
         {
             Proprietario p;
-            String result = "";
             try
             {
-               p = this.GestaoFlorestasService.loginProprietario(Username, Password);
-               result = JsonConvert.SerializeObject(p);
+                p = this.GestaoFlorestasService.loginProprietario(Username, Password);
+
             }
             catch (ExistingUserException e)
             {
                 return Unauthorized();
             }
-            
+
 
             //Response.Cookies.Append("UserCookie","P"+Username);//colocar aqui o cookie.
             return new JsonResult(p);
         }
 
+        //-------------------------------------------------------------------------------Limpeza de terrenos-------------------------------------------------------------
 
+        [Route("Limpeza")]
+        [HttpPut]
+        public ActionResult LimpaTerreno([FromBody] string body) //body: "username,password,idTerreno"
+        {
+            string[] campos = body.Split(',');
+
+            int idTerreno = Int32.Parse(campos[2]);
+
+            Proprietario p;
+
+            try
+            {
+                p = this.GestaoFlorestasService.loginProprietario(campos[0], campos[1]);
+
+            }
+            catch (ExistingUserException e)
+            {
+                return Unauthorized();
+            }
+
+            if (!p.hasTerreno(idTerreno)) return Unauthorized();
+
+
+            this.GestaoFlorestasService.limparTerreno(idTerreno);
+
+
+            return Ok();
+        }
+
+        //----------------------------------------------------------------Informação dos terrenos----------------------------------------------------
+
+        [Route("Terrenos")]
+        [HttpGet]
+        public ActionResult GetTerrenos([FromQuery] string Username,
+                                        [FromQuery] string Password)
+        {
+            Proprietario p;
+
+            try
+            {
+                p = this.GestaoFlorestasService.loginProprietario(Username, Password);
+
+            }
+            catch (ExistingUserException e)
+            {
+                return Unauthorized();
+            }
+
+            List<Terreno> result = this.GestaoFlorestasService.terrenosDoProprietario(p);
+
+
+            return new JsonResult(result);
+        }
+
+        [Route("Terrenos/Zona")]
+        [HttpGet]
+        public ActionResult GetTerrenoZona([FromQuery] string Username,
+                                           [FromQuery] string Password, [FromQuery] string IdTerreno)
+        {
+            Proprietario p;
+
+            int idTerreno = Int32.Parse(IdTerreno);
+            try
+            {
+                p = this.GestaoFlorestasService.loginProprietario(Username, Password);
+
+            }
+            catch (ExistingUserException e)
+            {
+                return Unauthorized();
+            }
+
+            if (!p.hasTerreno(idTerreno)) return Unauthorized();
+
+            Zona result = this.GestaoFlorestasService.zoneTerreno(idTerreno);
+
+
+            return new JsonResult(result);
+        }
+
+        [Route("Terrenos/Concelho")]
+        [HttpGet]
+        public ActionResult GetTerrenoConcelho([FromQuery] string Username,
+                                        [FromQuery] string Password, [FromQuery] string IdTerreno)
+        {
+            Proprietario p;
+
+            int idTerreno = Int32.Parse(IdTerreno);
+            try
+            {
+                p = this.GestaoFlorestasService.loginProprietario(Username, Password);
+
+            }
+            catch (ExistingUserException e)
+            {
+                return Unauthorized();
+            }
+
+            if (!p.hasTerreno(idTerreno)) return Unauthorized();
+
+            Concelho result = this.GestaoFlorestasService.concelhoTerreno(idTerreno);
+
+
+            return new JsonResult(result);
+        }
+
+
+
+        //-----------------------------------------------------------Informação Pessoal----------------------------------------------------------
+        [Route("Info")]
+        [HttpGet]
+        public ActionResult GetInfo([FromQuery] string Username,
+                                    [FromQuery] string Password)
+        {
+            Proprietario p;
+
+            try
+            {
+                p = this.GestaoFlorestasService.loginProprietario(Username, Password);
+
+            }
+            catch (ExistingUserException e)
+            {
+                return Unauthorized();
+            }
+
+            List<Terreno> result = this.GestaoFlorestasService.terrenosDoProprietario(p);
+
+
+            return new JsonResult(result);
+        }
+
+
+        [Route("Info/Changes/Nome")]
+        [HttpPut]
+        public ActionResult ChangeName([FromBody] string body) //body: "username,password,newName"
+        {
+            string[] campos = body.Split(',');
+
+            Proprietario p;
+
+            string newName = campos[2];
+
+            try
+            {
+                p = this.GestaoFlorestasService.loginProprietario(campos[0], campos[1]);
+
+            }
+            catch (ExistingUserException e)
+            {
+                return Unauthorized();
+            }
+
+
+            this.GestaoFlorestasService.changeNameProp(p,newName);
+
+            
+
+
+            return Ok();
+        }
     }
+
 }

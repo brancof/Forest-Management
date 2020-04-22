@@ -8,14 +8,14 @@ namespace GestaoFlorestas.WebSite.Models
 {
     public class Trabalhador_da_Camara
     {
-        private String nome;
-        private String username;
-        private String password;
-        private String email;
-        private List<int> idsLimpezasPendentes;
+        public String nome { get; set; }
+        public String username { get; set; }
+        public String password { get; set; }
+        public String email { get; set; }
+        public List<int> idsLimpezasPendentes { get; set; }
         private TerrenoDAO terrenosALimpar;
-        private String concelho;
-        
+        public String concelho { get; set; }
+
 
         public Trabalhador_da_Camara()
         {

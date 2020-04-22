@@ -7,10 +7,10 @@ namespace GestaoFlorestas.WebSite.Models
 {
     public class Distrito
     {
-        private int codigo;
-        private String nome;
-        private int area;  
-        private int habitantes;
+        public int codigo { get; set; }
+        public String nome { get; set; }
+        public int area { get; set; }
+        public int habitantes { get; set; }
 
 
         public Distrito()

@@ -8,11 +8,11 @@ namespace GestaoFlorestas.WebSite.Models
 {
     public class Inspetor
     {
-        private String nome;
-        private String username;
-        private String email;
-        private String password;
-        private List<int> terrenosAInspecionar;
+        public String nome { get; set; }
+        public String username { get; set; }
+        public String email { get; set; }
+        public String password { get; set; }
+        public List<int> terrenosAInspecionar { get; set; }
         private TerrenoDAO terrenos;
 
         public Inspetor()
