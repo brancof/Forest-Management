@@ -16,7 +16,7 @@ namespace GestaoFlorestas.WebSite.Services
         private ZonaDAO zonas;
         private TrabalhadorCamDAO trabalhadores;
         private SupervisorDAO supervisores;
-        private Estado estado;
+       
 
         public GestaoFlorestasService()
         {
@@ -30,7 +30,7 @@ namespace GestaoFlorestas.WebSite.Services
         }
 
 
-        //Proprietarios
+        //-----------------------------------------------------------------------------Proprietarios--------------------------------------------------------------------
         public void registoProprietario(String username, String nome,String mail,String nif,String password) {
             
             if (!proprietarios.contains(username))
@@ -44,13 +44,13 @@ namespace GestaoFlorestas.WebSite.Services
 
         public Proprietario loginProprietario(String username,String password)
         {
-            if (inspetores.contains(username))
+            if (proprietarios.contains(username))
             {
                 Proprietario p = proprietarios.get(username);
                 if (this.proprietarios.verificarPassword(password,username))
                 {
-                    estado = this.estado = new Estado(1, username);
                     return p;
+                    
                 }
                 else throw new ExistingUserException();
             }
@@ -60,7 +60,39 @@ namespace GestaoFlorestas.WebSite.Services
         }
 
 
-        //Inspetores
+        public void changeNameProp(Proprietario p,string newName)
+        {
+            p.setNome(newName);
+            this.proprietarios.put(p);//atualiza a BD
+        }
+
+
+        public List<Terreno> terrenosDoProprietario (Proprietario p)
+        {
+            return p.getTerrenosObject();
+        }
+
+        public Zona zoneTerreno (int terrenoId)
+        {
+            Terreno t = this.terrenos.get(terrenoId);
+            return t.getZoneObject();
+        }
+
+        public Concelho concelhoTerreno (int terrenoId)
+        {
+            Terreno t = this.terrenos.get(terrenoId);
+            Zona z = t.getZoneObject();
+            Freguesia f = z.getFreguesiaObject();
+            return f.getConcelhoObject();
+        }
+
+
+
+
+
+
+
+        //---------------------------------------------------------Inspetores---------------------------------------------------------------------
         public void registoInspetores(String username, String nome, String mail, String password)
         {
            
@@ -79,7 +111,7 @@ namespace GestaoFlorestas.WebSite.Services
                 Inspetor p = inspetores.get(username);
                 if (this.inspetores.verificarPassword(password, username))
                 {
-                    estado = this.estado = new Estado(2, username);
+                   
                 }
                 else throw new ExistingUserException();
             }
@@ -105,7 +137,7 @@ namespace GestaoFlorestas.WebSite.Services
                 Supervisor_Concelho p = supervisores.get(username);
                 if (this.supervisores.verificarPassword(password,username))
                 {
-                    estado = this.estado = new Estado(3, username);
+                  
                 }
                 else throw new ExistingUserException();
             }
@@ -131,7 +163,7 @@ namespace GestaoFlorestas.WebSite.Services
                 //Trabalhador_da_Camara p = trabalhadores.get(username);
                 if (this.trabalhadores.verificarPassword(password, username))
                 {
-                    estado = this.estado = new Estado(4, username);
+                   
                 }
                 else throw new ExistingUserException();
             }
@@ -150,7 +182,6 @@ namespace GestaoFlorestas.WebSite.Services
                 terreno.setEstadoLimpeza(true);
                 terrenos.put(terreno); //muda na bd
             }
-            //else --> terreno nao existe
         }
 
 
@@ -166,7 +197,11 @@ namespace GestaoFlorestas.WebSite.Services
         }
 
 
-
+        public void realizarInspecao (int terreno, String inspetor, int resultado, String relatorio)
+        {
+            Inspecao i = new Inspecao(terreno, inspetor, resultado, relatorio, DateTime.UtcNow);
+            inspetores.putInspecaoRealizada(i);
+        }
 
     }
 }

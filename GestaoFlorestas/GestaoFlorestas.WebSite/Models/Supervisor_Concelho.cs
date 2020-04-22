@@ -7,11 +7,11 @@ namespace GestaoFlorestas.WebSite.Models
 {
     public class Supervisor_Concelho
     {
-        private String nome;
-        private String username;
+        public String nome { get; set; }
+        public String username { get; set; }
         private String password;
-        private String email;
-        private String concelho;
+        public String email { get; set; }
+        public String concelho { get; set; }
 
         public Supervisor_Concelho()
         {

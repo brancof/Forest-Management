@@ -7,11 +7,11 @@ namespace GestaoFlorestas.WebSite.Models
 {
     public class Inspecao
     {
-        private int terreno;
-        private String inspetor;
-        private int resultado;
-        private String relatorio;
-        private DateTime dataHora;
+        public int terreno { get; set; }
+        public String inspetor { get; set; }
+        public int resultado { get; set; }
+        public String relatorio { get; set; }
+        public DateTime dataHora { get; set; }
 
 
 

@@ -8,12 +8,12 @@ namespace GestaoFlorestas.WebSite.Models
 {
     public class Zona
     {
-        private Double nivelCritico;
-        private Double area;
-        private String codigo_Postal;
-        private Double latitude;
-        private Double longitude;
-        private String nomeFreguesia;
+        public Double nivelCritico { get; set; }
+        public Double area { get; set; }
+        public String codigo_Postal { get; set; }
+        public Double latitude { get; set; }
+        public Double longitude { get; set; }
+        public String nomeFreguesia { get; set; }
         private LocalidadeDAO freguesia;
 
         public Zona()
@@ -71,5 +71,9 @@ namespace GestaoFlorestas.WebSite.Models
         
         public void setNomeFreguesia(String nome) { this.nomeFreguesia = nome; }
 
+        public Freguesia getFreguesiaObject()
+        {
+            return this.freguesia.getFreguesia(this.nomeFreguesia);
+        }
     }
 }

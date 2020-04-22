@@ -8,16 +8,17 @@ namespace GestaoFlorestas.WebSite.Models
 {
     public class Terreno
     {
-        private Boolean estadoLimpeza;
-        private int id_Terreno;
-        private Double area;
-        private Double latitude;
-        private Double longitude;
-        private String proprietario;
-        private String cod_postal;
+        public Boolean estadoLimpeza { get; set; }
+        public int id_Terreno { get; set; }
+        public Double area { get; set; }
+        public Double latitude { get; set; }
+        public Double longitude { get; set; }
+        public String proprietario { get; set; }
+        public String cod_postal { get; set; }
         private ZonaDAO zona;
-        private List<Inspecao> inspecoes;
-        private String nif;
+        public List<Inspecao> inspecoes { get; set; }
+        public String nif { get; set; }
+        public String morada { get; set; }
 
         public Terreno()
         {
@@ -32,7 +33,7 @@ namespace GestaoFlorestas.WebSite.Models
             this.zona = new ZonaDAO();
         }
 
-        public Terreno(Boolean estadoLimpeza, int id_Terreno, Double area, Double latitude, Double longitude, String pro, String codPostal, String nif, List<Inspecao>inspecs)
+        public Terreno(Boolean estadoLimpeza, int id_Terreno, Double area, Double latitude, Double longitude, String pro, String codPostal, String nif, String mor,List<Inspecao>inspecs)
         {
             this.estadoLimpeza = estadoLimpeza;
             this.id_Terreno = id_Terreno;
@@ -44,6 +45,7 @@ namespace GestaoFlorestas.WebSite.Models
             this.nif = nif;
             this.zona = new ZonaDAO();
             this.proprietario = pro;
+            this.morada = mor;
         }
 
         public Terreno(Terreno t)
@@ -94,6 +96,13 @@ namespace GestaoFlorestas.WebSite.Models
         public void setNif(String novoNif) { this.nif = novoNif; }
 
         public void setProp(String prop) { this.proprietario = prop; }
+
+        public void setMorada(String m) { this.morada = m; }
+
+        public Zona getZoneObject()
+        {
+            return this.zona.get(this.cod_postal);
+        }
         
     }
 

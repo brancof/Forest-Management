@@ -8,14 +8,15 @@ namespace GestaoFlorestas.WebSite.Models
 {
     public class Freguesia
     {
-        private int codigo;
-        private int area;
-        private String nome;
-        private String concelho;
-        private List<String> codigosZonas;
+        public int codigo { get; set; }
+        public int area { get; set; }
+        public String nome { get; set; }
+        public String concelho { get; set; }
+        public List<String> codigosZonas { get; set; }
         private ZonaDAO zonas;
-        private String codInspetorResponsavel;
+        public String codInspetorResponsavel { get; set; }
         private InspetorDAO inspetor;
+        private LocalidadeDAO concelhos;
 
 
         public Freguesia()
@@ -75,5 +76,10 @@ namespace GestaoFlorestas.WebSite.Models
 
         public void setCodInsp (String codInsp) { this.codInspetorResponsavel = codInsp;}
 
+
+        public Concelho getConcelhoObject()
+        {
+            return this.concelhos.getConcelho(this.concelho);
+        }
     }
 }

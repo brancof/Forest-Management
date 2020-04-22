@@ -232,7 +232,7 @@ namespace GestaoFlorestas.WebSite.Services
                 }
                 this.CloseConnection();
             }
-            return new Proprietario(nome,mail,nif,password,username,terrenos);
+            return new Proprietario(nome,mail,nif,password,username,0,terrenos);
 
         }
 
@@ -287,7 +287,7 @@ namespace GestaoFlorestas.WebSite.Services
                 }
                 this.CloseConnection();
             }
-            return new Proprietario(nome, mail, nif, password, username, terrenos);
+            return new Proprietario(nome, mail, nif, password, username, 0,terrenos);
 
         }
 
