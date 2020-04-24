@@ -117,9 +117,6 @@ namespace GestaoFlorestas.WebSite.Services
             return r;
         }
 
-       
-
-
         public Terreno get(int id)
         {
             Boolean estadoLimpeza = false;
@@ -149,31 +146,27 @@ namespace GestaoFlorestas.WebSite.Services
                 {
 
                     reader.Read();
-                    
-                        id_Terreno = (int)reader[0];
-                        estadoLimpeza = ((int)reader[1]) != 0;
-                        area = ((int)reader[2]);
-                        cod_postal = ((String)reader[3]);
-                        proprietario = ((String)reader[4]);
-                        latitude = (Decimal)reader[5];
-                        longitude = (Decimal)reader[6];
-                        nif = "" + ((int)reader[7]);
-                        morada = ((String)reader[8]) + ", " + ((String)reader[9]) + ", " + ((String)reader[10]);
+
+                    id_Terreno = (int)reader[0];
+                    estadoLimpeza = ((int)reader[1]) != 0;
+                    area = ((int)reader[2]);
+                    cod_postal = ((String)reader[3]);
+                    proprietario = ((String)reader[4]);
+                    latitude = (Decimal)reader[5];
+                    longitude = (Decimal)reader[6];
+                    nif = "" + ((int)reader[7]);
+                    morada = ((String)reader[8]) + ", " + ((String)reader[9]) + ", " + ((String)reader[10]);
 
 
 
 
                 }
-                this.CloseConnection();
-            }
 
-            query = "Select idInspetor,resultado,relatorio,dataHora from Inspecao " +
-                               "where idTerreno=@id and estadoInspecao='Realizada' ;";
-            cmd = new SqlCommand(query, con);
-            cmd.Parameters.AddWithValue("@id", id_Terreno);
+                query = "Select idInspetor,resultado,relatorio,dataHora from Inspecao " +
+                                   "where idTerreno=@id and estadoInspecao='Realizada' ;";
+                cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@id", id_Terreno);
 
-            if (this.OpenConnection() == true)
-            {
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
 
@@ -184,9 +177,10 @@ namespace GestaoFlorestas.WebSite.Services
                     }
                 }
                 this.CloseConnection();
-            }
+                return new Terreno(estadoLimpeza, id_Terreno, area, Decimal.ToDouble(latitude), Decimal.ToDouble(longitude), proprietario, cod_postal, nif, morada, inspecoes);
 
-            return new Terreno(estadoLimpeza, id_Terreno, area, Decimal.ToDouble(latitude), Decimal.ToDouble(longitude), proprietario, cod_postal, nif, morada, inspecoes);
+            }
+            return null;
 
         }
         

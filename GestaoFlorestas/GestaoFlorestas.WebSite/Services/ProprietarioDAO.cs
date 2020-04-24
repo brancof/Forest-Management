@@ -150,8 +150,7 @@ namespace GestaoFlorestas.WebSite.Services
                 SqlCommand cmd = new SqlCommand(query, con);
                 cmd.Parameters.AddWithValue("@username", p.getUsername());
                 if (i == 1) cmd.Parameters.AddWithValue("@password", password);
-                //cmd.Parameters.AddWithValue("@nif", Int32.Parse(p.getNif()));
-                cmd.Parameters.AddWithValue("@nif", 12345);
+                cmd.Parameters.AddWithValue("@nif", Int32.Parse(p.getNif()));
                 cmd.Parameters.AddWithValue("@email", p.getMail());
                 cmd.Parameters.AddWithValue("@nome", p.getNome());
                 if (i == 1) cmd.Parameters.AddWithValue("@salt", salt);
@@ -161,6 +160,9 @@ namespace GestaoFlorestas.WebSite.Services
                     this.CloseConnection();
                 }
 
+                NotificacaoDAO not = new NotificacaoDAO();
+                List<Notificacao> n = p.getNotificacoes();
+                if(n.Count > 0) not.putListSConexao(n);
             }
 
             public bool contains(String p)
@@ -190,38 +192,34 @@ namespace GestaoFlorestas.WebSite.Services
             String nif = "";
             String mail="";
             String nome="";
+            List<int> terrenos = new List<int>();
             string query = "Select * from proprietario " +
                                "where username=@username ;";
 
             SqlCommand cmd = new SqlCommand(query, con);
             cmd.Parameters.AddWithValue("@username", user);
-            
+
             if (this.OpenConnection() == true)
             {
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
 
                     reader.Read();
-                    
-                        username = (String)reader[0];
-                        password = (String)reader[1];
-                        nif = ""+((int)reader[2]);
-                        mail = ((String)reader[3]);
-                        nome = ((String)reader[4]);
-                    
+
+                    username = (String)reader[0];
+                    password = (String)reader[1];
+                    nif = "" + ((int)reader[2]);
+                    mail = ((String)reader[3]);
+                    nome = ((String)reader[4]);
+
                 }
-                this.CloseConnection();
-            }
 
-            List<int> terrenos = new List<int>();
+                query = "Select idTerreno from terreno " +
+                                   "where nifProprietario=@nif ;";
 
-            query = "Select idTerreno from terreno " +
-                               "where nifProprietario=@nif ;";
+                cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@nif", nif);
 
-            cmd = new SqlCommand(query, con);
-            cmd.Parameters.AddWithValue("@nif", nif);
-            if (this.OpenConnection() == true)
-            {
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
 
@@ -230,9 +228,12 @@ namespace GestaoFlorestas.WebSite.Services
                         terrenos.Add((int)reader[0]);
                     }
                 }
+                NotificacaoDAO not = new NotificacaoDAO();
+                List<Notificacao> n = not.getSConexao(username,"Proprietario");
                 this.CloseConnection();
+                return new Proprietario(nome, mail, nif, password, username, n, terrenos);
             }
-            return new Proprietario(nome,mail,nif,password,username,0,terrenos);
+            return null;
 
         }
 
@@ -265,18 +266,14 @@ namespace GestaoFlorestas.WebSite.Services
                     nome = ((String)reader[4]);
 
                 }
-                this.CloseConnection();
-            }
 
-            List<int> terrenos = new List<int>();
+                List<int> terrenos = new List<int>();
 
-            query = "Select idTerreno from terreno " +
-                               "where nifProprietario=@nif ;";
+                query = "Select idTerreno from terreno " +
+                                   "where nifProprietario=@nif ;";
 
-            cmd = new SqlCommand(query, con);
-            cmd.Parameters.AddWithValue("@nif", nif);
-            if (this.OpenConnection() == true)
-            {
+                cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@nif", nif);
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
 
@@ -285,9 +282,12 @@ namespace GestaoFlorestas.WebSite.Services
                         terrenos.Add((int)reader[0]);
                     }
                 }
+                NotificacaoDAO not = new NotificacaoDAO();
+                List<Notificacao> n = not.getSConexao(username, "Proprietario");
                 this.CloseConnection();
+                return new Proprietario(nome, mail, nif, password, username, n, terrenos);
             }
-            return new Proprietario(nome, mail, nif, password, username, 0,terrenos);
+            return null;
 
         }
 

@@ -209,10 +209,9 @@ namespace GestaoFlorestas.WebSite.Services
                     
                 }
                 this.CloseConnection();
+                return new Supervisor_Concelho(nome, username, email, password, concelho);
             }
-
-            
-            return new Supervisor_Concelho(nome, username, email, password, concelho);
+            return null;
 
         }
 

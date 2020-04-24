@@ -225,9 +225,10 @@ namespace GestaoFlorestas.WebSite.Services
 
                 }
                 this.CloseConnection();
+                return new Distrito(codDistrito, nome, area, habitantes);
             }
-
-            return new Distrito(codDistrito, nome, area, habitantes);
+            return null;
+            
         }
 
         public Concelho getConcelho(String concelho)
@@ -255,18 +256,14 @@ namespace GestaoFlorestas.WebSite.Services
                     nomeDistrito = (String)reader[3];
 
                 }
-                this.CloseConnection();
-            }
 
-            Distrito d = getDistrito(nomeDistrito);
+                Distrito d = getDistrito(nomeDistrito);
 
-            query = "Select idTerreno from Terrenos " +
-                               "where Proprietario=@con;";
-            cmd = new SqlCommand(query, con);
-            cmd.Parameters.AddWithValue("@con", concelho);
+                query = "Select idTerreno from Terrenos " +
+                                   "where Proprietario=@con;";
+                cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@con", concelho);
 
-            if (this.OpenConnection() == true)
-            {
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
 
@@ -277,10 +274,9 @@ namespace GestaoFlorestas.WebSite.Services
                     }
                 }
                 this.CloseConnection();
+                return new Concelho(codConcelho, nome, area, d, terrenosCamara);
             }
-
-            return new Concelho(codConcelho, nome, area, d, terrenosCamara);
-
+            return null;
 
         }
 
@@ -313,16 +309,12 @@ namespace GestaoFlorestas.WebSite.Services
                     inspetor = (String)reader[4];
 
                 }
-                this.CloseConnection();
-            }
 
-            query = "Select Cod_Postal from Zona " +
-                               "where nomeFreguesia=@fre;";
-            cmd = new SqlCommand(query, con);
-            cmd.Parameters.AddWithValue("@fre", freguesia);
+                query = "Select Cod_Postal from Zona " +
+                                   "where nomeFreguesia=@fre;";
+                cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@fre", freguesia);
 
-            if (this.OpenConnection() == true)
-            {
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
 
@@ -333,11 +325,9 @@ namespace GestaoFlorestas.WebSite.Services
                     }
                 }
                 this.CloseConnection();
+                return new Freguesia(codFreguesia, area, nome, nomeConcelho, zonas, inspetor);
             }
-
-            return new Freguesia(codFreguesia, area, nome, nomeConcelho, zonas, inspetor);
-
-
+            return null;
         }
 
 

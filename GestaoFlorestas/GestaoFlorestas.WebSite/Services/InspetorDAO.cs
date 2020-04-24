@@ -157,30 +157,26 @@ namespace GestaoFlorestas.WebSite.Services
             if (this.OpenConnection() == true)
             {
                 int r = cmd.ExecuteNonQuery();
-                this.CloseConnection();
-            }
-            foreach (int a in (List<int>)i.getTerrenosAInspecionar())
-            {
-                if (!containsInspecao(i.getUsername(), a))
+
+                foreach (int a in (List<int>)i.getTerrenosAInspecionar())
                 {
-                    query = "INSERT INTO Inspecao VALUES(@idTerreno,@idInspetor,@resultado,@relatorio,@estado);";
-
-                    cmd = new SqlCommand(query, con);
-                    cmd.Parameters.AddWithValue("@idTerreno", a);
-                    cmd.Parameters.AddWithValue("@idInspetor", i.getUsername());
-                    cmd.Parameters.AddWithValue("@resultado", null);
-                    cmd.Parameters.AddWithValue("@relatorio", null);
-                    cmd.Parameters.AddWithValue("@estado", "Em espera");
-
-                    if (this.OpenConnection() == true)
+                    if (!containsInspecao(i.getUsername(), a))
                     {
-                        int r = cmd.ExecuteNonQuery();
-                        this.CloseConnection();
+                        query = "INSERT INTO Inspecao VALUES(@idTerreno,@idInspetor,@resultado,@relatorio,@estado);";
+
+                        cmd = new SqlCommand(query, con);
+                        cmd.Parameters.AddWithValue("@idTerreno", a);
+                        cmd.Parameters.AddWithValue("@idInspetor", i.getUsername());
+                        cmd.Parameters.AddWithValue("@resultado", null);
+                        cmd.Parameters.AddWithValue("@relatorio", null);
+                        cmd.Parameters.AddWithValue("@estado", "Em espera");
+
+                        r = cmd.ExecuteNonQuery();
                     }
+
                 }
-
+            this.CloseConnection();
             }
-
         }
 
         public void putInspecaoNova(Inspecao i)
@@ -288,22 +284,19 @@ namespace GestaoFlorestas.WebSite.Services
                 {
 
                     reader.Read();
-                    
+
                     password = (String)reader[1];
                     nome = (String)reader[2];
                     email = (String)reader[3];
-                    
+
                 }
-                this.CloseConnection();
-            }
 
-            query = "Select idTerreno from Inspecao " +
-                               "where idInspetor=@username and estadoInspecao='Em espera';";
-            cmd = new SqlCommand(query, con);
-            cmd.Parameters.AddWithValue("@username", user);
+                query = "Select idTerreno from Inspecao " +
+                                   "where idInspetor=@username and estadoInspecao='Em espera';";
+                cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@username", user);
 
-            if (this.OpenConnection() == true)
-            {
+
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
 
@@ -314,11 +307,9 @@ namespace GestaoFlorestas.WebSite.Services
                     }
                 }
                 this.CloseConnection();
+                return new Inspetor(nome, username, email, password, terrenosAInspecionar);
             }
-
-            return new Inspetor(nome, username, email, password, terrenosAInspecionar);
-
-
+            return null;
         }
 
         public List<Inspecao> getInspecoes(String inspetor, int terreno)
@@ -345,11 +336,9 @@ namespace GestaoFlorestas.WebSite.Services
                     }
                 }
                 this.CloseConnection();
+                return insp;
             }
-
-            return insp;
-
-
+            return null;
         }
     }
 }

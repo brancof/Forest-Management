@@ -158,25 +158,24 @@ namespace GestaoFlorestas.WebSite.Services
             {
                 int r = cmd.ExecuteNonQuery();
                 this.CloseConnection();
-            }
 
-            foreach (int a in (List<int>)tp.getTerrenosPendentes())
-            {
-                if (!containsLimpeza(a, tp.getUsername()))
+
+                foreach (int a in (List<int>)tp.getTerrenosPendentes())
                 {
-                    query = "INSERT INTO Limpeza VALUES(@idTerreno,@trabalhador);";
-
-                    cmd = new SqlCommand(query, con);
-                    cmd.Parameters.AddWithValue("@idTerreno", a);
-                    cmd.Parameters.AddWithValue("@trabalhador", tp.getUsername());
-
-                    if (this.OpenConnection() == true)
+                    if (!containsLimpeza(a, tp.getUsername()))
                     {
-                        int r = cmd.ExecuteNonQuery();
-                        this.CloseConnection();
-                    }
-                }
+                        query = "INSERT INTO Limpeza VALUES(@idTerreno,@trabalhador);";
 
+                        cmd = new SqlCommand(query, con);
+                        cmd.Parameters.AddWithValue("@idTerreno", a);
+                        cmd.Parameters.AddWithValue("@trabalhador", tp.getUsername());
+
+                        r = cmd.ExecuteNonQuery();
+   
+                    }
+
+                }
+                this.CloseConnection();
             }
 
         }
@@ -240,26 +239,23 @@ namespace GestaoFlorestas.WebSite.Services
                 {
 
                     reader.Read();
-                    
-                        username = (String)reader[0];
-                        password = (String)reader[1];
-                        nomeConcelho = ((String)reader[3]);
-                        nome = ((String)reader[2]);
-                        email = (String)reader[4];
-                    
+
+                    username = (String)reader[0];
+                    password = (String)reader[1];
+                    nomeConcelho = ((String)reader[3]);
+                    nome = ((String)reader[2]);
+                    email = (String)reader[4];
+
                 }
-                this.CloseConnection();
-            }
 
-            List<int> terrenos = new List<int>();
+                List<int> terrenos = new List<int>();
 
-            query = "Select idTerreno from LimpezaPendentes " +
-                               "where Trabalhador=@tp ;";
+                query = "Select idTerreno from LimpezaPendentes " +
+                                   "where Trabalhador=@tp ;";
 
-            cmd = new SqlCommand(query, con);
-            cmd.Parameters.AddWithValue("@tp", user);
-            if (this.OpenConnection() == true)
-            {
+                cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@tp", user);
+
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
 
@@ -269,9 +265,9 @@ namespace GestaoFlorestas.WebSite.Services
                     }
                 }
                 this.CloseConnection();
+                return new Trabalhador_da_Camara(nome, username, email, password, nomeConcelho, terrenos);
             }
-            return new Trabalhador_da_Camara(nome, username, email, password, nomeConcelho, terrenos);
-
+            return null;
         }
 
         public bool LimpezaRealizada(int terreno, String trabalhador)

@@ -15,8 +15,9 @@ namespace GestaoFlorestas.WebSite.Models
         private String password { get; set; }
         public String username { get; set; }
         public List<int> propriedades { get; set; }
+        
         private TerrenoDAO terrenos;
-        public int notificacoesPorLer { get; set; }
+        public List<Notificacao> notificacoesPorLer { get; set; }
 
 
         public Proprietario()
@@ -26,11 +27,12 @@ namespace GestaoFlorestas.WebSite.Models
             this.nif = "";
             this.password = "";
             this.username = "";
+            this.notificacoesPorLer = new List<Notificacao>();
             this.propriedades = new List<int>();
             this.terrenos = new TerrenoDAO();
         }
 
-        public Proprietario(String nome, String mail, String nif, String password, String username, int notifacacoes,List<int> props)
+        public Proprietario(String nome, String mail, String nif, String password, String username, List<Notificacao> notifacacoes,List<int> props)
         {
             this.nome = nome;
             this.mail = mail;
@@ -42,7 +44,7 @@ namespace GestaoFlorestas.WebSite.Models
             this.terrenos = new TerrenoDAO();
         }
 
-        public Proprietario(String nome, String mail, String nif, String password, String username)
+        public Proprietario(String nome, String mail, String nif, String password, String username, List<Notificacao> not)
         {
             this.nome = nome;
             this.mail = mail;
@@ -50,7 +52,7 @@ namespace GestaoFlorestas.WebSite.Models
             this.password = password;
             this.username = username;
             this.propriedades = new List<int>();
-            this.notificacoesPorLer = 0;
+            this.notificacoesPorLer = not;
             this.terrenos = new TerrenoDAO();
         }
 
@@ -70,6 +72,7 @@ namespace GestaoFlorestas.WebSite.Models
         public String getNif() { return this.nif; }
         public String getPassword() { return this.password; }
         public String getUsername() { return this.username; }
+        public List<Notificacao> getNotificacoes() { return this.notificacoesPorLer; }
         public List<int> getTerrenos() { return this.propriedades; }
 
         public void setNome(String nome) { this.nome = nome; }
@@ -78,7 +81,7 @@ namespace GestaoFlorestas.WebSite.Models
         public void setUsername(String username) { this.username = username; }
         public void setPassword(String password) { this.password = password; }
         public void setPropriedades(List<int> props) { this.propriedades = props; }
-        public void setNotificacoes(int not) { this.notificacoesPorLer = not; }
+        public void setNotificacoes(List<Notificacao> not) { this.notificacoesPorLer = not; }
 
         public bool hasTerreno(int id)
         {

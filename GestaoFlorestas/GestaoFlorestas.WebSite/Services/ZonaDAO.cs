@@ -141,10 +141,9 @@ namespace GestaoFlorestas.WebSite.Services
 
                 }
                 this.CloseConnection();
+                return new Zona(Decimal.ToDouble(nivelCritico), area, codigoPostal, Decimal.ToDouble(latitude), Decimal.ToDouble(longitude), nomeFreguesia);
             }
-
-           return new Zona(Decimal.ToDouble(nivelCritico), area, codigoPostal, Decimal.ToDouble(latitude), Decimal.ToDouble(longitude), nomeFreguesia);
-
+            return null;
         }
 
     }
