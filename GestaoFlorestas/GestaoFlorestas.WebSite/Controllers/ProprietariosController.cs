@@ -51,7 +51,7 @@ namespace GestaoFlorestas.WebSite.Controllers
         public ActionResult GetL([FromQuery] string Username,
                                 [FromQuery] string Password)
         {
-            Object p;
+            object p;
             try
             {
                 p = this.GestaoFlorestasService.loginProprietario(Username, Password);
@@ -117,7 +117,7 @@ namespace GestaoFlorestas.WebSite.Controllers
                 return Unauthorized();
             }
 
-            List<Terreno> result = this.GestaoFlorestasService.terrenosDoProprietario(p);
+            Object result = this.GestaoFlorestasService.terrenosDoProprietario(p);
 
 
             return new JsonResult(result);
@@ -195,10 +195,10 @@ namespace GestaoFlorestas.WebSite.Controllers
                 return Unauthorized();
             }
 
-            List<Terreno> result = this.GestaoFlorestasService.terrenosDoProprietario(p);
+           
 
 
-            return new JsonResult(result);
+            return new JsonResult(p);
         }
 
 
@@ -255,6 +255,13 @@ namespace GestaoFlorestas.WebSite.Controllers
 
             return new JsonResult(result);
         }
+
+        /*[HttpPut]
+        public ActionResult AtualizaNotifications([FromQuery] string Username,
+                                                  [FromQuery] string Password)
+        {
+
+        }*/
 
     }
 

@@ -96,6 +96,25 @@ namespace GestaoFlorestas.WebSite.Services
         }
 
 
+        public void lerNotificacoes(String username,String password)
+        {
+            Proprietario p;
+            if (proprietarios.contains(username))
+            {
+               
+                if (this.proprietarios.verificarPassword(password, username))
+                {
+                    p = proprietarios.get(username);
+
+                }
+                else throw new ExistingUserException();
+            }
+            else throw new ExistingUserException();
+
+
+        }
+
+
         public void limparTerreno(int idTerreno)
         {
             if (this.terrenos.contains(idTerreno))
@@ -112,7 +131,7 @@ namespace GestaoFlorestas.WebSite.Services
            
             if (!inspetores.contains(username))
             {
-                Inspetor i = new Inspetor(nome,username,mail,password);
+                Inspetor i = new Inspetor(nome,username,mail,password,0);
                 inspetores.put(i);
             }
             else throw new ExistingUserException();
@@ -138,7 +157,7 @@ namespace GestaoFlorestas.WebSite.Services
             
             if (!supervisores.contains(username))
             {
-                Supervisor_Concelho s = new Supervisor_Concelho(nome, username,mail, password,concelho);
+                Supervisor_Concelho s = new Supervisor_Concelho(nome, username,mail, password,concelho,0);
                 supervisores.put(s);
             }
             else throw new ExistingUserException();
@@ -164,7 +183,7 @@ namespace GestaoFlorestas.WebSite.Services
             
             if (!trabalhadores.containsTrabalhador(username))
             {
-                Trabalhador_da_Camara s = new Trabalhador_da_Camara(nome, username, mail, password, concelho);
+                Trabalhador_da_Camara s = new Trabalhador_da_Camara(nome, username, mail, password, concelho,0);
                 trabalhadores.put(s);
             }
             else throw new ExistingUserException();
@@ -187,7 +206,7 @@ namespace GestaoFlorestas.WebSite.Services
 
 
 
-        public void limparTerrenoTrabalhador(string username,string password, int idTerreno)
+        public Trabalhador_da_Camara limparTerrenoTrabalhador(string username,string password, int idTerreno)
         {
             Trabalhador_da_Camara tc;
             if (trabalhadores.containsTrabalhador(username))
@@ -200,15 +219,33 @@ namespace GestaoFlorestas.WebSite.Services
                 else throw new ExistingUserException();
             }
             else throw new ExistingUserException();
-            if (tc.hasLimpeza(idTerreno))
+            if (tc.limpaTerreno(idTerreno))
             {
                 if (this.terrenos.contains(idTerreno))
                 {
                     Terreno terreno = terrenos.get(idTerreno);
                     terreno.setEstadoLimpeza(true);
                     terrenos.put(terreno); //muda na bd
+                    this.trabalhadores.LimpezaRealizada(idTerreno, username);
                 }
             }
+            return tc;
+        }
+
+        public List<Terreno> terrenosALimpar(string username, string password)
+        {
+            Trabalhador_da_Camara tc;
+            if (trabalhadores.containsTrabalhador(username))
+            {
+
+                if (this.trabalhadores.verificarPassword(password, username))
+                {
+                    tc = trabalhadores.get(username);
+                }
+                else throw new ExistingUserException();
+            }
+            else throw new ExistingUserException();
+            return tc.getTerrenosALimparObj();
         }
 
 

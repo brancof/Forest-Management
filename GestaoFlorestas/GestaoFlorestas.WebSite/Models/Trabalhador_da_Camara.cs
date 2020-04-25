@@ -83,7 +83,7 @@ namespace GestaoFlorestas.WebSite.Models
 
 
 
-        public bool hasLimpeza (int idTerreno)
+        public bool hasLimpeza(int idTerreno)
         {
             return this.terrenosALimpar.contains(idTerreno);
         }
@@ -100,6 +100,9 @@ namespace GestaoFlorestas.WebSite.Models
 
         public void setNNotificacoes(int n) { this.notificacoesPorLer = n; }
 
-
+        public bool limpaTerreno(int idTerreno)
+        { 
+                return this.idsLimpezasPendentes.Remove(idTerreno);
+        }
     }
 }
