@@ -17,7 +17,7 @@ namespace GestaoFlorestas.WebSite.Models
         public List<int> propriedades { get; set; }
         
         private TerrenoDAO terrenos;
-        public List<Notificacao> notificacoesPorLer { get; set; }
+        public int notificacoesPorLer { get; set; }
 
 
         public Proprietario()
@@ -27,12 +27,12 @@ namespace GestaoFlorestas.WebSite.Models
             this.nif = "";
             this.password = "";
             this.username = "";
-            this.notificacoesPorLer = new List<Notificacao>();
+            this.notificacoesPorLer =0;
             this.propriedades = new List<int>();
             this.terrenos = new TerrenoDAO();
         }
 
-        public Proprietario(String nome, String mail, String nif, String password, String username, List<Notificacao> notifacacoes,List<int> props)
+        public Proprietario(String nome, String mail, String nif, String password, String username, int notifacacoes,List<int> props)
         {
             this.nome = nome;
             this.mail = mail;
@@ -44,7 +44,7 @@ namespace GestaoFlorestas.WebSite.Models
             this.terrenos = new TerrenoDAO();
         }
 
-        public Proprietario(String nome, String mail, String nif, String password, String username, List<Notificacao> not)
+        public Proprietario(String nome, String mail, String nif, String password, String username, int not)
         {
             this.nome = nome;
             this.mail = mail;
@@ -72,7 +72,7 @@ namespace GestaoFlorestas.WebSite.Models
         public String getNif() { return this.nif; }
         public String getPassword() { return this.password; }
         public String getUsername() { return this.username; }
-        public List<Notificacao> getNotificacoes() { return this.notificacoesPorLer; }
+        public int getNotificacoes() { return this.notificacoesPorLer; }
         public List<int> getTerrenos() { return this.propriedades; }
 
         public void setNome(String nome) { this.nome = nome; }

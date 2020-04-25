@@ -125,34 +125,6 @@ namespace GestaoFlorestas.WebSite.Services
             }
         }
 
-        public void putListSConexao(List<Notificacao> ln)
-        {
-                foreach (Notificacao n in ln)
-                {
-                    int i;
-                    String query;
-                    if (containsSConnection(n.getId()))
-                    {
-                        i = 0;
-                        query = "UPDATE notificaco SET conteudo=@conteudo,visualizacao=@vis,tipoUser=@tipo WHERE idNotificacao=@id ;";
-                    }
-                    else
-                    {
-                        i = 1;
-                        query = "INSERT INTO notificacao (idNotificacao, conteudo, Visualizacao, usernameUser, TipoUser) VALUES(@id,@conteudo,@vis,@user,@tipo); ";
-                    }
-                    SqlCommand cmd = new SqlCommand(query, con);
-                    cmd.Parameters.AddWithValue("@id", n.getId());
-                    if (i == 1) cmd.Parameters.AddWithValue("@user", n.getUsername());
-                    cmd.Parameters.AddWithValue("@conteudo", n.getConteudo());
-                    cmd.Parameters.AddWithValue("@vis", n.getVisualizacao() ? 1 : 0);
-                    cmd.Parameters.AddWithValue("@tipo", n.getTipoUser());
-
-                    int r = cmd.ExecuteNonQuery();
-                }
-            
-        }
-
 
         public bool contains(String id)
         {
@@ -223,33 +195,27 @@ namespace GestaoFlorestas.WebSite.Services
             return null;
         }
 
-        public List<Notificacao> getSConexao(String user, String tipoUser)
+        public int countNVisualizadas(String user, String tipoUser)
         {
-            String id = "";
-            String conteudo = "";
-            Boolean Visualizacao = false;
-
-            List<Notificacao> l = new List<Notificacao>();
-            string query = "Select idNotificacao, conteudo, visualizacao from Notificacao " +
-                               "where usernameUser=@username AND tipoUser=@tipo ;";
+            int count = 0;
+            string query = "Select count(*) from Notificacao " +
+                               "where usernameUser=@username AND tipoUser=@tipo AND Visualizacao=0 ;";
 
             SqlCommand cmd = new SqlCommand(query, con);
             cmd.Parameters.AddWithValue("@username", user);
             cmd.Parameters.AddWithValue("@tipo", tipoUser);
 
+            if (this.OpenConnection() == true)
+            {
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
 
-                    while (reader.Read())
-                    {
-                        id = (String)reader[0];
-                        conteudo = (String)reader[1];
-                        Visualizacao = ((int)reader[2]) != 0;
-                        l.Add(new Notificacao(id, conteudo, Visualizacao, user, tipoUser));
-                    }
-
+                    count = (int)reader[0];
                 }
-             return l;
+                this.CloseConnection();
+                
+            }
+            return count;
         }
 
     }
