@@ -208,8 +208,21 @@ namespace GestaoFlorestas.WebSite.Services
                     email = (String)reader[4];
                     
                 }
+                int count = 0;
+                query = "Select count(*) from Notificacao " +
+                                   "where usernameUser=@username AND tipoUser=@tipo AND Visualizacao=0 ;";
+
+                cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@username", user);
+                cmd.Parameters.AddWithValue("@tipo", "Supervisor");
+
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    reader.Read();
+                    count = (int)reader[0];
+                }
                 this.CloseConnection();
-                return new Supervisor_Concelho(nome, username, email, password, concelho);
+                return new Supervisor_Concelho(nome, username, email, password, concelho, count);
             }
             return null;
 

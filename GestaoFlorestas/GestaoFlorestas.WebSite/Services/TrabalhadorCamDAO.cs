@@ -264,8 +264,21 @@ namespace GestaoFlorestas.WebSite.Services
                         terrenos.Add((int)reader[0]);
                     }
                 }
+                int count = 0;
+                query = "Select count(*) from Notificacao " +
+                                   "where usernameUser=@username AND tipoUser=@tipo AND Visualizacao=0 ;";
+
+                cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@username", user);
+                cmd.Parameters.AddWithValue("@tipo", "Trabalhador");
+
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    reader.Read();
+                    count = (int)reader[0];
+                }
                 this.CloseConnection();
-                return new Trabalhador_da_Camara(nome, username, email, password, nomeConcelho, terrenos);
+                return new Trabalhador_da_Camara(nome, username, email, password, nomeConcelho, count, terrenos);
             }
             return null;
         }

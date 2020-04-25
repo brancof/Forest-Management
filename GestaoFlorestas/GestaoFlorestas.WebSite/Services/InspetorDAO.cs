@@ -306,8 +306,23 @@ namespace GestaoFlorestas.WebSite.Services
 
                     }
                 }
+                int count = 0;
+                query = "Select count(*) from Notificacao " +
+                                   "where usernameUser=@username AND tipoUser=@tipo AND Visualizacao=0 ;";
+
+                cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@username", user);
+                cmd.Parameters.AddWithValue("@tipo", "Inspetor");
+
+
+
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    reader.Read();
+                    count = (int)reader[0];
+                }
                 this.CloseConnection();
-                return new Inspetor(nome, username, email, password, terrenosAInspecionar);
+                return new Inspetor(nome, username, email, password, count, terrenosAInspecionar);
             }
             return null;
         }

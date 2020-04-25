@@ -13,8 +13,13 @@ namespace GestaoFlorestas.WebSite.Models
         public String password { get; set; }
         public String email { get; set; }
         public List<int> idsLimpezasPendentes { get; set; }
+
         private TerrenoDAO terrenosALimpar;
         public String concelho { get; set; }
+        public int notificacoesPorLer { get; set; }
+
+        private NotificacaoDAO notificacoes;
+
 
 
         public Trabalhador_da_Camara()
@@ -24,10 +29,12 @@ namespace GestaoFlorestas.WebSite.Models
             this.password = "";
             this.concelho = "";
             this.email = "";
+            this.notificacoes = new NotificacaoDAO();
+            this.notificacoesPorLer = 0;
         }
 
 
-        public Trabalhador_da_Camara(String nome, String username, String email, String password, String concel, List<int> lp)
+        public Trabalhador_da_Camara(String nome, String username, String email, String password, String concel, int Nnotificacao, List<int> lp)
         {
             this.nome = nome;
             this.username = username;
@@ -35,9 +42,11 @@ namespace GestaoFlorestas.WebSite.Models
             this.concelho = concel;
             this.idsLimpezasPendentes = lp;
             this.email = email;
+            this.notificacoes = new NotificacaoDAO();
+            this.notificacoesPorLer = Nnotificacao;
         }
 
-        public Trabalhador_da_Camara(String nome, String username, String email, String password, String concel)
+        public Trabalhador_da_Camara(String nome, String username, String email, String password, String concel, int Nnotificacao)
         {
             this.nome = nome;
             this.username = username;
@@ -45,6 +54,8 @@ namespace GestaoFlorestas.WebSite.Models
             this.concelho = concel;
             this.email = email;
             this.idsLimpezasPendentes = new List<int>();
+            this.notificacoes = new NotificacaoDAO();
+            this.notificacoesPorLer = Nnotificacao;
         }
 
         public Trabalhador_da_Camara(Trabalhador_da_Camara t)
@@ -54,6 +65,7 @@ namespace GestaoFlorestas.WebSite.Models
             this.password = t.getPassword();
             this.concelho = t.getConcelho();
             this.email = t.getEmail();
+            this.notificacoesPorLer = t.getNNotificacoes();
         }
 
         public String getNome() { return this.nome; }
@@ -61,11 +73,14 @@ namespace GestaoFlorestas.WebSite.Models
         public String getPassword() { return this.password; }
         public String getConcelho() { return this.concelho; }
         public String getEmail() { return this.email; }
-        public List<int> getTerrenosPendentes() { return this.idsLimpezasPendentes; } 
+        public List<int> getTerrenosPendentes() { return this.idsLimpezasPendentes; }
+        public int getNNotificacoes() { return this.notificacoesPorLer; }
 
         public void setNome(String nome) { this.nome = nome; }
         public void setUsername(String username) { this.username = username; }
         public void setPassword(String password) { this.password = password; }
         public void setConcelho(String concel) { this.concelho = password; }
+        public void setNNotificacoes(int n) { this.notificacoesPorLer = n; }
+
     }
 }
