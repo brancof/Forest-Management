@@ -16,7 +16,7 @@ namespace GestaoFlorestas.WebSite.Services
         private ZonaDAO zonas;
         private TrabalhadorCamDAO trabalhadores;
         private SupervisorDAO supervisores;
-       
+        
        
 
         public GestaoFlorestasService()
@@ -93,8 +93,18 @@ namespace GestaoFlorestas.WebSite.Services
         public List<Notificacao> notificacoesProprietario (Proprietario p)
         {
             return p.getNotificacoesObjects();
-        } 
+        }
 
+
+        public void limparTerreno(int idTerreno)
+        {
+            if (this.terrenos.contains(idTerreno))
+            {
+                Terreno terreno = terrenos.get(idTerreno);
+                terreno.setEstadoLimpeza(true);
+                terrenos.put(terreno); //muda na bd
+            }
+        }
 
         //---------------------------------------------------------Inspetores---------------------------------------------------------------------
         public void registoInspetores(String username, String nome, String mail, String password)
@@ -122,7 +132,7 @@ namespace GestaoFlorestas.WebSite.Services
             else throw new ExistingUserException();
         }
 
-        //Supervisores
+        //----------------------------------------------Supervisores----------------------------------------
         public void registoSupervisor(String nome, String username, String mail, String password, String concelho)
         {
             
@@ -148,7 +158,7 @@ namespace GestaoFlorestas.WebSite.Services
             else throw new ExistingUserException();
         }
 
-        
+        //---------------------------------------------Trabalhadores----------------------------------------------------------------
         public void registoTrabalhadores(String nome, String username,String mail, String password, String concelho)
         {
             
@@ -160,14 +170,14 @@ namespace GestaoFlorestas.WebSite.Services
             else throw new ExistingUserException();
         }
 
-        public void loginTrabalhadores(String username, String password)
+        public Trabalhador_da_Camara loginTrabalhadores(String username, String password)
         {
             if (trabalhadores.containsTrabalhador(username))
             {
-                //Trabalhador_da_Camara p = trabalhadores.get(username);
+                
                 if (this.trabalhadores.verificarPassword(password, username))
                 {
-                   
+                    return trabalhadores.get(username);
                 }
                 else throw new ExistingUserException();
             }
@@ -177,16 +187,30 @@ namespace GestaoFlorestas.WebSite.Services
 
 
 
-        //Terrenos (utilizadores que usam: proprietarios e trabalhadores da camara)
-        public void limparTerreno (int idTerreno)
+        public void limparTerrenoTrabalhador(string username,string password, int idTerreno)
         {
-            if (this.terrenos.contains(idTerreno))
+            Trabalhador_da_Camara tc;
+            if (trabalhadores.containsTrabalhador(username))
             {
-                Terreno terreno = terrenos.get(idTerreno);
-                terreno.setEstadoLimpeza(true);
-                terrenos.put(terreno); //muda na bd
+
+                if (this.trabalhadores.verificarPassword(password, username))
+                {
+                    tc = trabalhadores.get(username);
+                }
+                else throw new ExistingUserException();
+            }
+            else throw new ExistingUserException();
+            if (tc.hasLimpeza(idTerreno))
+            {
+                if (this.terrenos.contains(idTerreno))
+                {
+                    Terreno terreno = terrenos.get(idTerreno);
+                    terreno.setEstadoLimpeza(true);
+                    terrenos.put(terreno); //muda na bd
+                }
             }
         }
+
 
 
 

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Web.Http.Cors;
 using GestaoFlorestas.WebSite.Exceptions;
+using GestaoFlorestas.WebSite.Models;
 
 namespace GestaoFlorestas.WebSite.Controllers
 {
@@ -47,9 +48,10 @@ namespace GestaoFlorestas.WebSite.Controllers
         public ActionResult Login([FromQuery] string Username,
                                   [FromQuery] string Password)
         {
+            Object tc;
             try
             {
-                this.GestaoFlorestasService.loginTrabalhadores(Username, Password);
+                tc = this.GestaoFlorestasService.loginTrabalhadores(Username, Password);
             }
             catch (ExistingUserException e)
             {
@@ -58,6 +60,34 @@ namespace GestaoFlorestas.WebSite.Controllers
 
 
             //Response.Cookies.Append("UserCookie", "T" + Username);//colocar aqui o cookie.
+            return new JsonResult(tc);
+        }
+
+
+
+        //-------------------Limpeza de Terreno---------------------------------
+        [Route("Limpeza")]
+        [HttpPut]
+        public ActionResult LimpaTerreno([FromBody] string body) //body: "username,password,idTerreno"
+        {
+            string[] campos = body.Split(',');
+
+            int idTerreno = Int32.Parse(campos[2]);
+
+            this.GestaoFlorestasService.limparTerrenoTrabalhador(campos[0],campos[1],idTerreno);
+
+
+            return Ok();
+        }
+
+
+        //------------------get terrenos pra limpeza--------------------------------
+
+        [Route("Trabalho")]
+        [HttpGet]
+        public ActionResult GetTerrenos([FromQuery] string Username,
+                                        [FromQuery] string Password)
+        {
             return Ok();
         }
     }

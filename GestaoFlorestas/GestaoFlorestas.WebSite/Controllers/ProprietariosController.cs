@@ -51,7 +51,7 @@ namespace GestaoFlorestas.WebSite.Controllers
         public ActionResult GetL([FromQuery] string Username,
                                 [FromQuery] string Password)
         {
-            Proprietario p;
+            Object p;
             try
             {
                 p = this.GestaoFlorestasService.loginProprietario(Username, Password);

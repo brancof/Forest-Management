@@ -67,5 +67,21 @@ namespace GestaoFlorestas.WebSite.Models
         public void setUsername(String username) { this.username = username; }
         public void setPassword(String password) { this.password = password; }
         public void setConcelho(String concel) { this.concelho = password; }
+
+
+        public bool hasLimpeza (int idTerreno)
+        {
+            return this.terrenosALimpar.contains(idTerreno);
+        }
+
+        public List<Terreno> getTerrenosALimparObj()
+        {
+            List<Terreno> result = new List<Terreno>();
+            for (int i = 0; i < this.idsLimpezasPendentes.Count(); i++)
+            {
+                result.Add(this.terrenosALimpar.get(this.idsLimpezasPendentes[i]));
+            }
+            return result;
+        }
     }
 }
