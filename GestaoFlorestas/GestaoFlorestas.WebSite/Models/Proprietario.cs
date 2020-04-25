@@ -18,7 +18,7 @@ namespace GestaoFlorestas.WebSite.Models
         
         private TerrenoDAO terrenos;
         public int notificacoesPorLer { get; set; }
-        public NotificacaoDAO notificacoes;
+        private NotificacaoDAO notificacoes;
 
 
         public Proprietario()

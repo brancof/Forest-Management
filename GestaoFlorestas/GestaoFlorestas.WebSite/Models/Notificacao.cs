@@ -17,6 +17,8 @@ namespace GestaoFlorestas.WebSite.Models
 
         private String TipoUser;
 
+        private DateTime dataEmissao;
+
 
         public Notificacao()
         {
@@ -26,9 +28,10 @@ namespace GestaoFlorestas.WebSite.Models
             this.Visualizacao = false;
             this.username = "";
             this.TipoUser = "";
+            this.dataEmissao = new DateTime();
         }
 
-        public Notificacao(String cont, Boolean Visual, String user, String tipo)
+        public Notificacao(String cont, Boolean Visual, String user, String tipo, DateTime date)
         {
             Guid g = Guid.NewGuid();
             this.id = g.ToString();
@@ -36,15 +39,17 @@ namespace GestaoFlorestas.WebSite.Models
             this.Visualizacao = Visual;
             this.username = user;
             this.TipoUser = tipo;
+            this.dataEmissao = date;
         }
 
-        public Notificacao(String id, String cont, Boolean Visual, String user, String tipo)
+        public Notificacao(String id, String cont, Boolean Visual, String user, String tipo, DateTime date)
         {
             this.id = id;
             this.conteudo = cont;
             this.Visualizacao = Visual;
             this.username = user;
             this.TipoUser = tipo;
+            this.dataEmissao = date;
         }
 
         public String idUnico()
@@ -76,6 +81,11 @@ namespace GestaoFlorestas.WebSite.Models
         public Boolean getVisualizacao()
         {
             return this.Visualizacao;
+        }
+
+        public DateTime getDataEmissao()
+        {
+            return this.dataEmissao;
         }
 
     }

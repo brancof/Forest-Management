@@ -164,7 +164,7 @@ namespace GestaoFlorestas.WebSite.Services
                 {
                     if (!containsLimpeza(a, tp.getUsername()))
                     {
-                        query = "INSERT INTO Limpeza VALUES(@idTerreno,@trabalhador);";
+                        query = "INSERT INTO LimpezaPendentes VALUES(@idTerreno,@trabalhador);";
 
                         cmd = new SqlCommand(query, con);
                         cmd.Parameters.AddWithValue("@idTerreno", a);
@@ -264,8 +264,21 @@ namespace GestaoFlorestas.WebSite.Services
                         terrenos.Add((int)reader[0]);
                     }
                 }
+                int count = 0;
+                query = "Select count(*) from Notificacao " +
+                                   "where usernameUser=@username AND tipoUser=@tipo AND Visualizacao=0 ;";
+
+                cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@username", user);
+                cmd.Parameters.AddWithValue("@tipo", "Trabalhador");
+
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    reader.Read();
+                    count = (int)reader[0];
+                }
                 this.CloseConnection();
-                return new Trabalhador_da_Camara(nome, username, email, password, nomeConcelho, terrenos);
+                return new Trabalhador_da_Camara(nome, username, email, password, nomeConcelho, count, terrenos);
             }
             return null;
         }
@@ -274,7 +287,7 @@ namespace GestaoFlorestas.WebSite.Services
         {
             if (containsLimpeza(terreno, trabalhador))
             {
-                String query = "DELETE FROM Limpeza WHERE idTerreno=@idTerreno,Trabalhador=@trabalhador;";
+                String query = "DELETE FROM LimpezaPendentes WHERE idTerreno=@idTerreno,Trabalhador=@trabalhador;";
 
                 SqlCommand cmd = new SqlCommand(query, con);
                 cmd.Parameters.AddWithValue("@idTerreno", terreno);

@@ -74,12 +74,12 @@ namespace GestaoFlorestas.WebSite.Services
             if (contains(n.getId()))
             {
                 i = 0;
-                query = "UPDATE notificaco SET conteudo=@conteudo,visualizacao=@vis,tipoUser=@tipo WHERE idNotificacao=@id ;";
+                query = "UPDATE notificaco SET conteudo=@conteudo,visualizacao=@vis,tipoUser=@tipo,dataEmissao=@data WHERE idNotificacao=@id ;";
             }
             else
             {
                 i = 1;
-                query = "INSERT INTO notificacao (idNotificacao, conteudo, Visualizacao, usernameUser, TipoUser) VALUES(@id,@conteudo,@vis,@user,@tipo);";
+                query = "INSERT INTO notificacao (idNotificacao, conteudo, Visualizacao, usernameUser, TipoUser, dataEmissao) VALUES(@id,@conteudo,@vis,@user,@tipo,@data);";
             }
             SqlCommand cmd = new SqlCommand(query, con);
             cmd.Parameters.AddWithValue("@id", n.getId());
@@ -87,6 +87,7 @@ namespace GestaoFlorestas.WebSite.Services
             cmd.Parameters.AddWithValue("@conteudo",n.getConteudo());
             cmd.Parameters.AddWithValue("@vis", n.getVisualizacao()?1:0);
             cmd.Parameters.AddWithValue("@tipo", n.getTipoUser());
+            cmd.Parameters.AddWithValue("@data", n.getDataEmissao());
             if (this.OpenConnection() == true)
             {
                 int r = cmd.ExecuteNonQuery();
@@ -105,12 +106,12 @@ namespace GestaoFlorestas.WebSite.Services
                     if (containsSConnection(n.getId()))
                     {
                         i = 0;
-                        query = "UPDATE notificaco SET conteudo=@conteudo,visualizacao=@vis,tipoUser=@tipo WHERE idNotificacao=@id ;";
+                        query = "UPDATE notificaco SET conteudo=@conteudo,visualizacao=@vis,tipoUser=@tipo,dataEmissao=@data WHERE idNotificacao=@id ;";
                     }
                     else
                     {
                         i = 1;
-                        query = "INSERT INTO notificacao (idNotificacao, conteudo, Visualizacao, usernameUser, TipoUser) VALUES(@id,@conteudo,@vis,@user,@tipo); ";
+                        query = "INSERT INTO notificacao (idNotificacao, conteudo, Visualizacao, usernameUser, TipoUser, dataEmissao) VALUES(@id,@conteudo,@vis,@user,@tipo,@data); ";
                     }
                     SqlCommand cmd = new SqlCommand(query, con);
                     cmd.Parameters.AddWithValue("@id", n.getId());
@@ -118,6 +119,7 @@ namespace GestaoFlorestas.WebSite.Services
                     cmd.Parameters.AddWithValue("@conteudo", n.getConteudo());
                     cmd.Parameters.AddWithValue("@vis", n.getVisualizacao() ? 1 : 0);
                     cmd.Parameters.AddWithValue("@tipo", n.getTipoUser());
+                    cmd.Parameters.AddWithValue("@data", n.getDataEmissao());
 
                     int r = cmd.ExecuteNonQuery();
                 }
@@ -166,9 +168,10 @@ namespace GestaoFlorestas.WebSite.Services
             String id = "";
             String conteudo = "";
             Boolean Visualizacao = false;
-            
+            DateTime data = new DateTime();
+
             List<Notificacao> l = new List<Notificacao>();
-            string query = "Select idNotificacao, conteudo, visualizacao from Notificacao " +
+            string query = "Select idNotificacao, conteudo, visualizacao, dataEmissao from Notificacao " +
                                "where usernameUser=@username AND tipoUser=@tipo ;";
 
             SqlCommand cmd = new SqlCommand(query, con);
@@ -185,7 +188,8 @@ namespace GestaoFlorestas.WebSite.Services
                         id = (String)reader[0];
                         conteudo = (String)reader[1];
                         Visualizacao = ((int)reader[2]) != 0;
-                        l.Add(new Notificacao(id, conteudo, Visualizacao, user, tipoUser));
+                        data = (DateTime)reader[3];
+                        l.Add(new Notificacao(id, conteudo, Visualizacao, user, tipoUser, data));
                     }
 
                 }
