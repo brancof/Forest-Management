@@ -74,7 +74,7 @@ namespace GestaoFlorestas.WebSite.Services
             if (contains(n.getId()))
             {
                 i = 0;
-                query = "UPDATE notificaco SET conteudo=@conteudo,visualizacao=@vis,tipoUser=@tipo,dataEmissao=@data WHERE idNotificacao=@id ;";
+                query = "UPDATE notificacao SET conteudo=@conteudo,visualizacao=@vis,tipoUser=@tipo,dataEmissao=@data WHERE idNotificacao=@id ;";
             }
             else
             {
@@ -106,7 +106,7 @@ namespace GestaoFlorestas.WebSite.Services
                     if (containsSConnection(n.getId()))
                     {
                         i = 0;
-                        query = "UPDATE notificaco SET conteudo=@conteudo,visualizacao=@vis,tipoUser=@tipo,dataEmissao=@data WHERE idNotificacao=@id ;";
+                        query = "UPDATE notificacao SET conteudo=@conteudo,visualizacao=@vis,tipoUser=@tipo,dataEmissao=@data WHERE idNotificacao=@id ;";
                     }
                     else
                     {
@@ -220,6 +220,25 @@ namespace GestaoFlorestas.WebSite.Services
                 
             }
             return count;
+        }
+
+        public void visualizarNotificacoes(String username, String tipo)
+        {
+            int i;
+            String query;
+            i = 0;
+            query = "UPDATE notificacao SET visualizacao=1 WHERE usernameUser=@user AND tipoUser=@tipo;";
+            
+           
+            SqlCommand cmd = new SqlCommand(query, con);
+            
+            cmd.Parameters.AddWithValue("@user", username);
+            cmd.Parameters.AddWithValue("@tipo", tipo);
+            if (this.OpenConnection() == true)
+            {
+                int r = cmd.ExecuteNonQuery();
+                this.CloseConnection();
+            }
         }
 
     }

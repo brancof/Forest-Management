@@ -7,17 +7,17 @@ namespace GestaoFlorestas.WebSite.Models
 {
     public class Notificacao
     {
-        private String id;
+        public String id { get; set; }
 
-        private String conteudo;
+        public String conteudo { get; set; }
 
-        private Boolean Visualizacao;
+        public Boolean Visualizacao { get; set; }
 
-        private String username;
+        public String username { get; set; }
 
-        private String TipoUser;
+        public String TipoUser { get; set; }
 
-        private DateTime dataEmissao;
+        public DateTime dataEmissao { get; set; }
 
 
         public Notificacao()

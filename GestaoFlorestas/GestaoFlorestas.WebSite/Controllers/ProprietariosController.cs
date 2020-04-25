@@ -152,7 +152,7 @@ namespace GestaoFlorestas.WebSite.Controllers
         [Route("Terrenos/Concelho")]
         [HttpGet]
         public ActionResult GetTerrenoConcelho([FromQuery] string Username,
-                                        [FromQuery] string Password, [FromQuery] string IdTerreno)
+                                               [FromQuery] string Password, [FromQuery] string IdTerreno)
         {
             Proprietario p;
 
@@ -256,12 +256,23 @@ namespace GestaoFlorestas.WebSite.Controllers
             return new JsonResult(result);
         }
 
-        /*[HttpPut]
-        public ActionResult AtualizaNotifications([FromQuery] string Username,
-                                                  [FromQuery] string Password)
+        [Route("Notificacoes/Ler")]
+        [HttpPut]
+        public ActionResult AtualizaNotifications([FromBody] string body)//body: "username,password"
         {
+            string[] campos = body.Split(',');
+            try
+            {
+                this.GestaoFlorestasService.visualizarNotificacoesProp(campos[0], campos[1]);
 
-        }*/
+            }
+            catch (ExistingUserException e)
+            {
+                return Unauthorized();
+            }
+            return Ok();
+
+        }
 
     }
 

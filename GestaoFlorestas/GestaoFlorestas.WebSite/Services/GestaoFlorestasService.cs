@@ -16,7 +16,7 @@ namespace GestaoFlorestas.WebSite.Services
         private ZonaDAO zonas;
         private TrabalhadorCamDAO trabalhadores;
         private SupervisorDAO supervisores;
-        
+        private NotificacaoDAO notifications;
        
 
         public GestaoFlorestasService()
@@ -28,6 +28,7 @@ namespace GestaoFlorestas.WebSite.Services
             zonas = new ZonaDAO();
             trabalhadores = new TrabalhadorCamDAO();
             supervisores = new SupervisorDAO();
+            notifications = new NotificacaoDAO();
         }
 
 
@@ -96,25 +97,6 @@ namespace GestaoFlorestas.WebSite.Services
         }
 
 
-        public void lerNotificacoes(String username,String password)
-        {
-            Proprietario p;
-            if (proprietarios.contains(username))
-            {
-               
-                if (this.proprietarios.verificarPassword(password, username))
-                {
-                    p = proprietarios.get(username);
-
-                }
-                else throw new ExistingUserException();
-            }
-            else throw new ExistingUserException();
-
-
-        }
-
-
         public void limparTerreno(int idTerreno)
         {
             if (this.terrenos.contains(idTerreno))
@@ -123,6 +105,20 @@ namespace GestaoFlorestas.WebSite.Services
                 terreno.setEstadoLimpeza(true);
                 terrenos.put(terreno); //muda na bd
             }
+        }
+
+
+        public void visualizarNotificacoesProp(string username, string password)
+        {
+            if (proprietarios.contains(username))
+            {
+                if (this.proprietarios.verificarPassword(password, username))
+                {
+                    this.notifications.visualizarNotificacoes(username, "Proprietario");
+                }
+                else throw new ExistingUserException();
+            }
+            else throw new ExistingUserException();
         }
 
         //---------------------------------------------------------Inspetores---------------------------------------------------------------------
