@@ -230,6 +230,32 @@ namespace GestaoFlorestas.WebSite.Controllers
 
             return Ok();
         }
+
+
+        //------------------------------------notificacoes -----------------------------------------
+        [Route("Notificacoes")]
+        [HttpGet]
+        public ActionResult GetNotifications([FromQuery] string Username,
+                                             [FromQuery] string Password)
+        {
+            Proprietario p;
+
+            try
+            {
+                p = this.GestaoFlorestasService.loginProprietario(Username, Password);
+
+            }
+            catch (ExistingUserException e)
+            {
+                return Unauthorized();
+            }
+
+            List<Notificacao> result = this.GestaoFlorestasService.notificacoesProprietario(p);
+
+
+            return new JsonResult(result);
+        }
+
     }
 
 }

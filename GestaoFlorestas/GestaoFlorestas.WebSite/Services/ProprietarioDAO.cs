@@ -233,8 +233,10 @@ namespace GestaoFlorestas.WebSite.Services
                 cmd.Parameters.AddWithValue("@tipo", "Proprietario");
 
 
+                
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
+                    reader.Read();
                     count = (int)reader[0];
                 }
                 this.CloseConnection();

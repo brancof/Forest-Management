@@ -209,7 +209,7 @@ namespace GestaoFlorestas.WebSite.Services
             {
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
-
+                    reader.Read();
                     count = (int)reader[0];
                 }
                 this.CloseConnection();

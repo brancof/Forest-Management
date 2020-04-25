@@ -18,6 +18,7 @@ namespace GestaoFlorestas.WebSite.Models
         
         private TerrenoDAO terrenos;
         public int notificacoesPorLer { get; set; }
+        public NotificacaoDAO notificacoes;
 
 
         public Proprietario()
@@ -30,6 +31,7 @@ namespace GestaoFlorestas.WebSite.Models
             this.notificacoesPorLer =0;
             this.propriedades = new List<int>();
             this.terrenos = new TerrenoDAO();
+            this.notificacoes = new NotificacaoDAO();
         }
 
         public Proprietario(String nome, String mail, String nif, String password, String username, int notifacacoes,List<int> props)
@@ -42,6 +44,7 @@ namespace GestaoFlorestas.WebSite.Models
             this.propriedades = props;
             this.notificacoesPorLer = notifacacoes;
             this.terrenos = new TerrenoDAO();
+            this.notificacoes = new NotificacaoDAO();
         }
 
         public Proprietario(String nome, String mail, String nif, String password, String username, int not)
@@ -54,6 +57,7 @@ namespace GestaoFlorestas.WebSite.Models
             this.propriedades = new List<int>();
             this.notificacoesPorLer = not;
             this.terrenos = new TerrenoDAO();
+            this.notificacoes = new NotificacaoDAO();
         }
 
         public Proprietario(Proprietario P)
@@ -81,7 +85,7 @@ namespace GestaoFlorestas.WebSite.Models
         public void setUsername(String username) { this.username = username; }
         public void setPassword(String password) { this.password = password; }
         public void setPropriedades(List<int> props) { this.propriedades = props; }
-        public void setNotificacoes(List<Notificacao> not) { this.notificacoesPorLer = not; }
+        public void setNotificacoes(int not) { this.notificacoesPorLer = not; }
 
         public bool hasTerreno(int id)
         {
@@ -97,5 +101,12 @@ namespace GestaoFlorestas.WebSite.Models
             }
             return res;
         }
+
+
+        public List<Notificacao> getNotificacoesObjects()
+        {
+            return this.notificacoes.get(this.username, "Proprietario");
+        }
+
     }
 }

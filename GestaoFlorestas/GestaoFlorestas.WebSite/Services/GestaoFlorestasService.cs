@@ -17,6 +17,7 @@ namespace GestaoFlorestas.WebSite.Services
         private TrabalhadorCamDAO trabalhadores;
         private SupervisorDAO supervisores;
        
+       
 
         public GestaoFlorestasService()
         {
@@ -35,7 +36,7 @@ namespace GestaoFlorestas.WebSite.Services
             
             if (!proprietarios.contains(username))
             {
-                Proprietario p = new Proprietario(nome, mail, nif, password, username);
+                Proprietario p = new Proprietario(nome, mail, nif, password, username,0);
                 proprietarios.put(p);
             }
             else throw new ExistingUserException();
@@ -89,7 +90,10 @@ namespace GestaoFlorestas.WebSite.Services
 
 
 
-
+        public List<Notificacao> notificacoesProprietario (Proprietario p)
+        {
+            return p.getNotificacoesObjects();
+        } 
 
 
         //---------------------------------------------------------Inspetores---------------------------------------------------------------------
