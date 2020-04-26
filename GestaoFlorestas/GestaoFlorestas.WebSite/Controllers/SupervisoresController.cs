@@ -60,9 +60,9 @@ namespace GestaoFlorestas.WebSite.Controllers
             return Ok();
         }
 
-        [Route("TrocaProp")]
+        [Route("Trocaprop")]
         [HttpPut]
-        public ActionResult ConcelhoSeguro([FromQuery] string body) //body username,password,idTerreno,nifnovoprop
+        public ActionResult ConcelhoSeguro([FromBody] string body) //body username,password,idTerreno,nifnovoprop
                                            
         {
             string[] campos = body.Split(',');

@@ -304,7 +304,7 @@ namespace GestaoFlorestas.WebSite.Services
                                    "where nifProprietario=@nif ;";
 
                 cmd = new SqlCommand(query, con);
-                cmd.Parameters.AddWithValue("@nif", nif);
+                cmd.Parameters.AddWithValue("@nif", usernif);
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
 
@@ -325,6 +325,7 @@ namespace GestaoFlorestas.WebSite.Services
 
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
+                    reader.Read();
                     count = (int)reader[0];
                 }
 

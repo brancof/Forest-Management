@@ -26,7 +26,7 @@ namespace GestaoFlorestas.WebSite.Controllers
 
 
         [Route("Registo")]
-        [HttpGet] 
+        [HttpPost] 
         public ActionResult Registo([FromBody] string trabalhador)
         {
             string[] campos = trabalhador.Split(',');
