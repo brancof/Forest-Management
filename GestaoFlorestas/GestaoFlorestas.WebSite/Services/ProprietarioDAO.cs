@@ -180,6 +180,25 @@ namespace GestaoFlorestas.WebSite.Services
             return r;
         }
 
+        public bool containsByNif(String nif)
+        {
+            bool r = false;
+            string query = "Select username from proprietario " +
+                           "where nif=@nif ;";
+
+            SqlCommand cmd = new SqlCommand(query, con);
+            cmd.Parameters.AddWithValue("@nif", nif);
+
+            if (this.OpenConnection() == true)
+            {
+                var value = cmd.ExecuteScalar();
+                if (value != null) r = true;
+                else r = false;
+                this.CloseConnection();
+            }
+            return r;
+        }
+
 
         public Proprietario get(String user)
         {

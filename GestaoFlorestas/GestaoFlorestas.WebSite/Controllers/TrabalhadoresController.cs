@@ -105,5 +105,50 @@ namespace GestaoFlorestas.WebSite.Controllers
 
             return new JsonResult(res);
         }
+
+
+        //-------------notificacoes-----------------------------------------
+
+
+        [Route("Notificacoes")]
+        [HttpGet]
+        public ActionResult GetNotifications([FromQuery] string Username,
+                                            [FromQuery] string Password)
+        {
+            object result;
+
+            try
+            {
+                result = this.GestaoFlorestasService.notificacoesTrabalhador(Username,Password);
+
+            }
+            catch (ExistingUserException e)
+            {
+                return Unauthorized();
+            }
+
+           
+
+
+            return new JsonResult(result);
+        }
+
+        [Route("Notificacoes/Ler")]
+        [HttpPut]
+        public ActionResult AtualizaNotifications([FromBody] string body)//body: "username,password"
+        {
+            string[] campos = body.Split(',');
+            try
+            {
+                this.GestaoFlorestasService.visualizarNotificacoesTrabalhador(campos[0], campos[1]);
+
+            }
+            catch (ExistingUserException e)
+            {
+                return Unauthorized();
+            }
+            return Ok();
+
+        }
     }
 }

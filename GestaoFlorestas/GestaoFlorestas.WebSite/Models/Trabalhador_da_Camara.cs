@@ -104,5 +104,10 @@ namespace GestaoFlorestas.WebSite.Models
         { 
                 return this.idsLimpezasPendentes.Remove(idTerreno);
         }
+
+        public List<Notificacao> getNotificacoesObj()
+        {
+            return this.notificacoes.get(this.username, "Trabalhador");
+        }
     }
 }

@@ -18,7 +18,7 @@ namespace GestaoFlorestas.WebSite.Models
         private ZonaDAO zona;
         public List<Inspecao> inspecoes { get; set; }
         public String nif { get; set; }
-        public String morada { get; set; }
+        public string morada { get; set; }
 
         public Terreno()
         {
@@ -102,6 +102,13 @@ namespace GestaoFlorestas.WebSite.Models
         public Zona getZoneObject()
         {
             return this.zona.get(this.cod_postal);
+        }
+
+
+        public string getConcelho()
+        {
+            string[] campos = this.morada.Split(", ");
+            return campos[1];
         }
         
     }

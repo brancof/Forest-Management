@@ -89,23 +89,24 @@ namespace GestaoFlorestas.WebSite.Services
                 this.CloseConnection();
             }
         }
-        
+
         public void putConcelho(Concelho c)
         {
             String query;
-            if (containsDistrito(c.getNome()))
+            if (containsConcelho(c.getNome()))
             {
-                query = "UPDATE Concelho SET codConcelho=@cod,Area=@area,nomeDistrito=@hab WHERE nomeDistrito=@nome ;";
+                query = "UPDATE Concelho SET codConcelho=@cod,Area=@area,nomeDistrito=@distrito,nif=@nif WHERE nomeConcelho=@nome ;";
             }
             else
             {
-                query = "INSERT INTO Concelho VALUES(@cod,@nome,@area,@distrito);";
+                query = "INSERT INTO Concelho VALUES(@cod,@nome,@area,@distrito,@nif);";
             }
             SqlCommand cmd = new SqlCommand(query, con);
             cmd.Parameters.AddWithValue("@cod", c.getCodigo());
             cmd.Parameters.AddWithValue("@area", c.getArea());
             cmd.Parameters.AddWithValue("@nome", c.getNome());
             cmd.Parameters.AddWithValue("@distrito", c.getDistrito());
+            cmd.Parameters.AddWithValue("@distrito", c.getNif());
 
             if (this.OpenConnection() == true)
             {
@@ -237,6 +238,7 @@ namespace GestaoFlorestas.WebSite.Services
             int codConcelho = 0;
             int area = 0;
             String nomeDistrito = "";
+            int nif = 0;
             List<int> terrenosCamara = new List<int>();
             string query = "Select * from Concelho " +
                                "where nomeConcelho=@con ;";
@@ -254,6 +256,7 @@ namespace GestaoFlorestas.WebSite.Services
                     codConcelho = (int)reader[0];
                     area = (int)reader[2];
                     nomeDistrito = (String)reader[3];
+                    nif = (int)reader[4];
 
                 }
 
@@ -274,7 +277,7 @@ namespace GestaoFlorestas.WebSite.Services
                     }
                 }
                 this.CloseConnection();
-                return new Concelho(codConcelho, nome, area, d, terrenosCamara);
+                return new Concelho(codConcelho, nome, area, d, nif, terrenosCamara);
             }
             return null;
 
@@ -331,7 +334,33 @@ namespace GestaoFlorestas.WebSite.Services
         }
 
 
+        public int numeroDeTerrenosPorLimpar(String concelho)
+        {
+            int res = 0;
 
+            string query = "Select count(*) from Terreno As T"
+                           + " JOIN Zona as Z on Z.Cod_Postal = T.Cod_Postal"
+                           + " JOIN Freguesia AS F on F.nomeFreguesia = Z.nomeFreguesia"
+                           + " where T.estado = 0 AND F.nomeConcelho = @conc ;";
+
+            SqlCommand cmd = new SqlCommand(query, con);
+            cmd.Parameters.AddWithValue("@conc", concelho);
+
+            if (this.OpenConnection() == true)
+            {
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+
+                    reader.Read();
+                    res = (int)reader[0];
+
+                }
+                this.CloseConnection();
+            }
+
+            return res;
+        }
+        
 
     }
 }
