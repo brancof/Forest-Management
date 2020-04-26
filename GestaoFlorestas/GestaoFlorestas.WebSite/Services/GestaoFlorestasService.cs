@@ -207,7 +207,7 @@ namespace GestaoFlorestas.WebSite.Services
             }
             else throw new ExistingUserException();
 
-            terrenos.put(t);
+            terrenos.put(t); //atualiza terreno na bd
         }
 
         public int terrenosPorLimparConcelho(string username, string password)
