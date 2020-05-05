@@ -14,7 +14,7 @@ namespace GestaoFlorestas.WebSite.Models
         public Distrito distrito { get; set; }
         private TerrenoDAO terrenosCamara;
         public List<int> idsTerrenos { get; set; }
-
+        public int nif { get; set; }
 
 
 
@@ -27,13 +27,14 @@ namespace GestaoFlorestas.WebSite.Models
             
         }
 
-        public Concelho(int codigo, String nome, int area, Distrito dist, List<int> ids)
+        public Concelho(int codigo, String nome, int area, Distrito dist, int n, List<int> ids)
         {
             this.codigo = codigo;
             this.nome = nome;
             this.area = area;
             this.distrito = dist;
             this.idsTerrenos = ids;
+            this.nif = n;
             
         }
 
@@ -43,7 +44,7 @@ namespace GestaoFlorestas.WebSite.Models
             this.nome = C.getNome();
             this.area = C.getArea();
             this.distrito = C.getDistrito();
-
+            
 
         }
 
@@ -54,6 +55,8 @@ namespace GestaoFlorestas.WebSite.Models
         public int getCodigo() { return this.codigo; }
 
         public Distrito getDistrito() { return this.distrito; }
+
+        public int getNif() { return this.nif; }
 
         public void setNome(String nome) { this.nome = nome; }
 

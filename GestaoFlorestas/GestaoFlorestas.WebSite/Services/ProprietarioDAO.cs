@@ -180,6 +180,25 @@ namespace GestaoFlorestas.WebSite.Services
             return r;
         }
 
+        public bool containsByNif(String nif)
+        {
+            bool r = false;
+            string query = "Select username from proprietario " +
+                           "where nif=@nif ;";
+
+            SqlCommand cmd = new SqlCommand(query, con);
+            cmd.Parameters.AddWithValue("@nif", nif);
+
+            if (this.OpenConnection() == true)
+            {
+                var value = cmd.ExecuteScalar();
+                if (value != null) r = true;
+                else r = false;
+                this.CloseConnection();
+            }
+            return r;
+        }
+
 
         public Proprietario get(String user)
         {
@@ -285,7 +304,7 @@ namespace GestaoFlorestas.WebSite.Services
                                    "where nifProprietario=@nif ;";
 
                 cmd = new SqlCommand(query, con);
-                cmd.Parameters.AddWithValue("@nif", nif);
+                cmd.Parameters.AddWithValue("@nif", usernif);
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
 
@@ -306,6 +325,7 @@ namespace GestaoFlorestas.WebSite.Services
 
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
+                    reader.Read();
                     count = (int)reader[0];
                 }
 

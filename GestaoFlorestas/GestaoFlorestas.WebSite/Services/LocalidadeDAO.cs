@@ -89,7 +89,7 @@ namespace GestaoFlorestas.WebSite.Services
                 this.CloseConnection();
             }
         }
-        
+
         public void putConcelho(Concelho c)
         {
             String query;
@@ -334,7 +334,33 @@ namespace GestaoFlorestas.WebSite.Services
         }
 
 
+        public int numeroDeTerrenosPorLimpar(String concelho)
+        {
+            int res = 0;
 
+            string query = "Select count(*) from Terreno As T"
+                           + " JOIN Zona as Z on Z.Cod_Postal = T.Cod_Postal"
+                           + " JOIN Freguesia AS F on F.nomeFreguesia = Z.nomeFreguesia"
+                           + " where T.estado = 0 AND F.nomeConcelho = @conc ;";
+
+            SqlCommand cmd = new SqlCommand(query, con);
+            cmd.Parameters.AddWithValue("@conc", concelho);
+
+            if (this.OpenConnection() == true)
+            {
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+
+                    reader.Read();
+                    res = (int)reader[0];
+
+                }
+                this.CloseConnection();
+            }
+
+            return res;
+        }
+        
 
     }
 }

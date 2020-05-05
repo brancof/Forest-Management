@@ -1,8 +1,11 @@
 import React from 'react';
 import axios from 'axios';
+import {
+    Link
+  } from "react-router-dom";
 import './Register.css'
 
-class Login extends React.Component {
+class Register extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -65,50 +68,61 @@ class Login extends React.Component {
     validateInfo() {
         let check = ((this.state.password === this.state.passwordconfirm) 
                       && this.state.username.length > 0
+                      && this.state.username.indexOf(',') < 0
                       && this.state.password.length > 0
+                      && this.state.password.indexOf(',') < 0
                       && this.state.nome.length > 0
-                      && this.state.email.length > 0);
+                      && this.state.nome.indexOf(',') < 0
+                      && this.state.email.length > 0)
+                      && this.state.email.indexOf(',') < 0;
         
         if(this.state.accounttype === 'proprietarios')
         {
-            return (check && this.state.nif.length > 0);
+            return (check && this.state.nif.length > 0 
+                    && !isNaN(this.state.nif) 
+                    && this.state.nif.indexOf(',') < 0);
         }
         if(this.state.accounttype === 'inspetores')
         {
             return check;
         }
-        else return (check && this.state.concelho.length > 0);
+        else return (check && this.state.concelho.length > 0 && this.state.concelho.indexOf(',') < 0);
     }
 
     paramBuilder() {
-        let param;
+        //let param;
         if(this.state.accounttype === 'proprietarios')
         {
-            param = {
+            /*param = {
                 Username: this.state.username,
                 Nome: this.state.nome,
                 Mail:this.state.email,
                 Nif: this.state.nif,
                 Password: this.state.password
-              };
+              };*/
+              return this.state.username + ',' + this.state.nome + ',' + this.state.email + ',' + this.state.nif + ',' + this.state.password;
         } else if(this.state.accounttype === 'inspetores')
         {
-            param = {
+            /*param = {
                 Username: this.state.username,
                 Nome: this.state.nome,
                 Mail:this.state.email,
                 Password: this.state.password
-              };
+              };*/
+            return this.state.username + ',' + this.state.nome + ',' + this.state.email + ',' + this.state.password;
         } else {
+            /*
             param = {
-                Username: this.state.username,
                 Nome: this.state.nome,
+                Username: this.state.username,
                 Mail:this.state.email,
                 Password: this.state.password,
                 Concelho: this.state.concelho
               };
+              */
+              return this.state.nome + ',' + this.state.username + ',' + this.state.email + ',' + this.state.password + ',' + this.state.concelho;
         }
-        return param;
+        //return param;
     }
 
     handleRegisterButton(event) {
@@ -116,9 +130,18 @@ class Login extends React.Component {
         if(this.validateInfo())
         {
             this.setState({warning: false});
+            axios({
+                method: 'post',
+                url: 'https://localhost:44301/' + this.state.accounttype + '/registo',
+                data: JSON.stringify(this.paramBuilder()), 
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+                /*
             axios.get('https://localhost:44301/' + this.state.accounttype + '/registo', {
                 params: this.paramBuilder()
-            })
+            })*/
             .then(response => {
                 alert("Utilizador registado!");
             }) 
@@ -188,10 +211,10 @@ class Login extends React.Component {
                                         </label>
                                     </div>
                                     <div className="form-group">
-                                        <p>{this.state.warning ? 'Preencha todos os campos e confirme as passwords.' : ''}</p>
+                                        <p>{this.state.warning ? 'Preencha todos os campos com informação válida e confirme as passwords.' : ''}</p>
                                     </div>
                                     <input className="btn login-btn btn-success btn-sm" type='submit' onClick={this.handleRegisterButton} value="Registar" />
-                                    <input className="btn login-btn btn-success btn-sm" type='button' value="Voltar" />
+                                    <Link to="/login"><input className="btn login-btn btn-success btn-sm" type='button' value="Voltar" /></Link>
 
                                 </form>
                             </div>
@@ -204,4 +227,4 @@ class Login extends React.Component {
     }
 }
 
-export default Login;
+export default Register;

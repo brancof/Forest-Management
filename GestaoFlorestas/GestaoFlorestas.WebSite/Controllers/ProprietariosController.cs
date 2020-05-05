@@ -51,7 +51,7 @@ namespace GestaoFlorestas.WebSite.Controllers
         public ActionResult GetL([FromQuery] string Username,
                                 [FromQuery] string Password)
         {
-            Object p;
+            object p;
             try
             {
                 p = this.GestaoFlorestasService.loginProprietario(Username, Password);
@@ -117,7 +117,7 @@ namespace GestaoFlorestas.WebSite.Controllers
                 return Unauthorized();
             }
 
-            List<Terreno> result = this.GestaoFlorestasService.terrenosDoProprietario(p);
+            Object result = this.GestaoFlorestasService.terrenosDoProprietario(p);
 
 
             return new JsonResult(result);
@@ -152,7 +152,7 @@ namespace GestaoFlorestas.WebSite.Controllers
         [Route("Terrenos/Concelho")]
         [HttpGet]
         public ActionResult GetTerrenoConcelho([FromQuery] string Username,
-                                        [FromQuery] string Password, [FromQuery] string IdTerreno)
+                                               [FromQuery] string Password, [FromQuery] string IdTerreno)
         {
             Proprietario p;
 
@@ -195,10 +195,10 @@ namespace GestaoFlorestas.WebSite.Controllers
                 return Unauthorized();
             }
 
-            List<Terreno> result = this.GestaoFlorestasService.terrenosDoProprietario(p);
+           
 
 
-            return new JsonResult(result);
+            return new JsonResult(p);
         }
 
 
@@ -254,6 +254,24 @@ namespace GestaoFlorestas.WebSite.Controllers
 
 
             return new JsonResult(result);
+        }
+
+        [Route("Notificacoes/Ler")]
+        [HttpPut]
+        public ActionResult AtualizaNotifications([FromBody] string body)//body: "username,password"
+        {
+            string[] campos = body.Split(',');
+            try
+            {
+                this.GestaoFlorestasService.visualizarNotificacoesProp(campos[0], campos[1]);
+
+            }
+            catch (ExistingUserException e)
+            {
+                return Unauthorized();
+            }
+            return Ok();
+
         }
 
     }
