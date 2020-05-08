@@ -3,6 +3,7 @@ import axios from 'axios';
 import {
     Link
   } from "react-router-dom";
+import Maps from './Maps';
 import './Proprietarios.css'
 
 class Proprietarios extends React.Component {
@@ -95,9 +96,10 @@ class Proprietarios extends React.Component {
 
         //alert(this.state.checked);
     }
-    
+
+
     render() {
-        
+
         return (
             <div className="container login-container">
                 <div className="row">
@@ -119,8 +121,9 @@ class Proprietarios extends React.Component {
                                         </tbody>
                                     </table>
                                     <input className="btn btn-success btn-sm btn-add-prop" type='submit' onClick={this.handleChangeTerreno} value="Alterar Estado" />
-                                    <p className="linktext">Opções</p>
-                                    <p className="linktext">Logout</p>
+                                    <div className="map-container">
+                                        <Maps /> 
+                                    </div>
                                 </div>
                             </div>
                         </div>

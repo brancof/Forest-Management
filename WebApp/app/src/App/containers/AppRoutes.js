@@ -10,6 +10,7 @@ import Login from './Login';
 import Register from './Register';
 import Proprietarios from './Proprietarios';
 import Inspetores from './Inspetores';
+import Navbar from './Navbar';
 
 class AppRoutes extends React.Component {
     constructor(props) {
@@ -51,7 +52,6 @@ class AppRoutes extends React.Component {
     render() {
         return (
           <div className="AppRouter">
-
         
             <Switch>        
               <Route path="/login">
@@ -65,7 +65,7 @@ class AppRoutes extends React.Component {
                 <Register />
               </Route>
               <Route path="/proprietarios">
-                {!(this.state.username === '') ? <Proprietarios user={this.state.user} username={this.state.username} password={this.state.password} />
+                {!(this.state.username === '') ? <div><Navbar /> <Proprietarios user={this.state.user} username={this.state.username} password={this.state.password} /> </div>
                 : <Redirect to="/" />}
               </Route> 
               <Route path="/inspetores">
