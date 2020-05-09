@@ -52,8 +52,8 @@ class AppRoutes extends React.Component {
     render() {
         return (
           <div className="AppRouter">
-        
-            <Switch>        
+            <Navbar /> 
+            <Switch>          
               <Route path="/login">
                 {this.state.username === '' ? <Login change={{username: this.setUsername, 
                                                             password: this.setPassword, 
@@ -65,7 +65,7 @@ class AppRoutes extends React.Component {
                 <Register />
               </Route>
               <Route path="/proprietarios">
-                {!(this.state.username === '') ? <div><Navbar /> <Proprietarios user={this.state.user} username={this.state.username} password={this.state.password} /> </div>
+                {!(this.state.username === '') ? <Proprietarios user={this.state.user} username={this.state.username} password={this.state.password} />
                 : <Redirect to="/" />}
               </Route> 
               <Route path="/inspetores">
