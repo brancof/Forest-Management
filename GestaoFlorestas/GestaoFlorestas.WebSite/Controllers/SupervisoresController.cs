@@ -119,6 +119,24 @@ namespace GestaoFlorestas.WebSite.Controllers
         }
 
 
+        [Route("AgendarInspecao")]
+        [HttpPost]
+        public ActionResult AgendarInspecao([FromBody] string body) //body "username,password,codPostaldaZona"
+        {
+            string[] campos = body.Split();
+
+            try
+            {
+                this.GestaoFlorestasService.agendarInspecao(campos[0], campos[1], campos[2]));
+            }
+            catch (ExistingUserException e)
+            {
+                return Unauthorized();
+            }
+            return Ok();
+
+        }
+
 
 
     }

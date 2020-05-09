@@ -264,6 +264,44 @@ namespace GestaoFlorestas.WebSite.Services
         }
 
 
+        public void agendarInspecao(string username, string password, string codPostal)
+        {
+            Supervisor_Concelho p;
+            if (supervisores.contains(username))
+            {
+
+                if (this.supervisores.verificarPassword(password, username))
+                {
+                    p = supervisores.get(username);
+                }
+                else throw new ExistingUserException();
+            }
+            else throw new ExistingUserException();
+            Zona z = this.zonas.get(codPostal);
+            string concelhoZ = z.getConcelho();
+            string inspetor = z.getInspetor();
+
+            if (concelhoZ.Equals(p.getConcelho()))
+            {
+                List<int> terrenos = this.zonas.getTerrenos(codPostal);
+                
+                for(int i = 0; i < terrenos.Count; i++)
+                {
+                    Inspecao insp = new Inspecao(terrenos[i], inspetor, 0, "", DateTime.UtcNow);
+                    this.inspetores.putInspecaoNova(insp);
+                }
+
+
+                //Notificacao n = new Notificacao(conteudo, false, usernameTrabalhador, "Trabalhador", DateTime.UtcNow); //objeto representante da notificacao
+                //this.notifications.put(n); //adiciona a notificacao à bd
+
+            }
+
+            else throw new ExistingUserException();
+
+        }
+
+
 
 
         //---------------------------------------------Trabalhadores----------------------------------------------------------------

@@ -15,6 +15,8 @@ namespace GestaoFlorestas.WebSite.Models
         public List<int> terrenosAInspecionar { get; set; }
         private TerrenoDAO terrenos;
         public int notificacoesPorLer { get; set; }
+        public Double latitude { get; set; }
+        public Double longitude { get; set; }
 
         private NotificacaoDAO notificacoes;
 
@@ -82,5 +84,7 @@ namespace GestaoFlorestas.WebSite.Models
         public void setTerrenosAInspecionar(List<int> terr) { this.terrenosAInspecionar = terr; }
         public void setNNotificacoes(int n) { this.notificacoesPorLer = n; }
 
+        public Double getLatitude() { return this.latitude; }
+        public Double getLongitude() { return this.longitude; }
     }
 }

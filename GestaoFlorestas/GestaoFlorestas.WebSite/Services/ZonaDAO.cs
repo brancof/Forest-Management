@@ -146,5 +146,12 @@ namespace GestaoFlorestas.WebSite.Services
             return null;
         }
 
+
+        public List<int> getTerrenos(string codPostal)
+        {
+            List<int> res = new List<int>();
+            return res;
+        }
+
     }
 }

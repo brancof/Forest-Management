@@ -355,6 +355,61 @@ namespace GestaoFlorestas.WebSite.Services
             }
             return null;
         }
+
+        public List<Terreno> getTerrenosPendentes(String inspetor)
+        {
+            List<Terreno> insp = new List<Terreno>();
+
+            Boolean estadoLimpeza = false;
+            int id_Terreno = 0;
+            Double area = 0;
+            Decimal latitude = 0;
+            Decimal longitude = 0;
+            String proprietario = "";
+            String cod_postal = "";
+            String nif = "";
+            String morada = "";
+            int nivelPrioridade = 0;
+
+
+            string query =  "Select T.idTerreno, T.estado, T.area, T.Cod_Postal, T.Proprietario, T.latitude, T.longitude, T.nifProprietario from Inspecao As I" +
+                            " Join Terreno As T on T.idTerreno= I.idTerreno" +
+                            " JOIN Zona as Z on Z.Cod_Postal = T.Cod_Postal " +
+                            " JOIN Freguesia AS F on F.nomeFreguesia = Z.nomeFreguesia " +
+                            " Join Concelho AS C on C.nomeConcelho = F.nomeConcelho " +
+                            " where estadoInspecao= 'Em espera' AND idInspetor = @inspetor ;";
+
+
+           SqlCommand cmd = new SqlCommand(query, con);
+            cmd.Parameters.AddWithValue("@inspetor", inspetor);
+
+            if (this.OpenConnection() == true)
+            {
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+
+                    while (reader.Read())
+                    {
+                        id_Terreno = (int)reader[0];
+                        estadoLimpeza = ((int)reader[1]) != 0;
+                        area = ((int)reader[2]);
+                        cod_postal = ((String)reader[3]);
+                        proprietario = ((String)reader[4]);
+                        latitude = (Decimal)reader[5];
+                        longitude = (Decimal)reader[6];
+                        nif = "" + ((int)reader[7]);
+                        morada = ((String)reader[8]) + ", " + ((String)reader[9]) + ", " + ((String)reader[10]);
+
+                        insp.Add(new Terreno(estadoLimpeza, id_Terreno, area, Decimal.ToDouble(latitude), Decimal.ToDouble(longitude), proprietario, cod_postal, nif, morada, nivelPrioridade));
+
+                    }
+                }
+                this.CloseConnection();
+                return insp;
+            }
+            return null;
+        }
+
     }
 }
 

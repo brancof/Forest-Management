@@ -68,12 +68,22 @@ namespace GestaoFlorestas.WebSite.Models
         public void setLatitude(Double latitude) { this.latitude = latitude; }
 
         public void setLongitude(Double longitude) { this.longitude = longitude; }
-        
+
         public void setNomeFreguesia(String nome) { this.nomeFreguesia = nome; }
 
         public Freguesia getFreguesiaObject()
         {
             return this.freguesia.getFreguesia(this.nomeFreguesia);
+        }
+
+        public string getConcelho()
+        {
+            return this.freguesia.getFreguesia(this.nomeFreguesia).getConcelho();
+        }
+
+        public string getInspetor()
+        {
+            return this.freguesia.getFreguesia(this.nomeFreguesia).getCodInsp();
         }
     }
 }

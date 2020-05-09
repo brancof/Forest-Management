@@ -19,6 +19,7 @@ namespace GestaoFlorestas.WebSite.Models
         public List<Inspecao> inspecoes { get; set; }
         public String nif { get; set; }
         public string morada { get; set; }
+        private int nivelPrioridade;
 
         public Terreno()
         {
@@ -47,6 +48,23 @@ namespace GestaoFlorestas.WebSite.Models
             this.proprietario = pro;
             this.morada = mor;
         }
+
+        public Terreno(Boolean estadoLimpeza, int id_Terreno, Double area, Double latitude, Double longitude, String pro, String codPostal, String nif, String mor, int prioridade)
+        {
+            this.estadoLimpeza = estadoLimpeza;
+            this.id_Terreno = id_Terreno;
+            this.area = area;
+            this.latitude = latitude;
+            this.longitude = longitude;
+            this.cod_postal = codPostal;
+            this.inspecoes = new List<Inspecao>();
+            this.nif = nif;
+            this.zona = new ZonaDAO();
+            this.proprietario = pro;
+            this.morada = mor;
+            this.nivelPrioridade = prioridade;
+        }
+
 
         public Terreno(Terreno t)
         {
@@ -80,6 +98,8 @@ namespace GestaoFlorestas.WebSite.Models
         public String getNif() { return this.nif; }
 
         public String getProprietario() { return this.proprietario; }
+
+        public int getNivelPrioridade() { return this.nivelPrioridade; }
 
         public void setEstadoLimpeza(Boolean estadoLimpeza) { this.estadoLimpeza = estadoLimpeza; }
 
