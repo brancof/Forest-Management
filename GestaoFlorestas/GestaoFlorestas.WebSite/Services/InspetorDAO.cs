@@ -138,12 +138,12 @@ namespace GestaoFlorestas.WebSite.Services
             if (contains(i.getUsername()))
             {
                 j = 0;
-                query = "UPDATE Inspetor SET nome=@nome,email=@email WHERE username=@username ;";
+                query = "UPDATE Inspetor SET nome=@nome,email=@email, latitude=@lat, longitude=@long WHERE username=@username ;";
             }
             else
             {
                 j = 1;
-                query = "INSERT INTO Inspetor VALUES(@username,@password,@nome,@email,@salt);";
+                query = "INSERT INTO Inspetor VALUES(@username,@password,@nome,@email,@salt,@lat,@long);";
                 salt = Convert.ToBase64String(createSalt());
                 password = creatHash(i.getPassword(), salt);
             }
@@ -153,6 +153,8 @@ namespace GestaoFlorestas.WebSite.Services
             if (j == 1) cmd.Parameters.AddWithValue("@password", password);
             if (j == 1) cmd.Parameters.AddWithValue("@salt", salt);
             cmd.Parameters.AddWithValue("@nome", i.getNome());
+            cmd.Parameters.AddWithValue("@lat", i.getLatitude());
+            cmd.Parameters.AddWithValue("@long", i.getLongitude());
 
             if (this.OpenConnection() == true)
             {
@@ -178,6 +180,28 @@ namespace GestaoFlorestas.WebSite.Services
             this.CloseConnection();
             }
         }
+
+        public void AtualizarCoordenadas(String username, Double latitude, Double longitude)
+        {
+            String query;
+
+            query = "UPDATE Inspetor SET latitude=@lat, longitude=@long WHERE username=@username ;";
+
+            SqlCommand cmd = new SqlCommand(query, con);
+            cmd.Parameters.AddWithValue("@lat", latitude);
+            cmd.Parameters.AddWithValue("@long",longitude);
+            cmd.Parameters.AddWithValue("@username", username);
+
+
+            if (this.OpenConnection() == true)
+            {
+                int r = cmd.ExecuteNonQuery();
+                this.CloseConnection();
+            }
+
+
+        }
+
 
         public void putInspecaoNova(Inspecao i)
         {
@@ -270,6 +294,8 @@ namespace GestaoFlorestas.WebSite.Services
             String password = "";
             String nome = "";
             String email = "";
+            Decimal latitude = 0;
+            Decimal longitude = 0;
             List<int> terrenosAInspecionar = new List<int>();
 
             string query = "Select * from Inspetor " +
@@ -288,6 +314,8 @@ namespace GestaoFlorestas.WebSite.Services
                     password = (String)reader[1];
                     nome = (String)reader[2];
                     email = (String)reader[3];
+                    latitude = (Decimal)reader[4];
+                    longitude = (Decimal)reader[5];
 
                 }
 
@@ -322,7 +350,7 @@ namespace GestaoFlorestas.WebSite.Services
                     count = (int)reader[0];
                 }
                 this.CloseConnection();
-                return new Inspetor(nome, username, email, password, count, terrenosAInspecionar);
+                return new Inspetor(nome, username, email, password, count, Decimal.ToDouble(latitude), Decimal.ToDouble(longitude),  terrenosAInspecionar);
             }
             return null;
         }

@@ -33,12 +33,14 @@ namespace GestaoFlorestas.WebSite.Models
 
         }
 
-        public Inspetor(String nome, String username, String email, String password, int notificacoes, List<int> terrenosAInspec)
+        public Inspetor(String nome, String username, String email, String password, int notificacoes, Double latitude, Double longitude, List<int> terrenosAInspec)
         {
             this.nome = nome;
             this.username = username;
             this.email = email;
             this.password = password;
+            this.latitude = latitude;
+            this.longitude = longitude;
             this.terrenosAInspecionar = terrenosAInspec;
             this.terrenos = new TerrenoDAO();
             this.notificacoes = new NotificacaoDAO();
@@ -46,12 +48,14 @@ namespace GestaoFlorestas.WebSite.Models
 
         }
 
-        public Inspetor(String nome, String username, String email, String password, int notificacoes)
+        public Inspetor(String nome, String username, String email, String password, int notificacoes, Double latitude, Double longitude)
         {
             this.nome = nome;
             this.username = username;
             this.password = password;
             this.email = email;
+            this.latitude = latitude;
+            this.longitude = longitude;
             this.terrenosAInspecionar = new List<int>();
             this.terrenos = new TerrenoDAO();
             this.notificacoes = new NotificacaoDAO();
@@ -65,6 +69,8 @@ namespace GestaoFlorestas.WebSite.Models
             this.username = I.getUsername();
             this.password = I.getPassword();
             this.email = I.getEmail();
+            this.latitude = I.getLatitude();
+            this.longitude = I.getLongitude();
             this.terrenos = new TerrenoDAO();
             this.terrenosAInspecionar = I.getTerrenosAInspecionar();
             this.notificacoes = new NotificacaoDAO();

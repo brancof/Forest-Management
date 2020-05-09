@@ -150,7 +150,26 @@ namespace GestaoFlorestas.WebSite.Services
         public List<int> getTerrenos(string codPostal)
         {
             List<int> res = new List<int>();
-            return res;
+            string query = "Select idTerreno from Terreno " +
+                               "where Cod_Postal=@cod ;";
+
+            SqlCommand cmd = new SqlCommand(query, con);
+            cmd.Parameters.AddWithValue("@cod", codPostal);
+
+            if (this.OpenConnection() == true)
+            {
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+
+                    while(reader.Read()){
+                        res.Add((int)reader[0]);
+                    }                   
+                }
+                this.CloseConnection();
+                return res;
+            }
+
+            return null;
         }
 
     }
