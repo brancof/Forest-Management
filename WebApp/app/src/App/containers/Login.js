@@ -1,6 +1,9 @@
 import React from 'react';
 import axios from 'axios';
-import './Login.css'
+import {
+    Link
+  } from "react-router-dom";
+import './Login.css';
 
 class Login extends React.Component {
     constructor(props) {
@@ -8,6 +11,8 @@ class Login extends React.Component {
         this.state = {
             username: '',
             password: '',
+            warning: '',
+            wrongwarning: '',
             accounttype: 'proprietarios'
         };
 
@@ -15,10 +20,10 @@ class Login extends React.Component {
         this.handleChangePassword = this.handleChangePassword.bind(this);
         this.handleChangeUsername = this.handleChangeUsername.bind(this);
         this.handleChangeDropdown = this.handleChangeDropdown.bind(this);
+        this.validateLogin = this.validateLogin.bind(this);
     }
 
     componentDidMount() {
-
     }
 
     handleChangePassword(event) {
@@ -33,22 +38,36 @@ class Login extends React.Component {
         this.setState({accounttype: event.target.value});
     }
 
+    validateLogin(event) {
+        return this.state.username.length > 0 && this.state.password.length > 0;
+    }
+
     handleLoginButton(event) {
-        //alert(this.state.email);
+        if(this.validateLogin())
+        {
+            this.setState({warning: false});
+            this.setState({wrongwarning: false});
             axios.get('https://localhost:44301/' + this.state.accounttype + '/login', {
-            params: {
-                Username: this.state.username,
-                Password: this.state.password
-            }
-        })
-        .then(response => {
-            alert("Login efectuado com successo.");
-            console.log(response);
-        }) 
-        .catch(response => {
-            alert("Username já existente.");
-            console.log(response);
-        })
+                params: {
+                    Username: this.state.username,
+                    Password: this.state.password
+                }
+            })
+            .then(response => {
+                //alert("Login efectuado com successo.");
+                this.props.change.password(this.state.password);
+                this.props.change.accounttype(this.state.accounttype);
+                this.props.change.username(this.state.username);
+                this.props.change.user(response.data);
+            }) 
+            .catch(response => {
+                //alert("Username ou password incorrectos.");
+                this.setState({wrongwarning: true});
+                console.log(response);
+            })
+        } else {
+            this.setState({warning: true});
+        }
 
         event.preventDefault();
     }
@@ -82,8 +101,12 @@ class Login extends React.Component {
                                             </select>
                                         </label>
                                     </div>
+                                    <div className="form-group">
+                                        <p>{this.state.warning ? 'Campo username/password vazio.' : ''}</p>
+                                        <p>{this.state.wrongwarning ? 'Username/password incorretos.' : ''}</p>
+                                    </div>
                                     <input className="btn login-btn btn-success btn-sm" type='submit' onClick={this.handleLoginButton} value="Login" />
-                                    <input className="btn login-btn btn-success btn-sm" type='button' value="Registar" />
+                                    <Link to="/registo"><input className="btn login-btn btn-success btn-sm" type='button' value="Registar" /></Link>
                                 </form>
                             </div>
                         </div>
