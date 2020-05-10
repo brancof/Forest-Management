@@ -14,19 +14,6 @@ class Maps extends React.Component {
             center: {
                 lat:41.5618, lng:-8.29563
             },
-            AllPlaces: [
-                {
-                    name : "morada1",
-                    lat: 41.7589,
-                    lng:-8.329851,
-                },
-            
-                {
-                    name : "morada2",
-                    lat: 41.7690,
-                    lng:-8.329952,
-                }
-            ]
         }
 
         this.onMapClicked = this.onMapClicked.bind(this);
@@ -69,8 +56,9 @@ class Maps extends React.Component {
                 onClick={this.onMapClicked}
                 style={{height: '25%', width: '80%'}}
                 >
-                {this.state.AllPlaces.map((marker, i) =>
+                {this.props.mapInfo.map((marker, i) =>
                     <Marker
+                        key={i}
                         ref={(e) => {if (e) this.markers[i] = e.marker}}
                         onClick={this.onMarkerClick}
                         title = {marker.name}

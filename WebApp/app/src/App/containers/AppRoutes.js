@@ -52,7 +52,6 @@ class AppRoutes extends React.Component {
     render() {
         return (
           <div className="AppRouter">
-            <Navbar /> 
             <Switch>          
               <Route path="/login">
                 {this.state.username === '' ? <Login change={{username: this.setUsername, 
@@ -65,6 +64,10 @@ class AppRoutes extends React.Component {
                 <Register />
               </Route>
               <Route path="/proprietarios">
+                <Navbar change={{username: this.setUsername, 
+                            password: this.setPassword, 
+                            accounttype: this.setType,
+                            user: this.setUser}}/> 
                 {!(this.state.username === '') ? <Proprietarios user={this.state.user} username={this.state.username} password={this.state.password} />
                 : <Redirect to="/" />}
               </Route> 

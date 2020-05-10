@@ -8,7 +8,15 @@ import {
     constructor(props) {
         super(props);
 
+            this.logoutClick = this.logoutClick.bind(this);
         };
+
+        logoutClick()
+        {
+            this.props.change.password('');
+            this.props.change.username('');
+            this.props.change.user('');
+        }
 
         render() {
             return (
@@ -20,7 +28,7 @@ import {
                     <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
                         <div className="navbar-nav">
                             <a className="nav-item nav-link">Opções</a>
-                            <a className="nav-item nav-link">Logout</a>
+                            <Link to="/login"><a className="nav-item nav-link" onClick={this.logoutClick}>Logout</a></Link>
                         </div>                   
                     </div>
                 </nav>

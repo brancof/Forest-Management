@@ -11,6 +11,7 @@ class Proprietarios extends React.Component {
         super(props);
         this.state = {
             terrenos: '',
+            mapInfo: [],
             checked: []
         };
 
@@ -53,8 +54,17 @@ class Proprietarios extends React.Component {
                 console.log(response.data);
                 response.data.map((terreno, index) => {
                     this.state.checked[index]=false;
-                }
-                );
+                });
+                var mapterr = [];
+                response.data.map((terreno, index) => {
+                    mapterr[index]={
+                        name : terreno.morada,
+                        lat: terreno.latitude,
+                        lng: terreno.longitude,
+                    };
+                });
+                this.setState({mapInfo: mapterr});
+                
                 //this.forceUpdate();
             }) 
             .catch(response => {
@@ -122,7 +132,7 @@ class Proprietarios extends React.Component {
                                     </table>
                                     <input className="btn btn-success btn-sm btn-add-prop" type='submit' onClick={this.handleChangeTerreno} value="Alterar Estado" />
                                     <div className="map-container">
-                                        <Maps /> 
+                                        <Maps mapInfo={this.state.mapInfo}/>
                                     </div>
                                 </div>
                             </div>
