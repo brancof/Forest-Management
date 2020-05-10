@@ -58,5 +58,48 @@ namespace GestaoFlorestas.WebSite.Controllers
             //Response.Cookies.Append("UserCookie", "I" + Username);//colocar aqui o cookie.
             return Ok();
         }
+
+        [Route("Realizarinspecao")]
+        [HttpPut]
+        public ActionResult RealizarInspecao([FromBody] string body) // body "username|password|resultado|relatorio|idTerreno
+        {
+
+            string[] campos = body.Split('|');
+            double res = 0;
+
+            try
+            {
+                res = this.GestaoFlorestasService.realizarInspecao(campos[0], campos[1], Int32.Parse(campos[2]), campos[3], Int32.Parse(campos[4]));
+            }
+            catch (ExistingUserException e)
+            {
+                return Unauthorized();
+            }
+
+
+            //Response.Cookies.Append("UserCookie", "I" + Username);//colocar aqui o cookie.
+            return new JsonResult(res);
+        }
+
+        [Route("Sugestaoinspecao")]
+        [HttpGet]
+        public ActionResult Inspecao([FromBody] string body) // body "username|password"
+        {
+            object result = null;
+
+            string[] campos = body.Split('|');
+            try
+            {
+                result = this.GestaoFlorestasService.getSugestaoInspecao(campos[0], campos[1]);
+            }
+            catch (ExistingUserException e)
+            {
+                return Unauthorized();
+            }
+
+
+            //Response.Cookies.Append("UserCookie", "I" + Username);//colocar aqui o cookie.
+            return new JsonResult(result);
+        }
     }
 }

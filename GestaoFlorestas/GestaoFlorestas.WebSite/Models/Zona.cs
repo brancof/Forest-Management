@@ -34,6 +34,7 @@ namespace GestaoFlorestas.WebSite.Models
             this.latitude = latitude;
             this.longitude = longitude;
             this.nomeFreguesia = freguesia;
+            this.freguesia = new LocalidadeDAO();
         }
 
         public Zona(Zona Z)
@@ -84,6 +85,15 @@ namespace GestaoFlorestas.WebSite.Models
         public string getInspetor()
         {
             return this.freguesia.getFreguesia(this.nomeFreguesia).getCodInsp();
+        }
+
+
+        public int getNivelCriticoReal()
+        {
+            if (this.nivelCritico <= 0.02) return 1;
+            if (this.nivelCritico <= 0.07) return 2;
+            if (this.nivelCritico <= 0.15) return 3;
+            return 4;
         }
     }
 }

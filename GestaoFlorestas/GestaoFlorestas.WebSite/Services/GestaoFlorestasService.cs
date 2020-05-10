@@ -147,6 +147,107 @@ namespace GestaoFlorestas.WebSite.Services
             else throw new ExistingUserException();
         }
 
+
+
+        public Double realizarInspecao(string username, string password, int resultado, string relatorio, int idTerreno)
+        {
+            Inspetor i;
+            Double res = 0;
+            if (inspetores.contains(username))
+            {
+
+                if (this.inspetores.verificarPassword(password, username))
+                {
+                    i = inspetores.get(username);
+                }
+                else throw new ExistingUserException();
+            }
+            else throw new ExistingUserException();
+
+            if (i.containsTerreno(idTerreno))
+            {
+                terrenos.limpezaTerreno(idTerreno, resultado);
+                Terreno t = terrenos.get(idTerreno);
+                string prop = t.getProprietario();
+                if (proprietarios.contains(prop))
+                {
+                    if (resultado == 0)
+                    {
+                        string conteudo = "O seu terreno com a morada " + t.getMorada() + " foi inspecionado e foi reprovado. Solicita-se que realize uma limpeza mais profunda. Pode obter mais detalhes consultando a inspeçoes realizadas aos seu terrenos."; //conteudo da notificação
+                        Notificacao n = new Notificacao(conteudo, false, prop, "Proprietario", DateTime.UtcNow); //objeto representante da notificacao
+                        this.notifications.put(n); //adiciona a notificacao à bd
+                    }
+                    else if (resultado == 1)
+                    {
+                        string conteudo = "O seu terreno com a morada " + t.getMorada() + " foi inspecionado e passou com distinção. Pode obter mais detalhes consultando a inspeçoes realizadas aos seu terrenos."; //conteudo da notificação
+                        Notificacao n = new Notificacao(conteudo, false, prop, "Proprietario", DateTime.UtcNow); //objeto representante da notificacao
+                        this.notifications.put(n); //adiciona a notificacao à bd
+                    }
+
+                }
+
+                Inspecao inspec = new Inspecao(idTerreno, username, resultado, relatorio, DateTime.UtcNow);
+                res = t.getLatitude();
+                inspetores.AtualizarCoordenadas(username, t.getLatitude(), t.getLongitude());
+
+                inspetores.putInspecaoRealizada(inspec);
+            }
+            else throw new ExistingUserException();
+
+
+            return res;
+
+
+        }
+
+
+        public Terreno getSugestaoInspecao(string username, string password)
+        {
+            Inspetor i;
+            Terreno res = null;
+            if (inspetores.contains(username))
+            {
+                if (this.inspetores.verificarPassword(password, username))
+                {
+                    i = inspetores.get(username);
+                }
+                else throw new ExistingUserException();
+            }
+            else throw new ExistingUserException();
+
+            List<Terreno> t = inspetores.getTerrenosPendentes(i.getUsername());
+
+            double nivelPrioridade = 0;
+            int index = -1;
+            for (int j = 0; j < t.Count(); j++)
+            {
+                Terreno te = t[j];
+                Double dist;
+                Double l1 = i.getLatitude() * Math.PI / 180;
+                Double l2 = te.getLatitude() * Math.PI / 180;
+                Double lo1 = i.getLongitude() * Math.PI / 180;
+                Double lo2 = te.getLongitude() * Math.PI / 180;
+                dist = 6371 * Math.Acos(Math.Cos(l1) * Math.Cos(l2) * Math.Cos(lo2 - lo1) + Math.Sin(l1) * Math.Sin(l2));
+                if (dist != 0)
+                {
+                    int nCritico = te.nivelCritico();
+                    double np = (nCritico * nCritico * nCritico) / dist;
+                    if (np > nivelPrioridade)
+                    {
+                        index = j;
+                        nivelPrioridade = np;
+                    }
+                }
+
+            }
+
+            res = t[index];
+
+
+
+            return res;
+        }
+
         //----------------------------------------------Supervisores----------------------------------------
 
         public void registoSupervisor(String nome, String username, String mail, String password, String concelho)
@@ -278,7 +379,9 @@ namespace GestaoFlorestas.WebSite.Services
             }
             else throw new ExistingUserException();
             Zona z = this.zonas.get(codPostal);
+
             string concelhoZ = z.getConcelho();
+
             string inspetor = z.getInspetor();
 
             if (concelhoZ.Equals(p.getConcelho()))
@@ -405,11 +508,7 @@ namespace GestaoFlorestas.WebSite.Services
         }
 
 
-        public void realizarInspecao (int terreno, String inspetor, int resultado, String relatorio)
-        {
-            Inspecao i = new Inspecao(terreno, inspetor, resultado, relatorio, DateTime.UtcNow);
-            inspetores.putInspecaoRealizada(i);
-        }
+        
 
 
 

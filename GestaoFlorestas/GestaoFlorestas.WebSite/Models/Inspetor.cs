@@ -63,6 +63,19 @@ namespace GestaoFlorestas.WebSite.Models
 
         }
 
+        public Inspetor(String nome, String username, String email, String password, int notificacoes) { 
+            this.nome = nome;
+            this.username = username;
+            this.password = password;
+            this.email = email;
+            
+            this.terrenosAInspecionar = new List<int>();
+            this.terrenos = new TerrenoDAO();
+            this.notificacoes = new NotificacaoDAO();
+            this.notificacoesPorLer = notificacoes;
+
+        }
+
         public Inspetor(Inspetor I)
         {
             this.nome = I.getNome();
@@ -92,5 +105,11 @@ namespace GestaoFlorestas.WebSite.Models
 
         public Double getLatitude() { return this.latitude; }
         public Double getLongitude() { return this.longitude; }
+
+
+        public bool containsTerreno(int idTerreno)
+        {
+            return this.terrenosAInspecionar.Contains(idTerreno);
+        }
     }
 }

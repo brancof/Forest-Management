@@ -208,14 +208,15 @@ namespace GestaoFlorestas.WebSite.Services
             String query;
             if (!containsInspecao(i.getInspetor(), i.getTerreno()))
             {
-                query = "INSERT INTO Inspecao VALUES(@idTerreno,@idInspetor,@resultado,@relatorio,@estado);";
+                query = "INSERT INTO Inspecao VALUES(@idTerreno,@idInspetor,@resultado,@relatorio,@estado,@data);";
 
                 SqlCommand cmd = new SqlCommand(query, con);
                 cmd.Parameters.AddWithValue("@idTerreno", i.getTerreno());
                 cmd.Parameters.AddWithValue("@idInspetor", i.getInspetor());
                 cmd.Parameters.AddWithValue("@resultado", i.getResultado());
                 cmd.Parameters.AddWithValue("@relatorio", i.getRelatorio());
-                cmd.Parameters.AddWithValue("@estado", "A espera");
+                cmd.Parameters.AddWithValue("@estado", "Em espera");
+                cmd.Parameters.AddWithValue("@data", i.getDate());
 
                 if (this.OpenConnection() == true)
                 {
@@ -229,20 +230,24 @@ namespace GestaoFlorestas.WebSite.Services
         public void putInspecaoRealizada(Inspecao i)
         {
             String query;
-            if (!containsInspecao(i.getInspetor(), i.getTerreno()))
+
+            query = "Update Inspecao Set resultado=@resultado,relatorio=@relatorio,estadoInspecao='Realizada',dataHora = @data where idInspetor = @idI AND idTerreno = @idT;";
+
+            SqlCommand cmd = new SqlCommand(query, con);
+            cmd.Parameters.AddWithValue("@resultado", i.getResultado());
+            cmd.Parameters.AddWithValue("@relatorio", i.getRelatorio());
+            cmd.Parameters.AddWithValue("@data", i.getDate());
+            cmd.Parameters.AddWithValue("@idI", i.getInspetor());
+            cmd.Parameters.AddWithValue("@idT", i.getTerreno());
+
+
+
+            if (this.OpenConnection() == true)
             {
-                query = "Update Inspecao Set resultado=@resultado,relatorio=@relatorio,estadoInspecao='Realizada');";
-
-                SqlCommand cmd = new SqlCommand(query, con);
-                cmd.Parameters.AddWithValue("@resultado", i.getResultado());
-                cmd.Parameters.AddWithValue("@relatorio", i.getRelatorio());
-
-                if (this.OpenConnection() == true)
-                {
-                    int r = cmd.ExecuteNonQuery();
-                    this.CloseConnection();
-                }
+                int r = cmd.ExecuteNonQuery();
+                this.CloseConnection();
             }
+
 
         }
 
@@ -313,9 +318,9 @@ namespace GestaoFlorestas.WebSite.Services
 
                     password = (String)reader[1];
                     nome = (String)reader[2];
-                    email = (String)reader[3];
-                    latitude = (Decimal)reader[4];
-                    longitude = (Decimal)reader[5];
+                    email = (String)reader[3];                    
+                    latitude = (Decimal)reader[5];
+                    longitude = (Decimal)reader[6];
 
                 }
 
@@ -400,7 +405,7 @@ namespace GestaoFlorestas.WebSite.Services
             int nivelPrioridade = 0;
 
 
-            string query =  "Select T.idTerreno, T.estado, T.area, T.Cod_Postal, T.Proprietario, T.latitude, T.longitude, T.nifProprietario from Inspecao As I" +
+            string query = "Select T.idTerreno, T.estado, T.area, T.Cod_Postal, T.Proprietario, T.latitude, T.longitude, T.nifProprietario,F.nomeFreguesia, C.nomeConcelho, C.nomeDistrito from Inspecao As I" +
                             " Join Terreno As T on T.idTerreno= I.idTerreno" +
                             " JOIN Zona as Z on Z.Cod_Postal = T.Cod_Postal " +
                             " JOIN Freguesia AS F on F.nomeFreguesia = Z.nomeFreguesia " +
@@ -422,7 +427,7 @@ namespace GestaoFlorestas.WebSite.Services
                         estadoLimpeza = ((int)reader[1]) != 0;
                         area = ((int)reader[2]);
                         cod_postal = ((String)reader[3]);
-                        proprietario = ((String)reader[4]);
+                        proprietario = reader[4].ToString();
                         latitude = (Decimal)reader[5];
                         longitude = (Decimal)reader[6];
                         nif = "" + ((int)reader[7]);

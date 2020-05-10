@@ -181,25 +181,7 @@ namespace GestaoFlorestas.WebSite.Services
         }
 
 
-        public void putLimpezas(int id, String trabalhador)
-        {
-            if (this.OpenConnection() == true)
-            {
-                String query;
-                if (!containsLimpeza(id, trabalhador))
-                {
-                    query = "INSERT INTO LimpezaPendentes VALUES(@idTerreno,@trabalhador);";
-
-                    SqlCommand cmd = new SqlCommand(query, con);
-                    cmd.Parameters.AddWithValue("@idTerreno", id);
-                    cmd.Parameters.AddWithValue("@trabalhador", trabalhador);
-
-                    int r = cmd.ExecuteNonQuery();
-
-                }
-                this.CloseConnection();
-            }
-        }
+        
         
 
         
@@ -347,6 +329,8 @@ namespace GestaoFlorestas.WebSite.Services
                 this.CloseConnection();
             }
         }
+
+        
 
     }
 }

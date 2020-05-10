@@ -104,7 +104,7 @@ namespace GestaoFlorestas.WebSite.Controllers
         [HttpPost]
         public ActionResult AgendarLimpeza([FromBody] string body) //body "username,password,idTrabalhador,idTerreno"
         {
-            string[] campos = body.Split();
+            string[] campos = body.Split(',');
 
             try
             {
@@ -119,15 +119,15 @@ namespace GestaoFlorestas.WebSite.Controllers
         }
 
 
-        [Route("AgendarInspecao")]
+        [Route("Agendarinspecao")]
         [HttpPost]
         public ActionResult AgendarInspecao([FromBody] string body) //body "username,password,codPostaldaZona"
         {
-            string[] campos = body.Split();
+            string[] campos = body.Split(',');
 
             try
             {
-                this.GestaoFlorestasService.agendarInspecao(campos[0], campos[1], campos[2]));
+                this.GestaoFlorestasService.agendarInspecao(campos[0], campos[1], campos[2]);
             }
             catch (ExistingUserException e)
             {

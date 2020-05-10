@@ -130,6 +130,19 @@ namespace GestaoFlorestas.WebSite.Models
             string[] campos = this.morada.Split(", ");
             return campos[1];
         }
+
+        public string getMorada()
+        {
+            return this.morada;
+        }
+
+        public int nivelCritico()
+        {
+            int res = 0;
+            Zona z = zona.get(this.cod_postal);
+            res = z.getNivelCriticoReal();
+            return res;
+        }
         
     }
 
