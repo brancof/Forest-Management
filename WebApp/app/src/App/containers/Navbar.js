@@ -26,7 +26,7 @@ import {
                         <span className="navbar-toggler-icon"></span>
                     </button>
                     <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
-                        <div className="navbar-nav">
+                        <div className="navbar-nav ml-auto">
                             <a className="nav-item nav-link">Opções</a>
                             <Link to="/login"><a className="nav-item nav-link" onClick={this.logoutClick}>Logout</a></Link>
                         </div>                   

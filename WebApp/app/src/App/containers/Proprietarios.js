@@ -32,9 +32,10 @@ class Proprietarios extends React.Component {
     terrenostable(){
         return (this.state.terrenos.length > 0 ? this.state.terrenos.map((terreno, index) =>
             <tr key={terreno.id_Terreno}>
-               <td><input type="checkbox" disabled={terreno.estadoLimpeza} key={terreno.id_Terreno} onChange={this.handleCheck} value={index} className="form-check-input" id="checkmark"/>
-               {terreno.morada} - {terreno.cod_postal}</td>
-               <td>{terreno.estadoLimpeza? "Limpo" : "Não Limpo"}</td> 
+               <td style={{textAlign: "left", paddingLeft: "5%"}}>
+                   <input style={{display: "inline", visibility: terreno.estadoLimpeza ? "hidden" : "visible"}} type="checkbox" disabled={terreno.estadoLimpeza} key={terreno.id_Terreno} onChange={this.handleCheck} value={index} className="form-check-input" id="checkmark"/>
+               <p style={{display: "inline"}}>{terreno.morada} - {terreno.cod_postal}</p></td>
+               <td style={{textAlign: "left"}}>{terreno.estadoLimpeza? "Limpo" : "Não Limpo"}</td> 
             </tr>
             ) : null)
     }

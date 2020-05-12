@@ -2,7 +2,8 @@
   text-align: center;
   background-image: url("./ponte.jpg");
   background-color: green;
-  height: 800px;
+  height: 1050px;
+  overflow: hidden;
 }
 
 
