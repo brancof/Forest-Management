@@ -10,6 +10,8 @@ import Login from './Login';
 import Register from './Register';
 import Proprietarios from './Proprietarios';
 import Inspetores from './Inspetores';
+import Trabalhadores from './Trabalhadores';
+import Supervisores from './Supervisores';
 import Navbar from './Navbar';
 
 class AppRoutes extends React.Component {
@@ -63,6 +65,7 @@ class AppRoutes extends React.Component {
               <Route path="/registo">
                 <Register />
               </Route>
+
               <Route path="/proprietarios">
                 <Navbar change={{username: this.setUsername, 
                             password: this.setPassword, 
@@ -70,13 +73,37 @@ class AppRoutes extends React.Component {
                             user: this.setUser}}/> 
                 {!(this.state.username === '') ? <Proprietarios user={this.state.user} username={this.state.username} password={this.state.password} />
                 : <Redirect to="/" />}
-              </Route> 
+              </Route>
+
               <Route path="/inspetores">
-                <Inspetores />
+                <Navbar change={{username: this.setUsername, 
+                            password: this.setPassword, 
+                            accounttype: this.setType,
+                            user: this.setUser}}/> 
+                {!(this.state.username === '') ? <Inspetores username={this.state.username} password={this.state.password} />
+                : <Redirect to="/" />}
+              </Route> 
+
+              <Route path="/trabalhadores">
+                <Navbar change={{username: this.setUsername, 
+                            password: this.setPassword, 
+                            accounttype: this.setType,
+                            user: this.setUser}}/> 
+                {!(this.state.username === '') ? <Trabalhadores user={this.state.user} username={this.state.username} password={this.state.password} />
+                : <Redirect to="/" />}
+              </Route> 
+
+              <Route path="/supervisores">
+                <Navbar change={{username: this.setUsername, 
+                            password: this.setPassword, 
+                            accounttype: this.setType,
+                            user: this.setUser}}/> 
+                {!(this.state.username === '') ? <Supervisores username={this.state.username} password={this.state.password} />
+                : <Redirect to="/" />}
               </Route> 
 
               <Route exact path="/">
-                {this.state.username === '' ? <Redirect to="/login"/> : <Redirect to="/proprietarios"/>}
+                {this.state.username === '' ? <Redirect to="/login"/> : <Redirect to={"/"+this.state.accounttype}/>}
               </Route>
             </Switch>
           </div>
