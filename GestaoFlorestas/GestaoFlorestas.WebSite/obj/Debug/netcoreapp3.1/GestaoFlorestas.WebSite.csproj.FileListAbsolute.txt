@@ -353,4 +353,11 @@ C:\Users\Asus\Documents\GitHub\LI4-G3\GestaoFlorestas\GestaoFlorestas.WebSite\bi
 C:\Users\Asus\Documents\GitHub\LI4-G3\GestaoFlorestas\GestaoFlorestas.WebSite\bin\Debug\netcoreapp3.1\System.Web.Http.dll
 C:\Users\Asus\Documents\GitHub\LI4-G3\GestaoFlorestas\GestaoFlorestas.WebSite\bin\Debug\netcoreapp3.1\System.Web.Http.Cors.dll
 C:\Users\Asus\Documents\GitHub\LI4-G3\GestaoFlorestas\GestaoFlorestas.WebSite\bin\Debug\netcoreapp3.1\Newtonsoft.Json.Bson.dll
+C:\Users\Asus\Documents\GitHub\LI4-G3\GestaoFlorestas\GestaoFlorestas.WebSite\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\Asus\Documents\GitHub\LI4-G3\GestaoFlorestas\GestaoFlorestas.WebSite\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\Asus\Documents\GitHub\LI4-G3\GestaoFlorestas\GestaoFlorestas.WebSite\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Logging.dll
+C:\Users\Asus\Documents\GitHub\LI4-G3\GestaoFlorestas\GestaoFlorestas.WebSite\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Protocols.dll
+C:\Users\Asus\Documents\GitHub\LI4-G3\GestaoFlorestas\GestaoFlorestas.WebSite\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\Asus\Documents\GitHub\LI4-G3\GestaoFlorestas\GestaoFlorestas.WebSite\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Tokens.dll
+C:\Users\Asus\Documents\GitHub\LI4-G3\GestaoFlorestas\GestaoFlorestas.WebSite\bin\Debug\netcoreapp3.1\System.IdentityModel.Tokens.Jwt.dll
 C:\Users\Asus\Documents\GitHub\LI4-G3\GestaoFlorestas\GestaoFlorestas.WebSite\obj\Debug\netcoreapp3.1\GestaoFlorestas.WebSite.MvcApplicationPartsAssemblyInfo.cache

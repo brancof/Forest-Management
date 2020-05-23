@@ -65,11 +65,11 @@ namespace GestaoFlorestas.WebSite.Controllers
         {
 
             string[] campos = body.Split('|');
-            double res = 0;
+
 
             try
             {
-                res = this.GestaoFlorestasService.realizarInspecao(campos[0], campos[1], Int32.Parse(campos[2]), campos[3], Int32.Parse(campos[4]));
+                this.GestaoFlorestasService.realizarInspecao(campos[0], campos[1], Int32.Parse(campos[2]), campos[3], Int32.Parse(campos[4]));
             }
             catch (ExistingUserException e)
             {
@@ -77,8 +77,8 @@ namespace GestaoFlorestas.WebSite.Controllers
             }
 
 
-            //Response.Cookies.Append("UserCookie", "I" + Username);//colocar aqui o cookie.
-            return new JsonResult(res);
+            
+            return Ok();
         }
 
         [Route("Sugestaoinspecao")]

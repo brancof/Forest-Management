@@ -149,10 +149,10 @@ namespace GestaoFlorestas.WebSite.Services
 
 
 
-        public Double realizarInspecao(string username, string password, int resultado, string relatorio, int idTerreno)
+        public void realizarInspecao(string username, string password, int resultado, string relatorio, int idTerreno)
         {
             Inspetor i;
-            Double res = 0;
+            
             if (inspetores.contains(username))
             {
 
@@ -173,7 +173,9 @@ namespace GestaoFlorestas.WebSite.Services
                 {
                     if (resultado == 0)
                     {
-                        string conteudo = "O seu terreno com a morada " + t.getMorada() + " foi inspecionado e foi reprovado. Solicita-se que realize uma limpeza mais profunda. Pode obter mais detalhes consultando a inspeçoes realizadas aos seu terrenos."; //conteudo da notificação
+                        string conteudo = "O seu terreno com a morada " + 
+                            t.getMorada() + 
+                            " foi inspecionado e foi reprovado. Solicita-se que realize uma limpeza mais profunda. Pode obter mais detalhes consultando a inspeçoes realizadas aos seu terrenos."; //conteudo da notificação
                         Notificacao n = new Notificacao(conteudo, false, prop, "Proprietario", DateTime.UtcNow); //objeto representante da notificacao
                         this.notifications.put(n); //adiciona a notificacao à bd
                     }
@@ -187,7 +189,7 @@ namespace GestaoFlorestas.WebSite.Services
                 }
 
                 Inspecao inspec = new Inspecao(idTerreno, username, resultado, relatorio, DateTime.UtcNow);
-                res = t.getLatitude();
+                
                 inspetores.AtualizarCoordenadas(username, t.getLatitude(), t.getLongitude());
 
                 inspetores.putInspecaoRealizada(inspec);
@@ -195,7 +197,7 @@ namespace GestaoFlorestas.WebSite.Services
             else throw new ExistingUserException();
 
 
-            return res;
+            
 
 
         }
@@ -261,18 +263,18 @@ namespace GestaoFlorestas.WebSite.Services
             else throw new ExistingUserException();
         }
 
-        public void loginSupervisor(String username, String password)
+        public Supervisor_Concelho loginSupervisor(String username, String password)
         {
             if (supervisores.contains(username))
             {
                 Supervisor_Concelho p = supervisores.get(username);
                 if (this.supervisores.verificarPassword(password,username))
                 {
-                  
+                    return p;
                 }
                 else throw new ExistingUserException();
             }
-            else throw new ExistingUserException();
+            else throw new ExistingUserException();   
         }
 
 
@@ -378,6 +380,7 @@ namespace GestaoFlorestas.WebSite.Services
                 else throw new ExistingUserException();
             }
             else throw new ExistingUserException();
+
             Zona z = this.zonas.get(codPostal);
 
             string concelhoZ = z.getConcelho();
@@ -395,13 +398,17 @@ namespace GestaoFlorestas.WebSite.Services
                 }
 
 
-                //Notificacao n = new Notificacao(conteudo, false, usernameTrabalhador, "Trabalhador", DateTime.UtcNow); //objeto representante da notificacao
-                //this.notifications.put(n); //adiciona a notificacao à bd
-
             }
 
             else throw new ExistingUserException();
 
+        }
+
+
+
+        public List<Zona> zonasConcelho(string concelho)
+        {
+            return locais.zonasConcelho(concelho);
         }
 
 

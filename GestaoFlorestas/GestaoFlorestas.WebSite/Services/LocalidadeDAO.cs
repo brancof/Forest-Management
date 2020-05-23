@@ -360,7 +360,47 @@ namespace GestaoFlorestas.WebSite.Services
 
             return res;
         }
-        
+
+
+        public List<Zona> zonasConcelho(String concelho)
+        {
+            List<Zona> res = new List<Zona>();
+
+            String codigoPostal = "";
+            int area = 0;
+            Decimal latitude = 0;
+            Decimal longitude = 0;
+            String nomeFreguesia = "";
+            Decimal nivelCritico = 0;
+
+
+            string query = "SELECT z.Cod_Postal, z.Area, z.latitude, z.longitude, z.nomeFreguesia, z.nivelCritico, z.nIncendios FROM Zona as z"
+                            + " JOIN Freguesia AS f on f.nomeFreguesia = z.nomeFreguesia"
+                            + " where nomeConcelho = @conc;";
+
+            SqlCommand cmd = new SqlCommand(query, con);
+            cmd.Parameters.AddWithValue("@conc", concelho);
+
+            if (this.OpenConnection() == true)
+            {
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Zona z = new Zona(Decimal.ToDouble((Decimal)reader[5]), (int)reader[1], (String) reader[0],
+                                         Decimal.ToDouble((Decimal)reader[2]), Decimal.ToDouble((Decimal)reader[3]), (String) reader[4]);
+                        res.Add(z);
+                    }
+
+                }
+                this.CloseConnection();
+            }
+
+            return res;
+        }
+
+
+
 
     }
 }

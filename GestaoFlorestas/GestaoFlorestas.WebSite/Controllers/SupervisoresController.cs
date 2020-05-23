@@ -45,9 +45,10 @@ namespace GestaoFlorestas.WebSite.Controllers
         public ActionResult Login([FromQuery] string Username,
                                   [FromQuery] string Password)
         {
+            object r;
             try
             {
-                this.GestaoFlorestasService.loginSupervisor(Username, Password);
+                r = this.GestaoFlorestasService.loginSupervisor(Username, Password);
             }
 
             catch (ExistingUserException e)
@@ -57,7 +58,7 @@ namespace GestaoFlorestas.WebSite.Controllers
 
 
             //Response.Cookies.Append("UserCookie", "S" + Username);//colocar aqui o cookie.
-            return Ok();
+            return new JsonResult(r);
         }
 
         [Route("Trocaprop")]
@@ -134,6 +135,23 @@ namespace GestaoFlorestas.WebSite.Controllers
                 return Unauthorized();
             }
             return Ok();
+
+        }
+
+        [Route("Zonasconcelho")]
+        [HttpGet]
+        public ActionResult ZonasConcelho([FromQuery] string Concelho) 
+        {
+            object res;
+            try
+            {
+                res = this.GestaoFlorestasService.zonasConcelho(Concelho);
+            }
+            catch (ExistingUserException e)
+            {
+                return Unauthorized();
+            }
+            return new JsonResult(res);
 
         }
 
