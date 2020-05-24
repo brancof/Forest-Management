@@ -98,7 +98,7 @@ class AppRoutes extends React.Component {
                             password: this.setPassword, 
                             accounttype: this.setType,
                             user: this.setUser}}/> 
-                {!(this.state.username === '') ? <Supervisores username={this.state.username} password={this.state.password} />
+                {!(this.state.username === '') ? <Supervisores username={this.state.username} password={this.state.password} user={this.state.user} />
                 : <Redirect to="/" />}
               </Route> 
 

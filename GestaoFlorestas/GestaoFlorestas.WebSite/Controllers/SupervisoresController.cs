@@ -61,6 +61,28 @@ namespace GestaoFlorestas.WebSite.Controllers
             return new JsonResult(r);
         }
 
+        [Route("Terrenosnif")]
+        [HttpGet]
+
+        public ActionResult TerrenosNif([FromQuery] string Username,
+                                        [FromQuery] string Nif)
+        {
+            object r;
+            try
+            {
+                r = this.GestaoFlorestasService.terrenosNifConcelho(Username, Int32.Parse(Nif));
+            }
+
+            catch (ExistingUserException e)
+            {
+                return Unauthorized();
+            }
+
+
+            //Response.Cookies.Append("UserCookie", "S" + Username);//colocar aqui o cookie.
+            return new JsonResult(r);
+        }
+
         [Route("Trocaprop")]
         [HttpPut]
         public ActionResult TrocaProp([FromBody] string body) //body username,password,idTerreno,nifnovoprop
@@ -140,12 +162,12 @@ namespace GestaoFlorestas.WebSite.Controllers
 
         [Route("Zonasconcelho")]
         [HttpGet]
-        public ActionResult ZonasConcelho([FromQuery] string Concelho) 
+        public ActionResult ZonasConcelho([FromQuery] string Username) 
         {
             object res;
             try
             {
-                res = this.GestaoFlorestasService.zonasConcelho(Concelho);
+                res = this.GestaoFlorestasService.zonasConcelho(Username);
             }
             catch (ExistingUserException e)
             {

@@ -406,11 +406,21 @@ namespace GestaoFlorestas.WebSite.Services
 
 
 
-        public List<Zona> zonasConcelho(string concelho)
+        public List<Zona> zonasConcelho(string username)
         {
-            return locais.zonasConcelho(concelho);
+            Supervisor_Concelho p = supervisores.get(username);
+            return locais.zonasConcelho(p.getConcelho());
         }
 
+
+        public List<Terreno> terrenosNifConcelho(string username, int Nif)
+        {
+            Supervisor_Concelho s = supervisores.get(username);
+
+            string concelho = s.getConcelho();
+
+            return terrenos.getTerrenosNifConcelho(Nif, concelho);
+        }
 
 
 
