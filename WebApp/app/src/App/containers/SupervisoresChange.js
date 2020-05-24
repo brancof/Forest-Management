@@ -6,7 +6,7 @@ import {
 import Heat from './Heat';
 import './Supervisores.css'
 
-class Supervisores extends React.Component {
+class SupervisoresChange extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -34,7 +34,7 @@ class Supervisores extends React.Component {
         this.handleChangeNifProprietario = this.handleChangeNifProprietario.bind(this);
         this.handleProcurarButton = this.handleProcurarButton.bind(this);
     }
-    
+
     concelhoSeguro() 
     {
         axios.get('https://localhost:44301/supervisores/Seguranca', {
@@ -181,7 +181,7 @@ class Supervisores extends React.Component {
     }
     
 
-    /*render() {
+    render() {
 
         return (
             <div className="container login-container">
@@ -215,9 +215,9 @@ class Supervisores extends React.Component {
                 </div>
             </div>
         );
-    }*/
+    }
 
-
+/*
     render() {
 
         return (
@@ -233,7 +233,7 @@ class Supervisores extends React.Component {
                                     <p style={{textAlign: 'left'}} className="card-text login-text">Número total de terrenos por limpar: {this.state.terrenosLimpos}</p>
             
                                     <div className="map-container">
-                                        {this.state.mapInfo.length === 0 ? null : <Heat HeatData={this.state.mapInfo}/>}
+                                        <Heat HeatData={this.state.mapInfo}/>
                                     </div>
                                     
                                 </div>
@@ -243,8 +243,8 @@ class Supervisores extends React.Component {
                 </div>
             </div>
         );
-    }
+    }*/
     
 }
 
-export default Supervisores;
+export default SupervisoresChange;

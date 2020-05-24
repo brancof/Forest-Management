@@ -27,6 +27,7 @@ import {
                             </div>
                         </div>
                     </div>
+                    <div className="col"></div>
                 </div>
             </div>
         )
