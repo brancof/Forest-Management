@@ -180,7 +180,7 @@ class Supervisores extends React.Component {
         this.setState({sucesso: 0});
     }
     
-/*
+
     render() {
 
         return (
@@ -216,8 +216,8 @@ class Supervisores extends React.Component {
             </div>
         );
     }
-*/
 
+/*
     render() {
 
         return (
@@ -231,7 +231,7 @@ class Supervisores extends React.Component {
                                     <p className="card-text login-text">Gestão de Concelhos</p>
                                     <h5 style={{textAlign: 'left'}} className="card-title login-title">{this.props.user.concelho}</h5>
                                     <p style={{textAlign: 'left'}} className="card-text login-text">Número total de terrenos por limpar: {this.state.terrenosLimpos}</p>
-
+            
                                     <div className="map-container">
                                         <Heat HeatData={this.state.mapInfo}/>
                                     </div>
@@ -244,7 +244,7 @@ class Supervisores extends React.Component {
             </div>
         );
     }
-    
+    */
 }
 
 export default Supervisores;
