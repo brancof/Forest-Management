@@ -8,6 +8,7 @@ class SupervisoresChange extends React.Component {
         this.state = {
             terrenosLimpos: 0,
             zonas: '',
+            auth: "Bearer " + this.props.token,
             terrenos: '',
             mapInfo: [],
             checked: [],
@@ -66,9 +67,10 @@ class SupervisoresChange extends React.Component {
                 axios({
                     method: 'put',
                     url: 'https://localhost:44301/supervisores/Trocaprop',
-                    data: JSON.stringify(this.props.username + ',' + this.props.password + ',' + this.state.terrenos[i].id_Terreno + ',' + this.state.nifNovo), 
+                    data: JSON.stringify(this.props.username + ',' + this.state.terrenos[i].id_Terreno + ',' + this.state.nifNovo), 
                     headers: {
-                        "Content-Type": "application/json"
+                        "Content-Type": "application/json",
+                        "Authorization": this.state.auth
                     }
                 })
                     .then(response => {
@@ -99,6 +101,9 @@ class SupervisoresChange extends React.Component {
             params: {
                 Username: this.props.username,
                 Nif: nif
+            },
+            headers: {
+                "Authorization": this.state.auth
             }
         })
         .then(response => {

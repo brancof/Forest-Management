@@ -9,6 +9,7 @@ class Proprietarios extends React.Component {
         this.state = {
             terrenos: '',
             mapInfo: [],
+            auth: "Bearer " + this.props.token,
             checked: []
         };
 
@@ -40,10 +41,13 @@ class Proprietarios extends React.Component {
 
     loadTerrenos() 
     {
+        //const auth = "Bearer " + this.props.token;
         axios.get('https://localhost:44301/proprietarios/terrenos', {
                 params: {
-                    Username: this.props.username,
-                    Password: this.props.password
+                    Username: this.props.username
+                },
+                headers: {
+                    "Authorization": this.state.auth
                 }
             })
             .then(response => {
@@ -84,9 +88,10 @@ class Proprietarios extends React.Component {
                 axios({
                     method: 'put',
                     url: 'https://localhost:44301/proprietarios/limpeza',
-                    data: JSON.stringify(this.props.username + ',' + this.props.password + ',' + this.state.terrenos[i].id_Terreno), 
+                    data: JSON.stringify(this.props.username + ',' + this.state.terrenos[i].id_Terreno), 
                     headers: {
-                        "Content-Type": "application/json"
+                        "Content-Type": "application/json",
+                        "Authorization": this.state.auth
                     }
                 })
                     .then(response => {

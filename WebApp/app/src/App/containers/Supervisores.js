@@ -10,6 +10,7 @@ class Supervisores extends React.Component {
             terrenosLimpos: 0,
             zonas: '',
             terrenos: '',
+            auth: "Bearer " + this.props.token,
             mapInfo: [],
         };
         this.concelhoSeguro = this.concelhoSeguro.bind(this);
@@ -27,8 +28,11 @@ class Supervisores extends React.Component {
     {
         axios.get('https://localhost:44301/supervisores/Seguranca', {
                 params: {
-                    Username: this.props.username,
-                    Password: this.props.password
+                    Username: this.props.username
+                    //Password: this.props.password
+                },
+                headers: {
+                    "Authorization": this.state.auth
                 }
             })
             .then(response => {
@@ -46,6 +50,9 @@ class Supervisores extends React.Component {
         axios.get('https://localhost:44301/supervisores/Zonasconcelho', {
                 params: {
                     Username: this.props.username
+                },
+                headers: {
+                    "Authorization": this.state.auth
                 }
             })
             .then(response => {
@@ -62,7 +69,7 @@ class Supervisores extends React.Component {
                 this.setState({mapInfo: mapZonas});
             }) 
             .catch(response => {
-                alert("Erro no carregamento de terrenos.");
+                //alert("Erro no carregamento de terrenos.");
                 console.log(response);
             })
     }

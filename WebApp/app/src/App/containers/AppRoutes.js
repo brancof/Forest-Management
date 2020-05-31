@@ -23,6 +23,7 @@ class AppRoutes extends React.Component {
         this.state = {
             username: '',
             password: '',
+            token: '',
             accounttype: 'proprietarios',
             user: ''
         };
@@ -31,11 +32,17 @@ class AppRoutes extends React.Component {
         this.setPassword = this.setPassword.bind(this);
         this.setType = this.setType.bind(this);
         this.setUser = this.setUser.bind(this);
+        this.setToken = this.setToken.bind(this);
     }
 
     setUsername(newusername)
     {
         this.setState({username: newusername});
+    }
+
+    setToken(newtoken)
+    {
+        this.setState({token: newtoken});
     }
 
     setUser(newuser)
@@ -62,7 +69,8 @@ class AppRoutes extends React.Component {
                 {this.state.username === '' ? <Login change={{username: this.setUsername, 
                                                             password: this.setPassword, 
                                                             accounttype: this.setType,
-                                                            user: this.setUser}} /> 
+                                                            user: this.setUser,
+                                                            token: this.setToken}} /> 
                 : <Redirect to="/" />}
               </Route>
               <Route path="/registo">
@@ -73,8 +81,9 @@ class AppRoutes extends React.Component {
                 <Navbar change={{username: this.setUsername, 
                             password: this.setPassword, 
                             accounttype: this.setType,
-                            user: this.setUser}}/> 
-                {!(this.state.username === '') ? <Proprietarios user={this.state.user} username={this.state.username} password={this.state.password} />
+                            user: this.setUser,
+                            token: this.setToken}}/> 
+                {!(this.state.username === '') ? <Proprietarios user={this.state.user} username={this.state.username} password={this.state.password} token={this.state.token} />
                 : <Redirect to="/" />}
               </Route>
 
@@ -82,8 +91,9 @@ class AppRoutes extends React.Component {
                 <Navbar change={{username: this.setUsername, 
                             password: this.setPassword, 
                             accounttype: this.setType,
-                            user: this.setUser}}/> 
-                {!(this.state.username === '') ? <Inspetores username={this.state.username} password={this.state.password} />
+                            user: this.setUser,
+                            token: this.setToken}}/> 
+                {!(this.state.username === '') ? <Inspetores username={this.state.username} password={this.state.password} token={this.state.token} />
                 : <Redirect to="/" />}
               </Route> 
 
@@ -91,8 +101,9 @@ class AppRoutes extends React.Component {
                 <Navbar change={{username: this.setUsername, 
                             password: this.setPassword, 
                             accounttype: this.setType,
-                            user: this.setUser}}/> 
-                {!(this.state.username === '') ? <Trabalhadores user={this.state.user} username={this.state.username} password={this.state.password} />
+                            user: this.setUser,
+                            token: this.setToken}}/> 
+                {!(this.state.username === '') ? <Trabalhadores user={this.state.user} username={this.state.username} password={this.state.password} token={this.state.token} />
                 : <Redirect to="/" />}
               </Route> 
 
@@ -100,8 +111,9 @@ class AppRoutes extends React.Component {
               <NavbarSup change={{username: this.setUsername, 
                             password: this.setPassword, 
                             accounttype: this.setType,
-                            user: this.setUser}}/> 
-                {!(this.state.username === '') ? <Supervisores username={this.state.username} password={this.state.password} user={this.state.user} />
+                            user: this.setUser,
+                            token: this.setToken}}/> 
+                {!(this.state.username === '') ? <Supervisores username={this.state.username} password={this.state.password} user={this.state.user} token={this.state.token} />
                 : <Redirect to="/" />}
               </Route> 
 
@@ -109,8 +121,9 @@ class AppRoutes extends React.Component {
                 <NavbarSup change={{username: this.setUsername, 
                             password: this.setPassword, 
                             accounttype: this.setType,
-                            user: this.setUser}}/> 
-                {!(this.state.username === '') ? <SupervisoresChange username={this.state.username} password={this.state.password} user={this.state.user} />
+                            user: this.setUser,
+                            token: this.setToken}}/> 
+                {!(this.state.username === '') ? <SupervisoresChange username={this.state.username} password={this.state.password} user={this.state.user} token={this.state.token} />
                 : <Redirect to="/" />}
               </Route> 
 
