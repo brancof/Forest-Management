@@ -1,9 +1,10 @@
 import React from 'react';
+import axios from 'axios';
 import {
     Link
   } from "react-router-dom";
 
-  class Navbar extends React.Component {
+  class NavbarSup extends React.Component {
     constructor(props) {
         super(props);
 
@@ -25,8 +26,11 @@ import {
                         <span className="navbar-toggler-icon"></span>
                     </button>
                     <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
+                        <div className="navbar-nav">
+                            <Link to="/supervisores"><a className="nav-item nav-link">Página Inicial</a></Link>
+                            <Link to="/supervisoreschange"><a className="nav-item nav-link">Alterar Terreno</a></Link>
+                        </div>
                         <div className="navbar-nav ml-auto">
-                            <a className="nav-item nav-link">Opções</a>
                             <Link to="/login"><a className="nav-item nav-link" onClick={this.logoutClick}>Logout</a></Link>
                         </div>                   
                     </div>
@@ -35,4 +39,4 @@ import {
         }
   }
 
-  export default Navbar
+  export default NavbarSup

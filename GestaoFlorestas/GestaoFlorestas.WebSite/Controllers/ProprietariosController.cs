@@ -126,7 +126,7 @@ namespace GestaoFlorestas.WebSite.Controllers
 
         //-------------------------------------------------------------------------------Limpeza de terrenos-------------------------------------------------------------
 
-        [Authorize]
+        //[Authorize]
         [Route("Limpeza")]
         [HttpPut]
         public ActionResult LimpaTerreno([FromBody] string body, [FromHeader] string Authorization) //body: "username,idTerreno"
@@ -153,7 +153,7 @@ namespace GestaoFlorestas.WebSite.Controllers
 
         //----------------------------------------------------------------Informação dos terrenos----------------------------------------------------
 
-        [Authorize]
+        //[Authorize]
         [Route("Terrenos")]
         [HttpGet]
         public ActionResult GetTerrenos([FromQuery] string Username,
@@ -216,7 +216,7 @@ namespace GestaoFlorestas.WebSite.Controllers
 
         /*em principio nao sera preciso
 
-        [Authorize]
+        //[Authorize]
         [Route("Terrenos/Zona")]
         [HttpGet]
         public ActionResult GetTerrenoZona([FromQuery] string Username,
@@ -244,7 +244,7 @@ namespace GestaoFlorestas.WebSite.Controllers
         }
 
 
-        [Authorize]
+        //[Authorize]
         [Route("Terrenos/Concelho")]
         [HttpGet]
         public ActionResult GetTerrenoConcelho([FromQuery] string Username,
@@ -270,9 +270,13 @@ namespace GestaoFlorestas.WebSite.Controllers
 
             return new JsonResult(result);
         }
-        
-          
-        [Authorize]
+
+
+
+
+        //-----------------------------------------------------------Informação Pessoal----------------------------------------------------------
+        //[Authorize]
+
         [Route("Info")]
         [HttpGet]
         public ActionResult GetInfo([FromQuery] string Username,
@@ -297,5 +301,7 @@ namespace GestaoFlorestas.WebSite.Controllers
         }
          
          */
+        
+
     }
 }

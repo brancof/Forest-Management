@@ -353,6 +353,15 @@ namespace GestaoFlorestas.WebSite.Services
         }
 
 
+        public List<Terreno> terrenosNifConcelho(string username, int Nif)
+        {
+            Supervisor_Concelho s = supervisores.get(username);
+
+            string concelho = s.getConcelho();
+
+            return terrenos.getTerrenosNifConcelho(Nif, concelho);
+        }
+
 
         public List<Terreno> terrenosNifConcelho (string username,int Nif)
         {

@@ -139,7 +139,7 @@ namespace GestaoFlorestas.WebSite.Controllers
             else return Unauthorized();
         }
 
-        [Authorize]
+
         [Route("Trocaprop")]
         [HttpPut]
         public ActionResult TrocaProp([FromBody] string body, [FromHeader] string Authorization) //body username,idTerreno,nifnovoprop
@@ -233,7 +233,6 @@ namespace GestaoFlorestas.WebSite.Controllers
             if (MiddleWare(Authorization, Username))
             {
                 res = this.GestaoFlorestasService.zonasConcelho(Username);
-
                 return new JsonResult(res);
             }
             else return Unauthorized();
