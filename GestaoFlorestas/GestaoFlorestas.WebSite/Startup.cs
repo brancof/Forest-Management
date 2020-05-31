@@ -33,7 +33,7 @@ namespace GestaoFlorestas.WebSite
             services.AddCors();
 
             //JWT
-            /*
+            
             var appSettingsSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);
 
@@ -57,7 +57,7 @@ namespace GestaoFlorestas.WebSite
                     ValidAudience = appSettings.ValidoEm,
                     ValidIssuer = appSettings.Emissor
                 };
-            });*/
+            });
             
 
         }
@@ -81,7 +81,7 @@ namespace GestaoFlorestas.WebSite
 
             app.UseRouting();
 
-            //app.UseAuthentication();
+            app.UseAuthentication();
             app.UseAuthorization();
             
 

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using GestaoFlorestas.WebSite.Models;
 using GestaoFlorestas.WebSite.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +13,7 @@ using Microsoft.Extensions.Options;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace GestaoFlorestas.WebSite.Controllers
 {
@@ -36,6 +36,53 @@ namespace GestaoFlorestas.WebSite.Controllers
         private readonly AppSettings _appSettings;
 
 
+
+        //----------------------------------Middleware-----------------------------------
+
+        private string GerarToken(string username)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
+
+            var identityClaims = new ClaimsIdentity();
+            Claim c = new Claim("Proprietário", username);
+            identityClaims.AddClaim(c);
+
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = identityClaims,
+                Issuer = _appSettings.Emissor,
+                Audience = _appSettings.ValidoEm,
+                Expires = DateTime.UtcNow.AddHours(_appSettings.ExpiracaoHoras),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+            return tokenHandler.WriteToken(tokenHandler.CreateToken(tokenDescriptor));
+        }
+
+
+        private Boolean MiddleWare(string Authorization, string username)
+        {
+            string[] a = Authorization.Split(' ');
+
+
+            var jwt = a[1];
+            var handler = new JwtSecurityTokenHandler();
+            var token = handler.ReadJwtToken(jwt);
+
+            List<Claim> claims = new List<Claim>(token.Claims);
+
+            Claim claim = claims[0];
+
+
+            if (claim.Type.Equals("Proprietário") && claim.Value.Equals(username)) return true;
+
+            else return false;
+        }
+
+
+        //-------------------------------------Endpoints
+
+
         [Route("Registo")]
         [HttpPost]
         public ActionResult PostProprietario([FromBody] string proprietario)
@@ -56,8 +103,8 @@ namespace GestaoFlorestas.WebSite.Controllers
         [Route("Login")]
         [HttpGet]
 
-        public async Task<ActionResult> GetL([FromQuery] string Username,
-                                [FromQuery] string Password)
+        public  ActionResult GetL([FromQuery] string Username,
+                                  [FromQuery] string Password)
         {
             object p;
             try
@@ -70,10 +117,11 @@ namespace GestaoFlorestas.WebSite.Controllers
                 return Unauthorized();
             }
 
-
-            //Response.Cookies.Append("UserCookie","P"+Username);//colocar aqui o cookie.
-            //return Ok(await GerarToken());
-            return new JsonResult(p);
+            List<object> res = new List<object>();
+            res.Add(p);
+            var token = GerarToken(Username);
+            res.Add(token);
+            return new JsonResult(res);
         }
 
         //-------------------------------------------------------------------------------Limpeza de terrenos-------------------------------------------------------------
@@ -81,31 +129,26 @@ namespace GestaoFlorestas.WebSite.Controllers
         [Authorize]
         [Route("Limpeza")]
         [HttpPut]
-        public ActionResult LimpaTerreno([FromBody] string body) //body: "username,password,idTerreno"
+        public ActionResult LimpaTerreno([FromBody] string body, [FromHeader] string Authorization) //body: "username,idTerreno"
         {
             string[] campos = body.Split(',');
 
-            int idTerreno = Int32.Parse(campos[2]);
+            int idTerreno = Int32.Parse(campos[1]);
 
-            Proprietario p;
+            if (MiddleWare(Authorization, campos[0])){
 
-            try
-            {
-                p = this.GestaoFlorestasService.loginProprietario(campos[0], campos[1]);
+                try
+                {
+                    this.GestaoFlorestasService.limparTerreno(idTerreno, campos[0]);
+                }
+                catch (ExistingUserException e)
+                {
+                    return Unauthorized();
+                }
 
+                return Ok();
             }
-            catch (ExistingUserException e)
-            {
-                return Unauthorized();
-            }
-
-            if (!p.hasTerreno(idTerreno)) return Unauthorized();
-
-
-            this.GestaoFlorestasService.limparTerreno(idTerreno);
-
-
-            return Ok();
+            else return Unauthorized();
         }
 
         //----------------------------------------------------------------Informação dos terrenos----------------------------------------------------
@@ -114,31 +157,70 @@ namespace GestaoFlorestas.WebSite.Controllers
         [Route("Terrenos")]
         [HttpGet]
         public ActionResult GetTerrenos([FromQuery] string Username,
-                                        [FromQuery] string Password)
+                                        [FromHeader] string Authorization)
         {
-            Proprietario p;
-
-            try
-            {
-                p = this.GestaoFlorestasService.loginProprietario(Username, Password);
-
-            }
-            catch (ExistingUserException e)
-            {
-                return Unauthorized();
-            }
-
-            Object result = this.GestaoFlorestasService.terrenosDoProprietario(p);
-
-
-            return new JsonResult(result);
+            if (MiddleWare(Authorization, Username)) return new JsonResult(this.GestaoFlorestasService.terrenosDoProprietario(Username));
+            
+            else return Unauthorized();
         }
+
+
+        [Authorize]
+        [Route("Info/Changes/Nome")]
+        [HttpPut]
+        public ActionResult ChangeName([FromBody] string body, [FromHeader] string Authorization) //body: "username,newName"
+        {
+            string[] campos = body.Split(',');
+
+            string newName = campos[2];
+
+            if (MiddleWare(Authorization, campos[0]))
+            {
+                this.GestaoFlorestasService.changeNameProp(campos[0], newName);
+                return Ok();
+            }
+
+            else return Unauthorized();
+        }
+
+
+        //------------------------------------notificacoes -----------------------------------------
+        [Authorize]
+        [Route("Notificacoes")]
+        [HttpGet]
+        public ActionResult GetNotifications([FromQuery] string Username,
+                                             [FromHeader] string Authorization)
+        {
+            if (MiddleWare(Authorization, Username))
+            {
+                object result = this.GestaoFlorestasService.notificacoesProprietario(Username);
+                return new JsonResult(result);
+            }
+            else return Unauthorized();
+        }
+
+        [Authorize]
+        [Route("Notificacoes/Ler")]
+        [HttpPut]
+        public ActionResult AtualizaNotifications([FromBody] string body, [FromHeader] string Authorization)//body: "username"
+        {
+            if (MiddleWare(Authorization, body))
+            {
+                this.GestaoFlorestasService.visualizarNotificacoesProp(body);
+                return Ok();
+            }
+            else return Unauthorized();
+        }
+
+
+
+        /*em principio nao sera preciso
 
         [Authorize]
         [Route("Terrenos/Zona")]
         [HttpGet]
         public ActionResult GetTerrenoZona([FromQuery] string Username,
-                                           [FromQuery] string Password, [FromQuery] string IdTerreno)
+                                   [FromQuery] string Password, [FromQuery] string IdTerreno)
         {
             Proprietario p;
 
@@ -188,10 +270,8 @@ namespace GestaoFlorestas.WebSite.Controllers
 
             return new JsonResult(result);
         }
-
-
-
-        //-----------------------------------------------------------Informação Pessoal----------------------------------------------------------
+        
+          
         [Authorize]
         [Route("Info")]
         [HttpGet]
@@ -215,97 +295,7 @@ namespace GestaoFlorestas.WebSite.Controllers
 
             return new JsonResult(p);
         }
-
-        [Authorize]
-        [Route("Info/Changes/Nome")]
-        [HttpPut]
-        public ActionResult ChangeName([FromBody] string body) //body: "username,password,newName"
-        {
-            string[] campos = body.Split(',');
-
-            Proprietario p;
-
-            string newName = campos[2];
-
-            try
-            {
-                p = this.GestaoFlorestasService.loginProprietario(campos[0], campos[1]);
-
-            }
-            catch (ExistingUserException e)
-            {
-                return Unauthorized();
-            }
-
-
-            this.GestaoFlorestasService.changeNameProp(p, newName);
-
-
-
-
-            return Ok();
-        }
-
-
-        //------------------------------------notificacoes -----------------------------------------
-        [Authorize]
-        [Route("Notificacoes")]
-        [HttpGet]
-        public ActionResult GetNotifications([FromQuery] string Username,
-                                             [FromQuery] string Password)
-        {
-            Proprietario p;
-
-            try
-            {
-                p = this.GestaoFlorestasService.loginProprietario(Username, Password);
-
-            }
-            catch (ExistingUserException e)
-            {
-                return Unauthorized();
-            }
-
-            List<Notificacao> result = this.GestaoFlorestasService.notificacoesProprietario(p);
-
-
-            return new JsonResult(result);
-        }
-
-        [Authorize]
-        [Route("Notificacoes/Ler")]
-        [HttpPut]
-        public ActionResult AtualizaNotifications([FromBody] string body)//body: "username,password"
-        {
-            string[] campos = body.Split(',');
-            try
-            {
-                this.GestaoFlorestasService.visualizarNotificacoesProp(campos[0], campos[1]);
-
-            }
-            catch (ExistingUserException e)
-            {
-                return Unauthorized();
-            }
-            return Ok();
-
-        }
-
-        /*private async Task<string> GerarToken()
-        {
-
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
-
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Issuer = _appSettings.Emissor,
-                Audience = _appSettings.ValidoEm,
-                Expires = DateTime.UtcNow.AddHours(_appSettings.ExpiracaoHoras),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-            return tokenHandler.WriteToken(tokenHandler.CreateToken(tokenDescriptor));
-        }*/
+         
+         */
     }
 }

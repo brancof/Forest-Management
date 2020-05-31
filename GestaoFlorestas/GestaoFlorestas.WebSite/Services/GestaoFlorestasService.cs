@@ -62,15 +62,17 @@ namespace GestaoFlorestas.WebSite.Services
         }
 
 
-        public void changeNameProp(Proprietario p,string newName)
+        public void changeNameProp(string username,string newName)
         {
+            Proprietario p = proprietarios.get(username);
             p.setNome(newName);
             this.proprietarios.put(p);//atualiza a BD
         }
 
 
-        public List<Terreno> terrenosDoProprietario (Proprietario p)
+        public List<Terreno> terrenosDoProprietario (string username)
         {
+            Proprietario p = proprietarios.get(username);
             return p.getTerrenosObject();
         }
 
@@ -91,34 +93,34 @@ namespace GestaoFlorestas.WebSite.Services
 
 
 
-        public List<Notificacao> notificacoesProprietario (Proprietario p)
+        public List<Notificacao> notificacoesProprietario (string username)
         {
+            Proprietario p = proprietarios.get(username);
             return p.getNotificacoesObjects();
         }
 
 
-        public void limparTerreno(int idTerreno)
+        public void limparTerreno(int idTerreno, string username)
         {
-            if (this.terrenos.contains(idTerreno))
+
+            Proprietario p = proprietarios.get(username);
+
+            if (p.hasTerreno(idTerreno))
             {
-                Terreno terreno = terrenos.get(idTerreno);
-                terreno.setEstadoLimpeza(true);
-                terrenos.put(terreno); //muda na bd
+                if (this.terrenos.contains(idTerreno))
+                {
+                    Terreno terreno = terrenos.get(idTerreno);
+                    terreno.setEstadoLimpeza(true);
+                    terrenos.put(terreno); //muda na bd
+                }
             }
+            else throw new ExistingUserException();
         }
 
 
-        public void visualizarNotificacoesProp(string username, string password)
+        public void visualizarNotificacoesProp(string username)
         {
-            if (proprietarios.contains(username))
-            {
-                if (this.proprietarios.verificarPassword(password, username))
-                {
-                    this.notifications.visualizarNotificacoes(username, "Proprietario");
-                }
-                else throw new ExistingUserException();
-            }
-            else throw new ExistingUserException();
+            this.notifications.visualizarNotificacoes(username, "Proprietario");
         }
 
         //---------------------------------------------------------Inspetores---------------------------------------------------------------------
@@ -133,14 +135,14 @@ namespace GestaoFlorestas.WebSite.Services
             else throw new ExistingUserException();
         }
 
-        public void loginInspetor(String username, String password)
+        public Inspetor loginInspetor(String username, String password)
         {
             if (inspetores.contains(username))
             {
                 Inspetor p = inspetores.get(username);
                 if (this.inspetores.verificarPassword(password, username))
                 {
-                   
+                    return p;
                 }
                 else throw new ExistingUserException();
             }
@@ -149,21 +151,10 @@ namespace GestaoFlorestas.WebSite.Services
 
 
 
-        public void realizarInspecao(string username, string password, int resultado, string relatorio, int idTerreno)
+        public void realizarInspecao(string username, int resultado, string relatorio, int idTerreno)
         {
-            Inspetor i;
-            
-            if (inspetores.contains(username))
-            {
-
-                if (this.inspetores.verificarPassword(password, username))
-                {
-                    i = inspetores.get(username);
-                }
-                else throw new ExistingUserException();
-            }
-            else throw new ExistingUserException();
-
+            Inspetor i = inspetores.get(username);
+           
             if (i.containsTerreno(idTerreno))
             {
                 terrenos.limpezaTerreno(idTerreno, resultado);
@@ -203,19 +194,11 @@ namespace GestaoFlorestas.WebSite.Services
         }
 
 
-        public Terreno getSugestaoInspecao(string username, string password)
+        public Terreno getSugestaoInspecao(string username)
         {
-            Inspetor i;
+            Inspetor i = inspetores.get(username);
             Terreno res = null;
-            if (inspetores.contains(username))
-            {
-                if (this.inspetores.verificarPassword(password, username))
-                {
-                    i = inspetores.get(username);
-                }
-                else throw new ExistingUserException();
-            }
-            else throw new ExistingUserException();
+           
 
             List<Terreno> t = inspetores.getTerrenosPendentes(i.getUsername());
 
@@ -279,20 +262,9 @@ namespace GestaoFlorestas.WebSite.Services
 
 
 
-        public void trocaProprietarioTerreno(string username, string password, int idTerreno, String nifNovoProp)
+        public void trocaProprietarioTerreno(string username, int idTerreno, String nifNovoProp)
         {
-            Supervisor_Concelho p;
-            if (supervisores.contains(username))
-            {
-
-                if (this.supervisores.verificarPassword(password, username))
-                {
-                    p = supervisores.get(username);
-                }
-                else throw new ExistingUserException();
-            }
-            else throw new ExistingUserException();
-
+            Supervisor_Concelho p = supervisores.get(username);
             Terreno t = this.terrenos.get(idTerreno);
             string concelhoTerr = t.getConcelho();
 
@@ -313,40 +285,18 @@ namespace GestaoFlorestas.WebSite.Services
             terrenos.put(t); //atualiza terreno na bd
         }
 
-        public int terrenosPorLimparConcelho(string username, string password)
+        public int terrenosPorLimparConcelho(string username)
         {
-            Supervisor_Concelho p;
-            if (supervisores.contains(username))
-            {
-                
-                if (this.supervisores.verificarPassword(password, username))
-                {
-                    p = supervisores.get(username);
-                }
-                else throw new ExistingUserException();
-            }
-            else throw new ExistingUserException();
-
+            Supervisor_Concelho p = supervisores.get(username);
             string concelho = p.getConcelho();
-
             return this.locais.numeroDeTerrenosPorLimpar(concelho);
         }
 
 
 
-        public void agendarLimpeza (string username, string password, string usernameTrabalhador, int idTerreno)
+        public void agendarLimpeza (string username, string usernameTrabalhador, int idTerreno)
         {
-            Supervisor_Concelho p;
-            if (supervisores.contains(username))
-            {
-
-                if (this.supervisores.verificarPassword(password, username))
-                {
-                    p = supervisores.get(username);
-                }
-                else throw new ExistingUserException();
-            }
-            else throw new ExistingUserException();
+            Supervisor_Concelho p = supervisores.get(username);
             Terreno t = this.terrenos.get(idTerreno);
             string concelhoTerr = t.getConcelho();
 
@@ -367,20 +317,10 @@ namespace GestaoFlorestas.WebSite.Services
         }
 
 
-        public void agendarInspecao(string username, string password, string codPostal)
+        public void agendarInspecao(string username, string codPostal)
         {
-            Supervisor_Concelho p;
-            if (supervisores.contains(username))
-            {
-
-                if (this.supervisores.verificarPassword(password, username))
-                {
-                    p = supervisores.get(username);
-                }
-                else throw new ExistingUserException();
-            }
-            else throw new ExistingUserException();
-
+            Supervisor_Concelho p = supervisores.get(username);
+                
             Zona z = this.zonas.get(codPostal);
 
             string concelhoZ = z.getConcelho();
@@ -406,13 +346,22 @@ namespace GestaoFlorestas.WebSite.Services
 
 
 
-        public List<Zona> zonasConcelho(string concelho)
+        public List<Zona> zonasConcelho(string username)
         {
-            return locais.zonasConcelho(concelho);
+            Supervisor_Concelho p = supervisores.get(username);
+            return locais.zonasConcelho(p.getConcelho());
         }
 
 
 
+        public List<Terreno> terrenosNifConcelho (string username,int Nif)
+        {
+            Supervisor_Concelho s = supervisores.get(username);
+
+            string concelho = s.getConcelho();
+
+            return terrenos.getTerrenosNifConcelho(Nif, concelho);
+        }
 
         //---------------------------------------------Trabalhadores----------------------------------------------------------------
 
@@ -442,19 +391,10 @@ namespace GestaoFlorestas.WebSite.Services
         }
 
 
-        public Trabalhador_da_Camara limparTerrenoTrabalhador(string username,string password, int idTerreno)
+        public Trabalhador_da_Camara limparTerrenoTrabalhador(string username, int idTerreno)
         {
-            Trabalhador_da_Camara tc;
-            if (trabalhadores.containsTrabalhador(username))
-            {
-
-                if (this.trabalhadores.verificarPassword(password, username))
-                {
-                    tc = trabalhadores.get(username);
-                }
-                else throw new ExistingUserException();
-            }
-            else throw new ExistingUserException();
+            Trabalhador_da_Camara tc = trabalhadores.get(username);
+            
             if (tc.limpaTerreno(idTerreno))
             {
                 if (this.terrenos.contains(idTerreno))
@@ -468,50 +408,21 @@ namespace GestaoFlorestas.WebSite.Services
             return tc;
         }
 
-        public List<Terreno> terrenosALimpar(string username, string password)
+        public List<Terreno> terrenosALimpar(string username)
         {
-            Trabalhador_da_Camara tc;
-            if (trabalhadores.containsTrabalhador(username))
-            {
-
-                if (this.trabalhadores.verificarPassword(password, username))
-                {
-                    tc = trabalhadores.get(username);
-                }
-                else throw new ExistingUserException();
-            }
-            else throw new ExistingUserException();
+            Trabalhador_da_Camara tc = trabalhadores.get(username);
             return tc.getTerrenosALimparObj();
         }
 
-        public List<Notificacao> notificacoesTrabalhador(string username, string password)
+        public List<Notificacao> notificacoesTrabalhador(string username)
         {
-            Trabalhador_da_Camara tc;
-            if (trabalhadores.containsTrabalhador(username))
-            {
-
-                if (this.trabalhadores.verificarPassword(password, username))
-                {
-                    tc = trabalhadores.get(username);
-                }
-                else throw new ExistingUserException();
-            }
-            else throw new ExistingUserException();
+            Trabalhador_da_Camara tc = trabalhadores.get(username);
             return tc.getNotificacoesObj();
         }
 
-        public void visualizarNotificacoesTrabalhador(string username, string password)
+        public void visualizarNotificacoesTrabalhador(string username)
         {
-            if (trabalhadores.containsTrabalhador(username))
-            {
-
-                if (this.trabalhadores.verificarPassword(password, username))
-                {
-                    this.notifications.visualizarNotificacoes(username, "Trabalhador");
-                }
-                else throw new ExistingUserException();
-            }
-            else throw new ExistingUserException();
+            this.notifications.visualizarNotificacoes(username, "Trabalhador");
         }
 
 
