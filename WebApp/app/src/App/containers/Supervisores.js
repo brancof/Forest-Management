@@ -29,7 +29,6 @@ class Supervisores extends React.Component {
         axios.get('https://localhost:44301/supervisores/Seguranca', {
                 params: {
                     Username: this.props.username
-                    //Password: this.props.password
                 },
                 headers: {
                     "Authorization": this.state.auth
