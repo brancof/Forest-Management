@@ -140,6 +140,39 @@ namespace GestaoFlorestas.WebSite.Controllers
         }
 
 
+        [Authorize]
+        [Route("Terrenoscamara")]
+        [HttpGet]
+
+        public ActionResult TerrenosCamara([FromQuery] string Username,
+                                           [FromHeader] string Authorization)
+        {
+            object r;
+            if (MiddleWare(Authorization, Username))
+            {
+                r = this.GestaoFlorestasService.terrenosCamara(Username);
+                return new JsonResult(r);
+            }
+            else return Unauthorized();
+        }
+
+        [Authorize]
+        [Route("Trabalhadorescamara")]
+        [HttpGet]
+
+        public ActionResult TrabalhadoresCamara([FromQuery] string Username,
+                                          [FromHeader] string Authorization)
+        {
+            object r;
+            if (MiddleWare(Authorization, Username))
+            {
+                r = this.GestaoFlorestasService.trabalhadoresCamara(Username);
+                return new JsonResult(r);
+            }
+            else return Unauthorized();
+        }
+
+
         [Route("Trocaprop")]
         [HttpPut]
         public ActionResult TrocaProp([FromBody] string body, [FromHeader] string Authorization) //body username,idTerreno,nifnovoprop
@@ -239,6 +272,63 @@ namespace GestaoFlorestas.WebSite.Controllers
         }
 
 
+        [Authorize]
+        [Route("Concelho")]
+        [HttpGet]
+        public ActionResult GetConcelho([FromQuery] string Username, [FromHeader] string Authorization)
+        {
+            object res;
+            if (MiddleWare(Authorization, Username))
+            {
+                res = this.GestaoFlorestasService.getConcelho(Username);
+                return new JsonResult(res);
+            }
+            else return Unauthorized();
+        }
 
+
+
+
+        //------------------------------------notificacoes -----------------------------------------
+        [Authorize]
+        [Route("Notificacoes")]
+        [HttpGet]
+        public ActionResult GetNotifications([FromQuery] string Username,
+                                             [FromHeader] string Authorization)
+        {
+            if (MiddleWare(Authorization, Username))
+            {
+                object result = this.GestaoFlorestasService.notificacoesSupervisor(Username);
+                return new JsonResult(result);
+            }
+            else return Unauthorized();
+        }
+
+        [Authorize]
+        [Route("Notificacoes/Ler")]
+        [HttpPut]
+        public ActionResult AtualizaNotifications([FromBody] string body, [FromHeader] string Authorization)//body: "username"
+        {
+            if (MiddleWare(Authorization, body))
+            {
+                this.GestaoFlorestasService.visualizarNotificacoesSuper(body);
+                return Ok();
+            }
+            else return Unauthorized();
+        }
+
+        [Authorize]
+        [Route("Notificacoesnovas")]
+        [HttpGet]
+        public ActionResult NotificacoesPorLer([FromQuery] string Username,
+                                               [FromHeader] string Authorization)
+        {
+            if (MiddleWare(Authorization, Username))
+            {
+                object result = this.GestaoFlorestasService.notificacoesPorLerSupervisor(Username);
+                return new JsonResult(result);
+            }
+            else return Unauthorized();
+        }
     }
 }

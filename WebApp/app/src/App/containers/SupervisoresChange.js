@@ -97,28 +97,30 @@ class SupervisoresChange extends React.Component {
     }
 
     loadTerrenos(nif){
-        axios.get('https://localhost:44301/supervisores/Terrenosnif', {
-            params: {
-                Username: this.props.username,
-                Nif: nif
-            },
-            headers: {
-                "Authorization": this.state.auth
-            }
-        })
-        .then(response => {
-            //alert("Login efectuado com successo.");
-            this.setState({terrenos: response.data});
-            console.log(response.data);
-            response.data.map((terreno, index) => {
-                this.state.checked[index]=false;
-            });                
-            //this.forceUpdate();
-        }) 
-        .catch(response => {
-            alert("Erro no carregamento de terrenos.");
-            console.log(response);
-        })
+        if(nif!=null){
+            axios.get('https://localhost:44301/supervisores/Terrenosnif', {
+                params: {
+                    Username: this.props.username,
+                    Nif: nif
+                },
+                headers: {
+                    "Authorization": this.state.auth
+                }
+            })
+            .then(response => {
+                //alert("Login efectuado com successo.");
+                this.setState({terrenos: response.data});
+                console.log(response.data);
+                response.data.map((terreno, index) => {
+                    this.state.checked[index]=false;
+                });                
+                 //this.forceUpdate();
+            }) 
+            .catch(response => {
+                alert("Erro no carregamento de terrenos.");
+                console.log(response);
+            })
+        }
     }
 
     handleProcurarButton(event) {
@@ -127,6 +129,7 @@ class SupervisoresChange extends React.Component {
         this.setState({boolAlterado: 0});
         this.setState({sucesso: 0});
         this.setState({displayTable: 1});
+        
     }
     
 

@@ -14,6 +14,7 @@ import Trabalhadores from './Trabalhadores';
 import Supervisores from './Supervisores';
 import Navbar from './Navbar';
 import SupervisoresChange from './SupervisoresChange';
+import SupervisoresMarcarInsp from './SupervisoresMarcarInsp';
 import NavbarSup from './NavbarSup';
 import Options from './Options';
 
@@ -130,13 +131,23 @@ class AppRoutes extends React.Component {
                 : <Redirect to="/" />}
               </Route> 
 
-              <Route path="/supervisoreschange">
+              <Route path="/supervisoresChange">
                 <NavbarSup change={{username: this.setUsername, 
                             password: this.setPassword, 
                             accounttype: this.setType,
                             user: this.setUser,
                             token: this.setToken}}/> 
                 {!(this.state.username === '') ? <SupervisoresChange username={this.state.username} password={this.state.password} user={this.state.user} token={this.state.token} />
+                : <Redirect to="/" />}
+              </Route> 
+
+              <Route path="/supervisoresMarcarInspecao">
+                <NavbarSup change={{username: this.setUsername, 
+                            password: this.setPassword, 
+                            accounttype: this.setType,
+                            user: this.setUser,
+                            token: this.setToken}}/> 
+                {!(this.state.username === '') ? <SupervisoresMarcarInsp username={this.state.username} password={this.state.password} user={this.state.user} token={this.state.token} />
                 : <Redirect to="/" />}
               </Route> 
 

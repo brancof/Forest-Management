@@ -11,10 +11,12 @@ namespace GestaoFlorestas.WebSite.Models
         public int codigo { get; set; }
         public String nome { get; set; }
         public int area { get; set; }
-        public Distrito distrito { get; set; }
+        //public Distrito distrito { get; set; }
         private TerrenoDAO terrenosCamara;
         public List<int> idsTerrenos { get; set; }
         public int nif { get; set; }
+        public double latitude { get; set; }
+        public double longitude { get; set; }
 
 
 
@@ -23,19 +25,21 @@ namespace GestaoFlorestas.WebSite.Models
             this.codigo = 0;
             this.nome = "";
             this.area = 0;
-            this.distrito = null;
+           // this.distrito = null;
             
         }
 
-        public Concelho(int codigo, String nome, int area, Distrito dist, int n, List<int> ids)
+        public Concelho(int codigo, String nome, int area, int n, Double lat,Double lon,List<int> ids)
         {
             this.codigo = codigo;
             this.nome = nome;
             this.area = area;
-            this.distrito = dist;
+            //this.distrito = dist;
             this.idsTerrenos = ids;
             this.nif = n;
-            
+            this.latitude = lat;
+            this.longitude = lon;
+
         }
 
         public Concelho(Concelho C)
@@ -43,7 +47,7 @@ namespace GestaoFlorestas.WebSite.Models
             this.getCodigo();
             this.nome = C.getNome();
             this.area = C.getArea();
-            this.distrito = C.getDistrito();
+           // this.distrito = C.getDistrito();
             
 
         }
@@ -54,14 +58,15 @@ namespace GestaoFlorestas.WebSite.Models
 
         public int getCodigo() { return this.codigo; }
 
-        public Distrito getDistrito() { return this.distrito; }
+     // public Distrito getDistrito() { return this.distrito; }
 
         public int getNif() { return this.nif; }
 
         public void setNome(String nome) { this.nome = nome; }
 
         public void setArea(int area) { this.area = area; }
-        public void setDistrito(Distrito dist) { this.distrito = dist; }
+
+     // public void setDistrito(Distrito dist) { this.distrito = dist; }
 
         
 
