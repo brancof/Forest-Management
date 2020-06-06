@@ -15,6 +15,7 @@ import Supervisores from './Supervisores';
 import Navbar from './Navbar';
 import SupervisoresChange from './SupervisoresChange';
 import NavbarSup from './NavbarSup';
+import Options from './Options';
 
 
 class AppRoutes extends React.Component {
@@ -78,12 +79,24 @@ class AppRoutes extends React.Component {
               </Route>
 
               <Route path="/proprietarios">
-                <Navbar change={{username: this.setUsername, 
+                <Navbar user={this.state.user} token={this.state.token} accounttype={this.state.accounttype}
+                            change={{username: this.setUsername, 
                             password: this.setPassword, 
                             accounttype: this.setType,
                             user: this.setUser,
                             token: this.setToken}}/> 
                 {!(this.state.username === '') ? <Proprietarios user={this.state.user} username={this.state.username} password={this.state.password} token={this.state.token} />
+                : <Redirect to="/" />}
+              </Route>
+
+              <Route path="/propoption">
+              <Navbar user={this.state.user} token={this.state.token} accounttype={this.state.accounttype}
+                            change={{username: this.setUsername, 
+                            password: this.setPassword, 
+                            accounttype: this.setType,
+                            user: this.setUser,
+                            token: this.setToken}}/>
+                {!(this.state.username === '') ? <Options user={this.state.user} username={this.state.username} password={this.state.password} token={this.state.token} />
                 : <Redirect to="/" />}
               </Route>
 
