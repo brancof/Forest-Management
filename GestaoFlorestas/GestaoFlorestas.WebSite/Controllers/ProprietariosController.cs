@@ -126,7 +126,7 @@ namespace GestaoFlorestas.WebSite.Controllers
 
         //-------------------------------------------------------------------------------Limpeza de terrenos-------------------------------------------------------------
 
-        //[Authorize]
+        [Authorize]
         [Route("Limpeza")]
         [HttpPut]
         public ActionResult LimpaTerreno([FromBody] string body, [FromHeader] string Authorization) //body: "username,idTerreno"
@@ -153,7 +153,7 @@ namespace GestaoFlorestas.WebSite.Controllers
 
         //----------------------------------------------------------------Informação dos terrenos----------------------------------------------------
 
-        //[Authorize]
+        [Authorize]
         [Route("Terrenos")]
         [HttpGet]
         public ActionResult GetTerrenos([FromQuery] string Username,

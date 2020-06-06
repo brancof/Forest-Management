@@ -194,43 +194,49 @@ namespace GestaoFlorestas.WebSite.Services
         }
 
 
-        public Terreno getSugestaoInspecao(string username)
+        public List<Terreno> getSugestaoInspecao(string username)
         {
             Inspetor i = inspetores.get(username);
-            Terreno res = null;
-           
+
+            List<Terreno> result = new List<Terreno>();
 
             List<Terreno> t = inspetores.getTerrenosPendentes(i.getUsername());
 
+            Double l1 = i.getLatitude() * Math.PI / 180;
+            Double lo1 = i.getLongitude() * Math.PI / 180;
+
             double nivelPrioridade = 0;
             int index = -1;
-            for (int j = 0; j < t.Count(); j++)
+            while (t.Count() > 0)
             {
-                Terreno te = t[j];
-                Double dist;
-                Double l1 = i.getLatitude() * Math.PI / 180;
-                Double l2 = te.getLatitude() * Math.PI / 180;
-                Double lo1 = i.getLongitude() * Math.PI / 180;
-                Double lo2 = te.getLongitude() * Math.PI / 180;
-                dist = 6371 * Math.Acos(Math.Cos(l1) * Math.Cos(l2) * Math.Cos(lo2 - lo1) + Math.Sin(l1) * Math.Sin(l2));
-                if (dist != 0)
+                for (int j = 0; j < t.Count(); j++)
                 {
-                    int nCritico = te.nivelCritico();
-                    double np = (nCritico * nCritico * nCritico) / dist;
-                    if (np > nivelPrioridade)
+                    Terreno te = t[j];
+                    Double dist;
+                    Double l2 = te.getLatitude() * Math.PI / 180;
+                    Double lo2 = te.getLongitude() * Math.PI / 180;
+                    dist = 6371 * Math.Acos(Math.Cos(l1) * Math.Cos(l2) * Math.Cos(lo2 - lo1) + Math.Sin(l1) * Math.Sin(l2));
+                    if (dist != 0)
                     {
-                        index = j;
-                        nivelPrioridade = np;
+                        int nCritico = te.nivelCritico();
+                        double np = (nCritico * nCritico * nCritico) / dist;
+                        if (np > nivelPrioridade)
+                        {
+                            index = j;
+                            nivelPrioridade = np;
+                        }
                     }
-                }
+                    else { index = j; break; }
 
+                }
+                result.Add(t[index]);
+                l1 = t[index].getLatitude() * Math.PI / 180;
+                lo1 = t[index].getLongitude() * Math.PI / 180;
+                t.RemoveAt(index);
+                nivelPrioridade = 0;
             }
 
-            res = t[index];
-
-
-
-            return res;
+            return result;
         }
 
         //----------------------------------------------Supervisores----------------------------------------
@@ -354,16 +360,6 @@ namespace GestaoFlorestas.WebSite.Services
 
 
         public List<Terreno> terrenosNifConcelho(string username, int Nif)
-        {
-            Supervisor_Concelho s = supervisores.get(username);
-
-            string concelho = s.getConcelho();
-
-            return terrenos.getTerrenosNifConcelho(Nif, concelho);
-        }
-
-
-        public List<Terreno> terrenosNifConcelho (string username,int Nif)
         {
             Supervisor_Concelho s = supervisores.get(username);
 
