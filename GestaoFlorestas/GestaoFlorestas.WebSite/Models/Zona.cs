@@ -95,5 +95,14 @@ namespace GestaoFlorestas.WebSite.Models
             if (this.nivelCritico <= 0.15) return 3;
             return 4;
         }
+
+        public void nivelCriticoReal()
+        {
+            if (this.nivelCritico <= 0.02) nivelCritico =  1;
+            else if (this.nivelCritico <= 0.07) nivelCritico = 2;
+            else if (this.nivelCritico <= 0.15) nivelCritico = 3;
+            else nivelCritico = 4;
+        }
+
     }
 }

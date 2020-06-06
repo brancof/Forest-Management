@@ -213,6 +213,20 @@ namespace GestaoFlorestas.WebSite.Controllers
         }
 
 
+        [Authorize]
+        [Route("Notificacoesnovas")]
+        [HttpGet]
+        public ActionResult NotificacoesPorLer([FromQuery] string Username,
+                                               [FromHeader] string Authorization)
+        {
+            if (MiddleWare(Authorization, Username))
+            {
+                object result = this.GestaoFlorestasService.notificacoesPorLerProprietario(Username);
+                return new JsonResult(result);
+            }
+            else return Unauthorized();
+        }
+
 
         /*em principio nao sera preciso
 
@@ -301,7 +315,7 @@ namespace GestaoFlorestas.WebSite.Controllers
         }
          
          */
-        
+
 
     }
 }

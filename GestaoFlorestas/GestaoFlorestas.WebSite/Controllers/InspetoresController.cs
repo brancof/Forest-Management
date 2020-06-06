@@ -150,5 +150,33 @@ namespace GestaoFlorestas.WebSite.Controllers
             }
             else return Unauthorized();
         }
+
+        //-------------------------------------------------notificações-------------------------------------------------
+        [Authorize]
+        [Route("Notificacoes")]
+        [HttpGet]
+        public ActionResult GetNotifications([FromQuery] string Username,
+                                            [FromHeader] string Authorization)
+        {
+            if (MiddleWare(Authorization, Username))
+            {
+                object result = this.GestaoFlorestasService.notificacoesInspetor(Username);
+                return new JsonResult(result);
+            }
+            else return Unauthorized();
+        }
+
+        [Authorize]
+        [Route("Notificacoes/Ler")]
+        [HttpPut]
+        public ActionResult AtualizaNotifications([FromBody] string body, [FromHeader] string Authorization)//body: "username"
+        {
+            if (MiddleWare(Authorization, body))
+            {
+                this.GestaoFlorestasService.visualizarNotificacoesInsp(body);
+                return Ok();
+            }
+            else return Unauthorized();
+        }
     }
 }

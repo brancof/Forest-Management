@@ -105,8 +105,8 @@ namespace GestaoFlorestas.WebSite.Services
             cmd.Parameters.AddWithValue("@cod", c.getCodigo());
             cmd.Parameters.AddWithValue("@area", c.getArea());
             cmd.Parameters.AddWithValue("@nome", c.getNome());
-            cmd.Parameters.AddWithValue("@distrito", c.getDistrito());
-            cmd.Parameters.AddWithValue("@distrito", c.getNif());
+            //cmd.Parameters.AddWithValue("@distrito", c.getDistrito());
+            cmd.Parameters.AddWithValue("@nif", c.getNif());
 
             if (this.OpenConnection() == true)
             {
@@ -235,6 +235,8 @@ namespace GestaoFlorestas.WebSite.Services
         public Concelho getConcelho(String concelho)
         {
             String nome = concelho;
+            Decimal longitude = 0;
+            Decimal latitude = 0;
             int codConcelho = 0;
             int area = 0;
             String nomeDistrito = "";
@@ -257,12 +259,14 @@ namespace GestaoFlorestas.WebSite.Services
                     area = (int)reader[2];
                     nomeDistrito = (String)reader[3];
                     nif = (int)reader[4];
+                    latitude = (Decimal)reader[6];
+                    longitude = (Decimal)reader[7];
 
                 }
 
-                Distrito d = getDistrito(nomeDistrito);
+              
 
-                query = "Select idTerreno from Terrenos " +
+                query = "Select idTerreno from Terreno " +
                                    "where Proprietario=@con;";
                 cmd = new SqlCommand(query, con);
                 cmd.Parameters.AddWithValue("@con", concelho);
@@ -277,7 +281,7 @@ namespace GestaoFlorestas.WebSite.Services
                     }
                 }
                 this.CloseConnection();
-                return new Concelho(codConcelho, nome, area, d, nif, terrenosCamara);
+                return new Concelho(codConcelho, nome, area, nif, Decimal.ToDouble(latitude), Decimal.ToDouble(longitude), terrenosCamara);
             }
             return null;
 
@@ -366,17 +370,10 @@ namespace GestaoFlorestas.WebSite.Services
         {
             List<Zona> res = new List<Zona>();
 
-            String codigoPostal = "";
-            int area = 0;
-            Decimal latitude = 0;
-            Decimal longitude = 0;
-            String nomeFreguesia = "";
-            Decimal nivelCritico = 0;
-
-
             string query = "SELECT z.Cod_Postal, z.Area, z.latitude, z.longitude, z.nomeFreguesia, z.nivelCritico, z.nIncendios FROM Zona as z"
                             + " JOIN Freguesia AS f on f.nomeFreguesia = z.nomeFreguesia"
-                            + " where nomeConcelho = @conc;";
+                            + " where nomeConcelho = @conc " 
+                            +  "order by z.nivelCritico desc;";
 
             SqlCommand cmd = new SqlCommand(query, con);
             cmd.Parameters.AddWithValue("@conc", concelho);
@@ -399,7 +396,45 @@ namespace GestaoFlorestas.WebSite.Services
             return res;
         }
 
+        public List<Trabalhador_da_Camara> trabalhadoresConcelho(String concelho)
+        {
+            List<Trabalhador_da_Camara> res = new List<Trabalhador_da_Camara>();
 
+            String username = "";
+            String password = "";
+            String nomeConcelho = "";
+            String nome = "";
+            String email = "";
+
+
+            string query = "SELECT * FROM Trabalhador as T"
+                            + " where nomeConcelho = @conc;";
+
+            SqlCommand cmd = new SqlCommand(query, con);
+            cmd.Parameters.AddWithValue("@conc", concelho);
+
+            if (this.OpenConnection() == true)
+            {
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        username = (String)reader[0];
+                        password = (String)reader[1];
+                        nomeConcelho = ((String)reader[3]);
+                        nome = ((String)reader[2]);
+                        email = (String)reader[4];
+
+                        Trabalhador_da_Camara tc = new Trabalhador_da_Camara(nome, username, email, password, nomeConcelho, -1, null);
+                        res.Add(tc);
+                    }
+
+                }
+                this.CloseConnection();
+            }
+
+            return res;
+        }
 
 
     }
