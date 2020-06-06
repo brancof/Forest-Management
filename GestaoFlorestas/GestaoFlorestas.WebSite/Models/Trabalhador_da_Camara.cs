@@ -10,7 +10,7 @@ namespace GestaoFlorestas.WebSite.Models
     {
         public String nome { get; set; }
         public String username { get; set; }
-        public String password { get; set; }
+        private String password;
         public String email { get; set; }
         public List<int> idsLimpezasPendentes { get; set; }
 

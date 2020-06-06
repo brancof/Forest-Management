@@ -99,6 +99,12 @@ namespace GestaoFlorestas.WebSite.Services
             return p.getNotificacoesObjects();
         }
 
+        public int notificacoesPorLerProprietario(string username)
+        {
+            Proprietario p = proprietarios.get(username);
+            return p.notificacoesPorLer;
+        }
+
 
         public void limparTerreno(int idTerreno, string username)
         {
@@ -239,6 +245,18 @@ namespace GestaoFlorestas.WebSite.Services
             return result;
         }
 
+
+        public List<Notificacao> notificacoesInspetor(string username)
+        {
+            return this.notifications.get(username, "Inspetor");
+        }
+
+        public void visualizarNotificacoesInsp(string username)
+        {
+            this.notifications.visualizarNotificacoes(username, "Inspetor");
+        }
+
+
         //----------------------------------------------Supervisores----------------------------------------
 
         public void registoSupervisor(String nome, String username, String mail, String password, String concelho)
@@ -286,7 +304,6 @@ namespace GestaoFlorestas.WebSite.Services
 
             if (concelhoTerr.Equals(p.getConcelho()))
             {
-
                 t.setNif(nifNovoProp);
                 if (this.proprietarios.containsByNif(nifNovoProp))
                 {
@@ -365,7 +382,14 @@ namespace GestaoFlorestas.WebSite.Services
         public List<Zona> zonasConcelho(string username)
         {
             Supervisor_Concelho p = supervisores.get(username);
-            return locais.zonasConcelho(p.getConcelho());
+            List<Zona> r = locais.zonasConcelho(p.getConcelho());
+
+            for (int i = 0; i < r.Count(); i++)
+            {
+                r[i].nivelCriticoReal();
+            }
+
+            return r;
         }
 
 
@@ -376,6 +400,46 @@ namespace GestaoFlorestas.WebSite.Services
             string concelho = s.getConcelho();
 
             return terrenos.getTerrenosNifConcelho(Nif, concelho);
+        }
+
+
+        public List<Terreno> terrenosCamara(string username)
+        {
+            Supervisor_Concelho s = supervisores.get(username);
+
+            string concelho = s.getConcelho();
+
+            Concelho c = locais.getConcelho(concelho);
+
+            int nif = c.getNif();
+
+            return terrenos.getTerrenosNifConcelho(nif, concelho);
+        }
+
+        public List<Trabalhador_da_Camara> trabalhadoresCamara(string username)
+        {
+            Supervisor_Concelho s = supervisores.get(username);
+
+            string concelho = s.getConcelho();
+
+            return locais.trabalhadoresConcelho(concelho);
+        }
+
+
+        public List<Notificacao> notificacoesSupervisor(string username)
+        {
+            return this.notifications.get(username, "Supervisor");
+        }
+
+        public void visualizarNotificacoesSuper(string username)
+        {
+            this.notifications.visualizarNotificacoes(username, "Supervisor");
+        }
+
+        public int notificacoesPorLerSupervisor(string username)
+        {
+            Supervisor_Concelho p = supervisores.get(username);
+            return p.notificacoesPorLer;
         }
 
         //---------------------------------------------Trabalhadores----------------------------------------------------------------
