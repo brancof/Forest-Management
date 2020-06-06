@@ -29,7 +29,8 @@ import {
                     <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
                         <div className="navbar-nav">
                             <Link to="/supervisores"><a className="nav-item nav-link">Página Inicial</a></Link>
-                            <Link to="/supervisoreschange"><a className="nav-item nav-link">Alterar Terreno</a></Link>
+                            <Link to="/supervisoresChange"><a className="nav-item nav-link">Alterar Terreno</a></Link>
+                            <Link to="/supervisoresMarcarInspecao"><a className="nav-item nav-link">Marcar Inspeção</a></Link>
                         </div>
                         <div className="navbar-nav ml-auto">
                             <Link to="/login"><a className="nav-item nav-link" onClick={this.logoutClick}>Logout</a></Link>
