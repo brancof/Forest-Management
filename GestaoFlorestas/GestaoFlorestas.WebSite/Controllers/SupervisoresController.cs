@@ -239,6 +239,21 @@ namespace GestaoFlorestas.WebSite.Controllers
         }
 
 
+        [Authorize]
+        [Route("Concelho")]
+        [HttpGet]
+        public ActionResult GetConcelho([FromQuery] string Username, [FromHeader] string Authorization)
+        {
+            object res;
+            if (MiddleWare(Authorization, Username))
+            {
+                res = this.GestaoFlorestasService.getConcelho(Username);
+                return new JsonResult(res);
+            }
+            else return Unauthorized();
+        }
+
+
 
     }
 }

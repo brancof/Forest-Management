@@ -105,8 +105,8 @@ namespace GestaoFlorestas.WebSite.Services
             cmd.Parameters.AddWithValue("@cod", c.getCodigo());
             cmd.Parameters.AddWithValue("@area", c.getArea());
             cmd.Parameters.AddWithValue("@nome", c.getNome());
-            cmd.Parameters.AddWithValue("@distrito", c.getDistrito());
-            cmd.Parameters.AddWithValue("@distrito", c.getNif());
+            //cmd.Parameters.AddWithValue("@distrito", c.getDistrito());
+            cmd.Parameters.AddWithValue("@nif", c.getNif());
 
             if (this.OpenConnection() == true)
             {
@@ -235,6 +235,8 @@ namespace GestaoFlorestas.WebSite.Services
         public Concelho getConcelho(String concelho)
         {
             String nome = concelho;
+            Decimal longitude = 0;
+            Decimal latitude = 0;
             int codConcelho = 0;
             int area = 0;
             String nomeDistrito = "";
@@ -257,12 +259,14 @@ namespace GestaoFlorestas.WebSite.Services
                     area = (int)reader[2];
                     nomeDistrito = (String)reader[3];
                     nif = (int)reader[4];
+                    latitude = (Decimal)reader[6];
+                    longitude = (Decimal)reader[7];
 
                 }
 
-                Distrito d = getDistrito(nomeDistrito);
+              
 
-                query = "Select idTerreno from Terrenos " +
+                query = "Select idTerreno from Terreno " +
                                    "where Proprietario=@con;";
                 cmd = new SqlCommand(query, con);
                 cmd.Parameters.AddWithValue("@con", concelho);
@@ -277,7 +281,7 @@ namespace GestaoFlorestas.WebSite.Services
                     }
                 }
                 this.CloseConnection();
-                return new Concelho(codConcelho, nome, area, d, nif, terrenosCamara);
+                return new Concelho(codConcelho, nome, area, nif, Decimal.ToDouble(latitude), Decimal.ToDouble(longitude), terrenosCamara);
             }
             return null;
 

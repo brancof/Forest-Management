@@ -266,6 +266,16 @@ namespace GestaoFlorestas.WebSite.Services
             else throw new ExistingUserException();   
         }
 
+        public Concelho getConcelho(String username)
+        {
+            Supervisor_Concelho s = supervisores.get(username);
+
+            String conc = s.getConcelho();
+
+            Concelho res = locais.getConcelho(conc);
+
+            return res;
+        }
 
 
         public void trocaProprietarioTerreno(string username, int idTerreno, String nifNovoProp)
