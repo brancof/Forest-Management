@@ -36,6 +36,7 @@ namespace GestaoFlorestas.WebSite.Models
             this.longitude = longitude;
             this.nomeFreguesia = freguesia;
             this.freguesia = new LocalidadeDAO();
+            //this.emInspecao = inspec;
         }
 
         public Zona(Zona Z)
@@ -72,6 +73,8 @@ namespace GestaoFlorestas.WebSite.Models
         public void setLongitude(Double longitude) { this.longitude = longitude; }
 
         public void setNomeFreguesia(String nome) { this.nomeFreguesia = nome; }
+
+        public void setEmInspecao(Boolean b) { this.emInspecao = b; }
 
         public Freguesia getFreguesiaObject()
         {
