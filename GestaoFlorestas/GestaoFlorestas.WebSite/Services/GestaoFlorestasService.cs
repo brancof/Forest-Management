@@ -363,13 +363,14 @@ namespace GestaoFlorestas.WebSite.Services
             if (concelhoZ.Equals(p.getConcelho()))
             {
                 List<int> terrenos = this.zonas.getTerrenos(codPostal);
-                
-                for(int i = 0; i < terrenos.Count; i++)
+                for (int i = 0; i < terrenos.Count; i++)
                 {
                     Inspecao insp = new Inspecao(terrenos[i], inspetor, 0, "", DateTime.UtcNow);
                     this.inspetores.putInspecaoNova(insp);
                 }
-
+                string conteudo = "Foi adicionada a zona com o codigo de postal'" + codPostal + "' à sua lista de inspeções. Todos os terrenos dessa zona foram adicionados à sua lista de trabalhos"; //conteudo da notificação
+                Notificacao n = new Notificacao(conteudo, false, inspetor, "Inspetor", DateTime.UtcNow); //objeto representante da notificacao
+                this.notifications.put(n); //adiciona a notificacao à bd
 
             }
 
