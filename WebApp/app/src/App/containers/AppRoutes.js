@@ -16,8 +16,8 @@ import Navbar from './Navbar';
 import SupervisoresChange from './SupervisoresChange';
 import SupervisoresMarcarInsp from './SupervisoresMarcarInsp';
 import SupervisoresMarcarLimp from './SupervisoresMarcarLimp';
-import NavbarSup from './NavbarSup';
 import Options from './Options';
+import './AppRoutes.css';
 
 
 class AppRoutes extends React.Component {
@@ -25,14 +25,12 @@ class AppRoutes extends React.Component {
         super(props);
         this.state = {
             username: '',
-            password: '',
             token: '',
             accounttype: 'proprietarios',
             user: ''
         };
 
         this.setUsername = this.setUsername.bind(this);
-        this.setPassword = this.setPassword.bind(this);
         this.setType = this.setType.bind(this);
         this.setUser = this.setUser.bind(this);
         this.setToken = this.setToken.bind(this);
@@ -65,36 +63,35 @@ class AppRoutes extends React.Component {
 
 
     render() {
+
         return (
           <div className="AppRouter">
             <Switch>          
               <Route path="/login">
-                {this.state.username === '' ? <Login change={{username: this.setUsername, 
-                                                            password: this.setPassword, 
+                {this.state.username === '' ? <Login change={{username: this.setUsername,
                                                             accounttype: this.setType,
                                                             user: this.setUser,
                                                             token: this.setToken}} /> 
                 : <Redirect to="/" />}
               </Route>
+
               <Route path="/registo">
                 <Register />
               </Route>
 
               <Route path="/proprietarios">
                 <Navbar user={this.state.user} token={this.state.token} accounttype={this.state.accounttype}
-                            change={{username: this.setUsername, 
-                            password: this.setPassword, 
+                            change={{username: this.setUsername,
                             accounttype: this.setType,
                             user: this.setUser,
                             token: this.setToken}}/> 
-                {!(this.state.username === '') ? <Proprietarios user={this.state.user} username={this.state.username} password={this.state.password} token={this.state.token} />
+                {!(this.state.username === '') ? <Proprietarios user={this.state.user} username={this.state.username} token={this.state.token} />
                 : <Redirect to="/" />}
               </Route>
 
               <Route path="/propoption">
-              <Navbar user={this.state.user} token={this.state.token} accounttype={this.state.accounttype}
+                <Navbar user={this.state.user} token={this.state.token} accounttype={this.state.accounttype}
                             change={{username: this.setUsername, 
-                            password: this.setPassword, 
                             accounttype: this.setType,
                             user: this.setUser,
                             token: this.setToken}}/>
@@ -103,62 +100,62 @@ class AppRoutes extends React.Component {
               </Route>
 
               <Route path="/inspetores">
-                <Navbar change={{username: this.setUsername, 
-                            password: this.setPassword, 
+                <Navbar user={this.state.user} token={this.state.token} accounttype={this.state.accounttype}
+                            change={{username: this.setUsername, 
                             accounttype: this.setType,
                             user: this.setUser,
-                            token: this.setToken}}/> 
-                {!(this.state.username === '') ? <Inspetores username={this.state.username} password={this.state.password} user={this.state.user} token={this.state.token} />
+                            token: this.setToken}}/>   
+                {!(this.state.username === '') ? <Inspetores username={this.state.username} user={this.state.user} token={this.state.token} />
                 : <Redirect to="/" />}
               </Route> 
 
               <Route path="/trabalhadores">
-                <Navbar change={{username: this.setUsername, 
-                            password: this.setPassword, 
+                <Navbar user={this.state.user} token={this.state.token} accounttype={this.state.accounttype}
+                            change={{username: this.setUsername, 
                             accounttype: this.setType,
                             user: this.setUser,
                             token: this.setToken}}/> 
-                {!(this.state.username === '') ? <Trabalhadores user={this.state.user} username={this.state.username} password={this.state.password} token={this.state.token} />
+                {!(this.state.username === '') ? <Trabalhadores user={this.state.user} username={this.state.username} token={this.state.token} />
                 : <Redirect to="/" />}
               </Route> 
 
               <Route path="/supervisores">
-              <NavbarSup change={{username: this.setUsername, 
-                            password: this.setPassword, 
+                <Navbar user={this.state.user} token={this.state.token} accounttype={this.state.accounttype}
+                            change={{username: this.setUsername, 
                             accounttype: this.setType,
                             user: this.setUser,
                             token: this.setToken}}/> 
-                {!(this.state.username === '') ? <Supervisores username={this.state.username} password={this.state.password} user={this.state.user} token={this.state.token} />
+                {!(this.state.username === '') ? <Supervisores username={this.state.username} user={this.state.user} token={this.state.token} />
                 : <Redirect to="/" />}
               </Route> 
 
               <Route path="/supervisoresChange">
-                <NavbarSup change={{username: this.setUsername, 
-                            password: this.setPassword, 
+                <Navbar user={this.state.user} token={this.state.token} accounttype={this.state.accounttype}
+                            change={{username: this.setUsername, 
                             accounttype: this.setType,
                             user: this.setUser,
                             token: this.setToken}}/> 
-                {!(this.state.username === '') ? <SupervisoresChange username={this.state.username} password={this.state.password} user={this.state.user} token={this.state.token} />
+                {!(this.state.username === '') ? <SupervisoresChange username={this.state.username} user={this.state.user} token={this.state.token} />
                 : <Redirect to="/" />}
               </Route> 
 
               <Route path="/supervisoresMarcarInspecao">
-                <NavbarSup change={{username: this.setUsername, 
-                            password: this.setPassword, 
+                <Navbar user={this.state.user} token={this.state.token} accounttype={this.state.accounttype}
+                            change={{username: this.setUsername, 
                             accounttype: this.setType,
                             user: this.setUser,
                             token: this.setToken}}/> 
-                {!(this.state.username === '') ? <SupervisoresMarcarInsp username={this.state.username} password={this.state.password} user={this.state.user} token={this.state.token} />
+                {!(this.state.username === '') ? <SupervisoresMarcarInsp username={this.state.username} user={this.state.user} token={this.state.token} />
                 : <Redirect to="/" />}
               </Route> 
 
               <Route path="/supervisoresMarcarLimpeza">
-                <NavbarSup change={{username: this.setUsername, 
-                            password: this.setPassword, 
+                <Navbar user={this.state.user} token={this.state.token} accounttype={this.state.accounttype}
+                            change={{username: this.setUsername, 
                             accounttype: this.setType,
                             user: this.setUser,
                             token: this.setToken}}/> 
-                {!(this.state.username === '') ? <SupervisoresMarcarLimp username={this.state.username} password={this.state.password} user={this.state.user} token={this.state.token} />
+                {!(this.state.username === '') ? <SupervisoresMarcarLimp username={this.state.username} user={this.state.user} token={this.state.token} />
                 : <Redirect to="/" />}
               </Route> 
 

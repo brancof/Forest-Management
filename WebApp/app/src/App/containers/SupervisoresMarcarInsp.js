@@ -95,11 +95,11 @@ class SupervisoresMarcarInsp extends React.Component {
         return (this.state.zonas.length > 0 ? this.state.zonas.map((zona, index) =>
             <tr key={zona.codigo_Postal}>
                <td style={{textAlign: "left", paddingLeft: "2%"}}>
-                    <div class="custom-control custom-checkbox">
+                    <div className="custom-control custom-checkbox">
                         <input style={{display: "inline", visibility: zona.emInspecao ? "hidden" : "visible"}} type="checkbox" key={zona.codigo_Postal} onChange={this.handleCheck} value={index} className="form-check-input" id="checkmark"/>
                     </div>
                </td>
-               <td>
+               <td className="colexpand">
                     <p style={{display: "inline"}}>{zona.codigo_Postal} - {zona.nomeFreguesia}</p> 
                </td>
                <td>
@@ -131,7 +131,7 @@ class SupervisoresMarcarInsp extends React.Component {
                                         <thead>
                                             <tr>
                                                 <th scope="col"></th>
-                                                <th scope="col">Local</th>
+                                                <th scope="col colexpand">Local</th>
                                                 <th scope="col">Prioridade</th>
                                                 <th scope="col">Estado</th>
                                             </tr>
