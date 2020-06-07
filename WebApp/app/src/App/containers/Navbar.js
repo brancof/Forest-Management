@@ -56,9 +56,8 @@ import './Navbar.css';
         logoutClick()
         {
             this.props.change.token('');
-            this.props.change.password('');
-            this.props.change.username('');
             this.props.change.user('');
+            this.props.change.username('');
         }
 
         notifsDropClick()

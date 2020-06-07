@@ -10,7 +10,7 @@ import {
         this.state = {
             auth: "Bearer " + this.props.token,
             newname: '',
-            name: this.props.user.nome,
+            name: '',
             confirm: false
         };
 
@@ -18,6 +18,9 @@ import {
         this.handleNameButton = this.handleNameButton.bind(this);
     }
 
+    componentDidMount(){
+        this.setState({name: this.props.user.nome});
+    }
 
     handleNameChange(event) {
         this.setState({newname: event.target.value});
