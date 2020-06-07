@@ -41,25 +41,6 @@ class DirectionsMap extends React.Component {
     });
   }
 
-  calculateDistance() {
-    const service = new google.maps.DistanceMatrixService();
-    const origin = { lat: 41.747927, lng: -8.8517938};
-    const destination = {lat: 41.847927, lng: -8.6517938};
-    service.getDistanceMatrix(
-    {
-        
-      
-      origins: origin,
-      destinations: destination,
-      travelMode: 'DRIVING'
-    },
-      (response, status) => {
-        console.log('response', response);
-        console.log('status', status);
-        }
-      );
-    }
-
   render() {
     return (
       <div style={{height: '25%', width: '75%'}}>
@@ -68,7 +49,7 @@ class DirectionsMap extends React.Component {
           className={"map"}
           zoom={10}
           initialCenter={{ lat:41.5618, lng:-8.29563 }}
-          onReady={this.calculateDistance}
+          onReady={this.handleMapReady}
         />
       </div>
     );
