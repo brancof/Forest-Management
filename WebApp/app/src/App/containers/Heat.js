@@ -9,7 +9,7 @@ class Heat extends Component {
   constructor(props) {
     super(props);
     this.state = {
-        zoom: 11,
+        zoom: 12,
         center: {
             lat:41.5618, lng:-8.29563
         },
@@ -24,7 +24,7 @@ class Heat extends Component {
             google={this.props.google}
             zoom={this.state.zoom}
             style={{height: '50%', width: '80%'}}
-            initialCenter={this.state.center}
+            initialCenter={{lat:this.props.Latitude, lng:this.props.Longitude}}
           >
             <HeatMap
               positions={this.props.HeatData}

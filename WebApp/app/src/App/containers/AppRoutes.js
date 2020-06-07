@@ -15,6 +15,7 @@ import Supervisores from './Supervisores';
 import Navbar from './Navbar';
 import SupervisoresChange from './SupervisoresChange';
 import SupervisoresMarcarInsp from './SupervisoresMarcarInsp';
+import SupervisoresMarcarLimp from './SupervisoresMarcarLimp';
 import NavbarSup from './NavbarSup';
 
 
@@ -94,7 +95,7 @@ class AppRoutes extends React.Component {
                             accounttype: this.setType,
                             user: this.setUser,
                             token: this.setToken}}/> 
-                {!(this.state.username === '') ? <Inspetores username={this.state.username} password={this.state.password} token={this.state.token} />
+                {!(this.state.username === '') ? <Inspetores username={this.state.username} password={this.state.password} user={this.state.user} token={this.state.token} />
                 : <Redirect to="/" />}
               </Route> 
 
@@ -135,6 +136,16 @@ class AppRoutes extends React.Component {
                             user: this.setUser,
                             token: this.setToken}}/> 
                 {!(this.state.username === '') ? <SupervisoresMarcarInsp username={this.state.username} password={this.state.password} user={this.state.user} token={this.state.token} />
+                : <Redirect to="/" />}
+              </Route> 
+
+              <Route path="/supervisoresMarcarLimpeza">
+                <NavbarSup change={{username: this.setUsername, 
+                            password: this.setPassword, 
+                            accounttype: this.setType,
+                            user: this.setUser,
+                            token: this.setToken}}/> 
+                {!(this.state.username === '') ? <SupervisoresMarcarLimp username={this.state.username} password={this.state.password} user={this.state.user} token={this.state.token} />
                 : <Redirect to="/" />}
               </Route> 
 

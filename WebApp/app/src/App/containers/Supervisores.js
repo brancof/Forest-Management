@@ -12,16 +12,21 @@ class Supervisores extends React.Component {
             terrenos: '',
             auth: "Bearer " + this.props.token,
             mapInfo: [],
+            concelho:''
         };
+        this.concelho = this.concelho.bind(this);
         this.concelhoSeguro = this.concelhoSeguro.bind(this);
         this.zonasConcelho = this.zonasConcelho.bind(this);
+        
 
     }
     
     componentDidMount()
     {
+        this.concelho();
         this.concelhoSeguro();
         this.zonasConcelho();
+        
     }
     
     concelhoSeguro() 
@@ -43,6 +48,27 @@ class Supervisores extends React.Component {
                 console.log(response);
             })
     }
+
+    async concelho() 
+    {
+        await axios.get('https://localhost:44301/supervisores/Concelho', {
+                params: {
+                    Username: this.props.username
+                },
+                headers: {
+                    "Authorization": this.state.auth
+                }
+            })
+            .then(response => {
+                this.setState({concelho: response.data});
+                console.log(response.data);                
+            }) 
+            .catch(response => {
+                alert("Erro no carregamento do concelho.");
+                console.log(response);
+            })
+    }
+
 
     zonasConcelho() 
     {
@@ -88,7 +114,7 @@ class Supervisores extends React.Component {
                                     <p style={{textAlign: 'left'}} className="card-text login-text">Número total de terrenos por limpar: {this.state.terrenosLimpos}</p>
             
                                     <div className="map-container">
-                                        {this.state.mapInfo.length === 0 ? null : <Heat HeatData={this.state.mapInfo}/>}
+                                        {this.state.mapInfo.length === 0 ? null : <Heat HeatData={this.state.mapInfo} Latitude={this.state.concelho.latitude} Longitude={this.state.concelho.longitude}/>}
                                     </div>
                                     
                                 </div>

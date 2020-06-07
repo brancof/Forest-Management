@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import DirectionsMap from './DirectionsMap';
 import {
     Link
   } from "react-router-dom";
@@ -9,14 +10,38 @@ import './Inspetores.css'
     constructor(props) {
         super(props);
         this.state = {
-            username: '',
-            nome: '',
-            mail: '',
-            nif: '',
-            password: '',
-            propriedades: ''
+            auth: "Bearer " + this.props.token,
+            percurso: []
         };
+        this.sugestaoPercurso = this.sugestaoPercurso.bind(this);
+    
     }
+
+    componentDidMount()
+    {
+        this.sugestaoPercurso();
+        
+    }
+
+    sugestaoPercurso() 
+    {
+        axios.get('https://localhost:44301/inspetores/Sugestaoinspecao', {
+                params: {
+                    Username: this.props.user.Username
+                },
+                headers: {
+                    "Authorization": this.state.auth
+                }
+            })
+            .then(response => {
+                this.setState({percurso: response.data});
+                console.log(response.data);
+            }) 
+            .catch(response => {
+                console.log(response);
+            })
+    }
+
   
     render() {
         return (
@@ -48,6 +73,9 @@ import './Inspetores.css'
                                             </svg>
                                         </form>
                                         <p className="linktext">Opções</p>
+                                        <div className="map-container">
+                                            <DirectionsMap Data = {this.state.percurso}/>
+                                        </div>
                                 </div>
                             </div>
                         </div>

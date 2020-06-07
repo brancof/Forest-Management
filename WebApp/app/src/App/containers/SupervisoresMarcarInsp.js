@@ -125,7 +125,7 @@ class SupervisoresMarcarInsp extends React.Component {
                                             {this.zonastable()}
                                         </tbody>
                                     </table>
-                                    <input className="btn btn-success btn-sm btn-add-prop" type='submit' onClick={this.handleMarcarInspecaoButton} value="Alterar Estado" />
+                                    <input className="btn btn-success btn-sm btn-add-prop" type='submit' onClick={this.handleMarcarInspecaoButton} value="Inspecionar" />
                                 </div>
                             </div>
                         </div>

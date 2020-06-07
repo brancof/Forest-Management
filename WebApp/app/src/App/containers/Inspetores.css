@@ -5,3 +5,8 @@
 .searchbox {
     margin: 0 0 2rem;
 }
+
+.map-container {
+    height: 50%;
+    width: 50%;
+}

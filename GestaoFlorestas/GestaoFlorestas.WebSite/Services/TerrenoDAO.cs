@@ -221,7 +221,7 @@ namespace GestaoFlorestas.WebSite.Services
                         estadoLimpeza = ((int)reader[1]) != 0;
                         area = ((int)reader[2]);
                         cod_postal = ((String)reader[3]);
-                        proprietario = ((String)reader[4]);
+                        proprietario = null;
                         latitude = (Decimal)reader[5];
                         longitude = (Decimal)reader[6];
                         nif = "" + ((int)reader[7]);
