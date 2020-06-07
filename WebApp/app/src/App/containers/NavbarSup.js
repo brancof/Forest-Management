@@ -21,7 +21,7 @@ import {
 
         render() {
             return (
-                <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
+                <nav className="navbar fixed-top navbar-expand-sm navbar-dark bg-dark">
                     <a className="navbar-brand"> Gestão de Florestas </a>
                     <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>

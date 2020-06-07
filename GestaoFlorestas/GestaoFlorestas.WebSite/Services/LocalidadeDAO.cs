@@ -369,11 +369,12 @@ namespace GestaoFlorestas.WebSite.Services
         public List<Zona> zonasConcelho(String concelho)
         {
             List<Zona> res = new List<Zona>();
+            List<Zona> aux = new List<Zona>();
 
             string query = "SELECT z.Cod_Postal, z.Area, z.latitude, z.longitude, z.nomeFreguesia, z.nivelCritico, z.nIncendios FROM Zona as z"
                             + " JOIN Freguesia AS f on f.nomeFreguesia = z.nomeFreguesia"
-                            + " where nomeConcelho = @conc " 
-                            +  "order by z.nivelCritico desc;";
+                            + " where nomeConcelho = @conc"
+                            + " order by z.nivelCritico desc;";
 
             SqlCommand cmd = new SqlCommand(query, con);
             cmd.Parameters.AddWithValue("@conc", concelho);
@@ -383,14 +384,65 @@ namespace GestaoFlorestas.WebSite.Services
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
-                    {
+                    { 
                         Zona z = new Zona(Decimal.ToDouble((Decimal)reader[5]), (int)reader[1], (String) reader[0],
                                          Decimal.ToDouble((Decimal)reader[2]), Decimal.ToDouble((Decimal)reader[3]), (String) reader[4]);
                         res.Add(z);
                     }
 
                 }
+
+                query = "SELECT z.Cod_Postal, z.Area, z.latitude, z.longitude, z.nomeFreguesia, z.nivelCritico, z.nIncendios FROM Zona as z"
+                        + " JOIN Freguesia AS f on f.nomeFreguesia = z.nomeFreguesia"
+                        + " JOIN Terreno AS t on t.Cod_Postal = z.Cod_Postal"
+                        + " JOIN Inspecao AS i on t.idTerreno = i.idTerreno"
+                        + " where nomeConcelho = @conc AND i.estadoInspecao = 'Em espera';";
+                SqlCommand c = new SqlCommand(query, con);
+                c.Parameters.AddWithValue("@conc", concelho);
+                using (SqlDataReader reader = c.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Zona z = new Zona(Decimal.ToDouble((Decimal)reader[5]), (int)reader[1], (String)reader[0],
+                                         Decimal.ToDouble((Decimal)reader[2]), Decimal.ToDouble((Decimal)reader[3]), (String)reader[4]);
+                        aux.Add(z);
+                    }
+                }
+
                 this.CloseConnection();
+
+                for (int i = 0; i<res.Count(); i++)
+                {
+                    Boolean b = false;
+                    for (int j = 0; j < aux.Count() && b==false ; j++)
+                    {
+                        if (res[i].getCodigo_Postal() == aux[j].getCodigo_Postal()) b = true;
+                    }
+                    res[i].setEmInspecao(b);
+                }
+
+
+                    /* for (int i = 0; i < res.Count(); i++)
+                     {
+                         string q = "SELECT count(t.idTerreno) FROM Terreno as t"
+                                    + " JOIN Inspecao as i on i.idTerreno = t.idTerreno "
+                                    + "where t.Cod_Postal = @cp AND i.estadoInspecao='Em espera' ";
+
+                         SqlCommand c = new SqlCommand(q, con);
+                         c.Parameters.AddWithValue("@cp", res[i].getCodigo_Postal());
+                         int nt = -1;
+                         using (SqlDataReader r = c.ExecuteReader())
+                         {
+                             r.Read();
+                             nt = (int)r[0];
+                             Boolean inspecPendente = nt != 0;
+                             res[i].setEmInspecao(inspecPendente);
+                             nt = -1;
+                         }
+
+
+                     }*/
+                    
             }
 
             return res;
