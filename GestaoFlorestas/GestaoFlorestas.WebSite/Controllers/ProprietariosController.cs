@@ -172,7 +172,7 @@ namespace GestaoFlorestas.WebSite.Controllers
         {
             string[] campos = body.Split(',');
 
-            string newName = campos[2];
+            string newName = campos[1];
 
             if (MiddleWare(Authorization, campos[0]))
             {

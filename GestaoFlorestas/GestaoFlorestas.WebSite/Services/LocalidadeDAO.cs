@@ -384,6 +384,8 @@ namespace GestaoFlorestas.WebSite.Services
                 {
                     while (reader.Read())
                     {
+                        
+
                         Zona z = new Zona(Decimal.ToDouble((Decimal)reader[5]), (int)reader[1], (String) reader[0],
                                          Decimal.ToDouble((Decimal)reader[2]), Decimal.ToDouble((Decimal)reader[3]), (String) reader[4]);
                         res.Add(z);

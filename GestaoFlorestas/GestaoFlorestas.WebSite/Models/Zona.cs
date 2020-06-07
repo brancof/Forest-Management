@@ -14,6 +14,7 @@ namespace GestaoFlorestas.WebSite.Models
         public Double latitude { get; set; }
         public Double longitude { get; set; }
         public String nomeFreguesia { get; set; }
+        public Boolean emInspecao { get; set; }
         private LocalidadeDAO freguesia;
 
         public Zona()
