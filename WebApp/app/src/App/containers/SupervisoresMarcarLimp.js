@@ -96,7 +96,7 @@ class SupervisoresMarcarLimp extends React.Component {
                         <input style={{display: "inline", visibility: terreno.estadoLimpeza ? "hidden" : "visible"}} type="checkbox" key={terreno.id_Terreno} onChange={this.handleCheckTerr} defaultChecked={this.state.checkedTerr[index]? "checked": null} value={index} className="form-check-input" id="checkmark"/>
                     </div>
                </td>
-               <td style={{textAlign: "left"}}>
+               <td className="colexpand" style={{textAlign: "left"}}>
                     <p style={{display: "inline"}}>{terreno.morada} - {terreno.cod_postal}</p> 
                </td>
             </tr>
@@ -127,7 +127,7 @@ class SupervisoresMarcarLimp extends React.Component {
                         <input style={{display: "inline"}} type="checkbox" key={trab.username} onChange={this.handleCheckTrab} defaultChecked={this.state.checkedTrab[index]? "checked": null} value={index} className="form-check-input" id="checkmark"/>
                     </div>
                </td>
-               <td style={{textAlign: "left"}}>
+               <td className="colexpand" style={{textAlign: "left"}}>
                     <p style={{display: "inline"}}>Equipa {trab.nome}</p> 
                </td>
             </tr>

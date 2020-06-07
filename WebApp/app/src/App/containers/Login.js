@@ -54,15 +54,12 @@ class Login extends React.Component {
                 }
             })
             .then(response => {
-                //alert("Login efectuado com successo.");
                 this.props.change.token(response.data[1]);
                 this.props.change.accounttype(this.state.accounttype);
                 this.props.change.user(response.data[0]);
-                //this.props.change.password(this.state.password);
                 this.props.change.username(this.state.username);
             }) 
             .catch(response => {
-                //alert("Username ou password incorrectos.");
                 this.setState({wrongwarning: true});
                 console.log(response);
             })
