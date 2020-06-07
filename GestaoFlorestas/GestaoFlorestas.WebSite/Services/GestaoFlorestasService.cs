@@ -413,7 +413,7 @@ namespace GestaoFlorestas.WebSite.Services
 
             int nif = c.getNif();
 
-            return terrenos.getTerrenosNifConcelho(nif, concelho);
+            return terrenos.getTerrenosCamara(nif, concelho);
         }
 
         public List<Trabalhador_da_Camara> trabalhadoresCamara(string username)

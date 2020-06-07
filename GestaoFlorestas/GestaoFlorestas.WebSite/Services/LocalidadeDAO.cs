@@ -420,28 +420,6 @@ namespace GestaoFlorestas.WebSite.Services
                     }
                     res[i].setEmInspecao(b);
                 }
-
-
-                    /* for (int i = 0; i < res.Count(); i++)
-                     {
-                         string q = "SELECT count(t.idTerreno) FROM Terreno as t"
-                                    + " JOIN Inspecao as i on i.idTerreno = t.idTerreno "
-                                    + "where t.Cod_Postal = @cp AND i.estadoInspecao='Em espera' ";
-
-                         SqlCommand c = new SqlCommand(q, con);
-                         c.Parameters.AddWithValue("@cp", res[i].getCodigo_Postal());
-                         int nt = -1;
-                         using (SqlDataReader r = c.ExecuteReader())
-                         {
-                             r.Read();
-                             nt = (int)r[0];
-                             Boolean inspecPendente = nt != 0;
-                             res[i].setEmInspecao(inspecPendente);
-                             nt = -1;
-                         }
-
-
-                     }*/
                     
             }
 
@@ -451,7 +429,7 @@ namespace GestaoFlorestas.WebSite.Services
         public List<Trabalhador_da_Camara> trabalhadoresConcelho(String concelho)
         {
             List<Trabalhador_da_Camara> res = new List<Trabalhador_da_Camara>();
-
+            List<String> aux = new List<String>();
             String username = "";
             String password = "";
             String nomeConcelho = "";
@@ -477,11 +455,40 @@ namespace GestaoFlorestas.WebSite.Services
                         nome = ((String)reader[2]);
                         email = (String)reader[4];
 
-                        Trabalhador_da_Camara tc = new Trabalhador_da_Camara(nome, username, email, password, nomeConcelho, -1, null);
+                        Trabalhador_da_Camara tc = new Trabalhador_da_Camara(nome, username, email, password, nomeConcelho, -1, new List<int>());
                         res.Add(tc);
                     }
 
                 }
+
+                query = "SELECT T.username FROM Trabalhador as T"
+                        + " JOIN LimpezasPendentes as L on L.Trabalhador = T.username"
+                        + " where nomeConcelho = @conc;";
+                
+                SqlCommand c = new SqlCommand(query, con);
+                c.Parameters.AddWithValue("@conc", concelho);
+                using (SqlDataReader reader = c.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        username = (String)reader[0];
+                        aux.Add(username);
+                    }
+
+                }
+                for (int i = 0; i < res.Count(); i++)
+                {
+                    for (int j = 0; j < aux.Count(); j++)
+                    {
+                        if (res[i].getUsername() == aux[j])
+                        {
+                            res[i].idsLimpezasPendentes.Add(1);
+                            aux.RemoveAt(j); j--;
+                        }
+                    }
+                }
+
+
                 this.CloseConnection();
             }
 

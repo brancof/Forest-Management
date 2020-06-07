@@ -19,6 +19,7 @@ namespace GestaoFlorestas.WebSite.Models
         public List<Inspecao> inspecoes { get; set; }
         public String nif { get; set; }
         public string morada { get; set; }
+        public Boolean limpezaPendente { get; set; }
         private int nivelPrioridade;
 
         public Terreno()
@@ -118,6 +119,8 @@ namespace GestaoFlorestas.WebSite.Models
         public void setProp(String prop) { this.proprietario = prop; }
 
         public void setMorada(String m) { this.morada = m; }
+
+        public void setLP(Boolean m) { this.limpezaPendente = m; }
 
         public Zona getZoneObject()
         {
