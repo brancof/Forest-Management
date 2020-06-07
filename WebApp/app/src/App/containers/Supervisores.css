@@ -19,3 +19,7 @@ s.table.table-prop {
     margin-left:0; 
     margin-right:auto;
 }
+
+.table-responsive {
+    max-height: 300px;
+}
