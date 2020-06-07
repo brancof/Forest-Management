@@ -139,16 +139,16 @@ namespace GestaoFlorestas.WebSite.Controllers
         [Authorize]
         [Route("Sugestaoinspecao")]
         [HttpGet]
-        public ActionResult Inspecao([FromBody] string body,[FromHeader] string Authorization) // body "username"
+        public ActionResult Inspecao([FromQuery] string Username,[FromHeader] string Authorization) // body "username"
         {
             object result = null;
 
-            if (MiddleWare(Authorization, body))
-            {
-                result = this.GestaoFlorestasService.getSugestaoInspecao(body);
+            //if (MiddleWare(Authorization, Username))
+            //{
+                result = this.GestaoFlorestasService.getSugestaoInspecao(Username);
                 return new JsonResult(result);
-            }
-            else return Unauthorized();
+            //}
+            //else return Unauthorized();
         }
 
         //-------------------------------------------------notificações-------------------------------------------------
