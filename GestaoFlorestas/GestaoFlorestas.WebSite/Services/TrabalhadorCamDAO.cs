@@ -169,13 +169,14 @@ namespace GestaoFlorestas.WebSite.Services
                         cmd = new SqlCommand(query, con);
                         cmd.Parameters.AddWithValue("@idTerreno", a);
                         cmd.Parameters.AddWithValue("@trabalhador", tp.getUsername());
-
-                        r = cmd.ExecuteNonQuery();
-   
+                        if (this.OpenConnection() == true)
+                        {
+                            r = cmd.ExecuteNonQuery();
+                            this.CloseConnection();
+                        }
                     }
 
                 }
-                this.CloseConnection();
             }
 
         }
@@ -208,7 +209,7 @@ namespace GestaoFlorestas.WebSite.Services
         public bool containsLimpeza(int terreno, String trabalhador)
         {
             bool r = false;
-            string query = "Select * from Trabalhador " +
+            string query = "Select * from LimpezasPendentes " +
                            "where Trabalhador=@username AND idTerreno=@id ;";
 
             SqlCommand cmd = new SqlCommand(query, con);
@@ -255,7 +256,7 @@ namespace GestaoFlorestas.WebSite.Services
 
                 List<int> terrenos = new List<int>();
 
-                query = "Select idTerreno from LimpezaPendentes " +
+                query = "Select idTerreno from LimpezasPendentes " +
                                    "where Trabalhador=@tp ;";
 
                 cmd = new SqlCommand(query, con);
@@ -312,22 +313,22 @@ namespace GestaoFlorestas.WebSite.Services
 
         public void putLimpezas(int id, String trabalhador)
         {
-            if (this.OpenConnection() == true)
+            String query;
+            if (!containsLimpeza(id, trabalhador))
             {
-                String query;
-                if (!containsLimpeza(id, trabalhador))
-                {
-                    query = "INSERT INTO LimpezaPendentes VALUES(@idTerreno,@trabalhador);";
+                    query = "INSERT INTO LimpezasPendentes VALUES(@idTerreno,@trabalhador);";
 
                     SqlCommand cmd = new SqlCommand(query, con);
                     cmd.Parameters.AddWithValue("@idTerreno", id);
                     cmd.Parameters.AddWithValue("@trabalhador", trabalhador);
-
+                if (this.OpenConnection() == true)
+                {
                     int r = cmd.ExecuteNonQuery();
-
+                    this.CloseConnection();
                 }
-                this.CloseConnection();
+
             }
+        
         }
 
         

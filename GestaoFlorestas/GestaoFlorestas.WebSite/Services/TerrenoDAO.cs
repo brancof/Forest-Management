@@ -124,6 +124,7 @@ namespace GestaoFlorestas.WebSite.Services
             Double area = 0;
             Decimal latitude = 0;
             Decimal longitude = 0;
+            Object prop;
             String proprietario = "";
             String cod_postal = "";
             String nif = "";
@@ -151,7 +152,9 @@ namespace GestaoFlorestas.WebSite.Services
                     estadoLimpeza = ((int)reader[1]) != 0;
                     area = ((int)reader[2]);
                     cod_postal = ((String)reader[3]);
-                    proprietario = ((String)reader[4]);
+                    prop = reader[4];
+                    if (prop == DBNull.Value) proprietario = ""; 
+                    else proprietario = (String)prop;
                     latitude = (Decimal)reader[5];
                     longitude = (Decimal)reader[6];
                     nif = "" + ((int)reader[7]);

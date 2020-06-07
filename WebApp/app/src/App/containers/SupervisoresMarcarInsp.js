@@ -9,7 +9,9 @@ class SupervisoresMarcarInsp extends React.Component {
             zonas: '',
             auth: "Bearer " + this.props.token,
             checked: [],
-            displayTable: 0
+            displayTable: 0,
+            inspClicked: 0,
+            numberChecked: 0
 
         };
 
@@ -50,26 +52,6 @@ class SupervisoresMarcarInsp extends React.Component {
             })
     }
 
-
-    zonastable(){
-        return (this.state.zonas.length > 0 ? this.state.zonas.map((zona, index) =>
-            <tr key={zona.codigo_Postal}>
-               <td style={{textAlign: "left", paddingLeft: "2%"}}>
-                    <div class="custom-control custom-checkbox">
-                        <input style={{display: "inline"}} type="checkbox" disabled={this.state.boolAlterado} key={zona.codigo_Postal} onChange={this.handleCheck} value={index} className="form-check-input" id="checkmark"/>
-                    </div>
-               </td>
-               <td style={{textAlign: "left"}}>
-                    <p style={{display: "inline"}}>{zona.codigo_Postal} - {zona.nomeFreguesia}</p> 
-               </td>
-               <td style={{textAlign: "left"}}>
-                    <p style={{display: "inline"}}>{zona.nivelCritico}</p> 
-                </td>
-            </tr>
-            ) : "Nenhuma zona encontrado.")
-    }
-
-
     handleMarcarInspecaoButton(event) {
         event.preventDefault();
         
@@ -77,7 +59,7 @@ class SupervisoresMarcarInsp extends React.Component {
         var i;
         for(i = 0; i < this.state.checked.length; i++)
         {
-            if(this.state.checked[i])
+            if(this.state.checked[i] && !this.state.zonas[i].emInspecao)
             {
                 axios({
                     method: 'post',
@@ -89,6 +71,16 @@ class SupervisoresMarcarInsp extends React.Component {
                     }
                 })
                 .then(response => {
+                    this.setState({inspClicked: 1});
+                    var count = 0;
+                    for(i = 0; i < this.state.checked.length; i++)
+                    {
+                        if(this.state.checked[i]){
+                            count++;
+                        }
+                    }
+                    this.setState({numberChecked: count});
+                    this.zonasConcelho();
                     console.log(response.data);
                 }) 
                 .catch(response => {
@@ -98,6 +90,28 @@ class SupervisoresMarcarInsp extends React.Component {
             }
         }
     }
+
+    zonastable(){
+        return (this.state.zonas.length > 0 ? this.state.zonas.map((zona, index) =>
+            <tr key={zona.codigo_Postal}>
+               <td style={{textAlign: "left", paddingLeft: "2%"}}>
+                    <div class="custom-control custom-checkbox">
+                        <input style={{display: "inline", visibility: zona.emInspecao ? "hidden" : "visible"}} type="checkbox" key={zona.codigo_Postal} onChange={this.handleCheck} value={index} className="form-check-input" id="checkmark"/>
+                    </div>
+               </td>
+               <td>
+                    <p style={{display: "inline"}}>{zona.codigo_Postal} - {zona.nomeFreguesia}</p> 
+               </td>
+               <td>
+                    <p style={{display: "inline"}}>{zona.nivelCritico}</p> 
+                </td>
+                <td>
+                    <p style={{display: "inline"}}>{zona.emInspecao ? "Agendada" : ""}</p> 
+                </td>
+            </tr>
+            ) : "Nenhuma zona encontrado.")
+    }
+
 
 
     render() {
@@ -119,12 +133,14 @@ class SupervisoresMarcarInsp extends React.Component {
                                                 <th scope="col"></th>
                                                 <th scope="col">Local</th>
                                                 <th scope="col">Prioridade</th>
+                                                <th scope="col">Estado</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {this.zonastable()}
                                         </tbody>
                                     </table>
+                                    <p  style={{textAlign: 'left'}} className="card-text login-text">{this.state.inspClicked?'Inspeção marcada para '+ this.state.numberChecked + ' zonas.':''}</p>
                                     <input className="btn btn-success btn-sm btn-add-prop" type='submit' onClick={this.handleMarcarInspecaoButton} value="Inspecionar" />
                                 </div>
                             </div>

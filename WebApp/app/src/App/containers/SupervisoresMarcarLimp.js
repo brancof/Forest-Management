@@ -14,7 +14,8 @@ class SupervisoresMarcarLimp extends React.Component {
             displayTableTerrenos: 1,
             displayTableTrabalhadores: 0,
             numberCheckedTerr: 0,
-            numberCheckedTrab: 0
+            numberCheckedTrab: 0,
+            marcado: 0
 
         };
 
@@ -89,10 +90,10 @@ class SupervisoresMarcarLimp extends React.Component {
 
     terrenostable(){
         return (this.state.terrenos.length > 0 ? this.state.terrenos.map((terreno, index) =>
-            <tr key={terreno.id_terreno}>
+            <tr key={terreno.id_Terreno}>
                <td style={{textAlign: "left", paddingLeft: "2%"}}>
                     <div class="custom-control custom-checkbox">
-                        <input style={{display: "inline", visibility: terreno.estadoLimpeza ? "hidden" : "visible"}} type="checkbox" key={terreno.id_terreno} onChange={this.handleCheckTerr} defaultChecked={this.state.checkedTerr[index]? "checked": null} value={index} className="form-check-input" id="checkmark"/>
+                        <input style={{display: "inline", visibility: terreno.estadoLimpeza ? "hidden" : "visible"}} type="checkbox" key={terreno.id_Terreno} onChange={this.handleCheckTerr} defaultChecked={this.state.checkedTerr[index]? "checked": null} value={index} className="form-check-input" id="checkmark"/>
                     </div>
                </td>
                <td style={{textAlign: "left"}}>
@@ -127,7 +128,7 @@ class SupervisoresMarcarLimp extends React.Component {
                     </div>
                </td>
                <td style={{textAlign: "left"}}>
-                    <p style={{display: "inline"}}>{trab.nome}</p> 
+                    <p style={{display: "inline"}}>Equipa {trab.nome}</p> 
                </td>
             </tr>
             ) : "Nenhuma zona encontrado.")
@@ -183,8 +184,8 @@ class SupervisoresMarcarLimp extends React.Component {
     handleMarcarLimpezaButton(event){
         event.preventDefault();
         
-        if(!this.state.terrenos.length > 0) return;
-        if(!this.state.trabalhadores.length > 0) return;
+        if(!this.state.terrenos.length > 0) return null;
+        if(!this.state.trabalhadores.length > 0) return null;
         var i;
         var j;
         for(i = 0; i < this.state.checkedTerr.length; i++)
@@ -198,13 +199,14 @@ class SupervisoresMarcarLimp extends React.Component {
                         axios({
                             method: 'post',
                             url: 'https://localhost:44301/supervisores/AgendarLimpeza',
-                            data: JSON.stringify(this.props.username + ',' + this.state.trabalhadores[j].username + ',' + this.state.terrenos[i].id_terreno),  
+                            data: JSON.stringify(this.props.username + ',' + this.state.trabalhadores[j].username + ',' + this.state.terrenos[i].id_Terreno),  
                             headers: {
                                 "Content-Type": "application/json",
                                 "Authorization": this.state.auth
                             }
                         })
                         .then(response => {
+                            this.setState({marcado: 1});
                             console.log(response.data);
                         }) 
                         .catch(response => {
@@ -235,7 +237,8 @@ class SupervisoresMarcarLimp extends React.Component {
                                     <p  style={{textAlign: 'left'}} className="card-text login-text">{this.state.displayTableTrabalhadores == 1? '' :(this.state.numberCheckedTrab > 0 ?'Tem '+ this.state.numberCheckedTrab + (this.state.numberCheckedTrab > 1 ? ' trabalhador selecionado' : ' trabalhadores selecionados'):'')}</p>
                                     {this.terrenostableCamara()}
                                     {this.trabalhadorestableCamara()}
-                                    <input className="btn btn-success btn-sm btn-add-prop" type='submit' onClick={this.state.numberCheckedTerr > 0 && this.state.numberCheckedTrab > 0? this.handleMarcarLimpezaButton: null} value="Marcar Limpeza" />                                    
+                                    <p  style={{textAlign: 'left'}} className="card-text login-text">{this.state.marcado? 'Limpeza marcada com sucesso.': ''}</p>
+                                    <input className="btn btn-success btn-sm btn-add-prop" type='submit' onClick={ this.handleMarcarLimpezaButton} value="Marcar Limpeza" />                                    
                                 </div>
                             </div>
                         </div>
