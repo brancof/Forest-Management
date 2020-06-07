@@ -243,6 +243,103 @@ namespace GestaoFlorestas.WebSite.Services
         }
 
 
+        public List<Terreno> getTerrenosCamara(int Nif, string Concelho)
+        {
+            Boolean estadoLimpeza = false;
+            int id_Terreno = 0;
+            Double area = 0;
+            Decimal latitude = 0;
+            Decimal longitude = 0;
+            String proprietario = "";
+            String cod_postal = "";
+            String nif = "";
+            String morada = "";
+            List<Terreno> res = new List<Terreno>();
+            List<Terreno> aux = new List<Terreno>();
+            List<Inspecao> inspecoes = new List<Inspecao>();
+
+
+            string query = "Select T.idTerreno,T.estado,T.Area,T.Cod_Postal,T.Proprietario,T.latitude,T.longitude,T.nifProprietario,F.nomeFreguesia, C.nomeConcelho, C.nomeDistrito from Terreno As T "
+                            + "JOIN Zona as Z on Z.Cod_Postal = T.Cod_Postal "
+                            + "JOIN Freguesia AS F on F.nomeFreguesia = Z.nomeFreguesia "
+                            + "Join Concelho AS C on C.nomeConcelho = F.nomeConcelho "
+                            + "where nifProprietario = @nif AND C.nomeConcelho = @conc ;";
+
+            SqlCommand cmd = new SqlCommand(query, con);
+            cmd.Parameters.AddWithValue("@nif", Nif);
+            cmd.Parameters.AddWithValue("@conc", Concelho);
+
+            if (this.OpenConnection() == true)
+            {
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+
+                    while (reader.Read())
+                    {
+                        id_Terreno = (int)reader[0];
+                        estadoLimpeza = ((int)reader[1]) != 0;
+                        area = ((int)reader[2]);
+                        cod_postal = ((String)reader[3]);
+                        proprietario = null;
+                        latitude = (Decimal)reader[5];
+                        longitude = (Decimal)reader[6];
+                        nif = "" + ((int)reader[7]);
+                        morada = ((String)reader[8]) + ", " + ((String)reader[9]) + ", " + ((String)reader[10]);
+                        res.Add(new Terreno(estadoLimpeza, id_Terreno, area, Decimal.ToDouble(latitude), Decimal.ToDouble(longitude), proprietario, cod_postal, nif, morada, inspecoes));
+                    }
+
+                }
+
+                query = "Select T.idTerreno,T.estado,T.Area,T.Cod_Postal,T.Proprietario,T.latitude,T.longitude,T.nifProprietario,F.nomeFreguesia, C.nomeConcelho, C.nomeDistrito from Terreno As T "
+                            + "JOIN Zona as Z on Z.Cod_Postal = T.Cod_Postal "
+                            + "JOIN Freguesia AS F on F.nomeFreguesia = Z.nomeFreguesia "
+                            + "Join Concelho AS C on C.nomeConcelho = F.nomeConcelho "
+                            + "Join LimpezasPendentes AS L on L.idTerreno = T.idTerreno "
+                            + "where nifProprietario = @nif AND C.nomeConcelho = @conc ;";
+
+                SqlCommand c = new SqlCommand(query, con);
+                c.Parameters.AddWithValue("@nif", Nif);
+                c.Parameters.AddWithValue("@conc", Concelho);
+
+                using (SqlDataReader reader = c.ExecuteReader())
+                {
+
+                    while (reader.Read())
+                    {
+                        id_Terreno = (int)reader[0];
+                        estadoLimpeza = ((int)reader[1]) != 0;
+                        area = ((int)reader[2]);
+                        cod_postal = ((String)reader[3]);
+                        proprietario = null;
+                        latitude = (Decimal)reader[5];
+                        longitude = (Decimal)reader[6];
+                        nif = "" + ((int)reader[7]);
+                        morada = ((String)reader[8]) + ", " + ((String)reader[9]) + ", " + ((String)reader[10]);
+                        aux.Add(new Terreno(estadoLimpeza, id_Terreno, area, Decimal.ToDouble(latitude), Decimal.ToDouble(longitude), proprietario, cod_postal, nif, morada, inspecoes));
+                    }
+
+                }
+
+                for(int i = 0; i < res.Count(); i++)
+                {
+                    Boolean b = false;
+                    for(int j = 0; b==false && j < aux.Count(); j++)
+                    {
+                        if (res[i].getId_Terreno() == aux[j].getId_Terreno()) b = true;
+                    }
+
+                    res[i].setLP(b);
+                }
+
+                this.CloseConnection();
+                return res;
+
+            }
+            return null;
+
+        }
+
+
         public void limpezaTerreno (int id, int estado)
         {
             String query = "UPDATE Terreno SET estado=@estado WHERE idTerreno=@id ;";
