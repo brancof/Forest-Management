@@ -143,12 +143,12 @@ namespace GestaoFlorestas.WebSite.Controllers
         {
             object result = null;
 
-            //if (MiddleWare(Authorization, Username))
-            //{
+            if (MiddleWare(Authorization, Username))
+            {
                 result = this.GestaoFlorestasService.getSugestaoInspecao(Username);
                 return new JsonResult(result);
-            //}
-            //else return Unauthorized();
+            }
+            else return Unauthorized();
         }
 
         //-------------------------------------------------notificações-------------------------------------------------

@@ -93,11 +93,14 @@ class SupervisoresMarcarLimp extends React.Component {
             <tr key={terreno.id_Terreno}>
                <td style={{textAlign: "left", paddingLeft: "2%"}}>
                     <div class="custom-control custom-checkbox">
-                        <input style={{display: "inline", visibility: terreno.estadoLimpeza ? "hidden" : "visible"}} type="checkbox" key={terreno.id_Terreno} onChange={this.handleCheckTerr} defaultChecked={this.state.checkedTerr[index]? "checked": null} value={index} className="form-check-input" id="checkmark"/>
+                        <input style={{display: "inline", visibility: terreno.limpezaPendente ? "hidden" : "visible"}} type="checkbox" key={terreno.id_Terreno} onChange={this.handleCheckTerr} defaultChecked={this.state.checkedTerr[index]? "checked": null} value={index} className="form-check-input" id="checkmark"/>
                     </div>
                </td>
                <td className="colexpand" style={{textAlign: "left"}}>
                     <p style={{display: "inline"}}>{terreno.morada} - {terreno.cod_postal}</p> 
+               </td>
+               <td style={{textAlign: "left"}}>
+                    <p style={{display: "inline"}}>{terreno.limpezaPendente? "Agendado": ''}</p> 
                </td>
             </tr>
             ) : "Nenhuma zona encontrado.")
@@ -107,6 +110,13 @@ class SupervisoresMarcarLimp extends React.Component {
         return( this.state.displayTableTerrenos ?
             <div>
                 <table className="table table-responsive table-hover table-bordered ">
+                    <thead>
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col colexpand">Local</th>
+                            <th scope="col">Estado</th>
+                        </tr>
+                    </thead>
                     <tbody>
                         {this.terrenostable()}
                     </tbody>
@@ -122,13 +132,16 @@ class SupervisoresMarcarLimp extends React.Component {
     trabalhadorestable(){
         return (this.state.trabalhadores.length > 0 ? this.state.trabalhadores.map((trab, index) =>
             <tr key={trab.username}>
-               <td style={{textAlign: "left", paddingLeft: "2%"}}>
+               <td style={{textAlign: "left", paddingLeft: "1%"}}>
                     <div class="custom-control custom-checkbox">
                         <input style={{display: "inline"}} type="checkbox" key={trab.username} onChange={this.handleCheckTrab} defaultChecked={this.state.checkedTrab[index]? "checked": null} value={index} className="form-check-input" id="checkmark"/>
                     </div>
                </td>
                <td className="colexpand" style={{textAlign: "left"}}>
                     <p style={{display: "inline"}}>Equipa {trab.nome}</p> 
+               </td>
+               <td style={{textAlign: "left"}}>
+                    <p style={{display: "inline"}}>{trab.idsLimpezasPendentes.length + (trab.idsLimpezasPendentes.length > 1 || trab.idsLimpezasPendentes.length == 0? ' Terrenos': ' Terreno')}</p> 
                </td>
             </tr>
             ) : "Nenhuma zona encontrado.")
@@ -138,6 +151,13 @@ class SupervisoresMarcarLimp extends React.Component {
         return( this.state.displayTableTrabalhadores ?
             <div>
                 <table className="table table-responsive table-hover table-bordered ">
+                    <thead>
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col colexpand">Equipa</th>
+                            <th scope="col">Pendente</th>
+                        </tr>
+                    </thead>
                     <tbody>
                         {this.trabalhadorestable()}
                     </tbody>

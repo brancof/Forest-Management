@@ -34,9 +34,9 @@ const data = [
         
     }
 
-    sugestaoPercurso() 
+    async sugestaoPercurso() 
     {
-        axios.get('https://localhost:44301/inspetores/Sugestaoinspecao', {
+        await axios.get('https://localhost:44301/inspetores/Sugestaoinspecao', {
                 params: {
                     Username: this.props.user.username
                 },
@@ -64,10 +64,10 @@ const data = [
                                 <div className="card-block">
                                     <h4 className="card-title login-title">Nome Inspetor</h4>
                                     <p className="card-text login-text">Propriedades para Inspeção</p>
-                                    <table className="table table-hover table-bordered table-prop">
+                                    <table className="table table-responsive table-hover table-bordered table-prop">
                                         <thead>
                                             <tr>
-                                                <th scole="col">Morada</th>
+                                                <th scole="col colexpand">Morada</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -83,9 +83,8 @@ const data = [
                                             <path fillRule="evenodd" d="M6.5 12a5.5 5.5 0 100-11 5.5 5.5 0 000 11zM13 6.5a6.5 6.5 0 11-13 0 6.5 6.5 0 0113 0z" clipRule="evenodd"/>
                                         </svg>
                                     </form>
-                                    <p className="linktext">Opções</p>
-                                    <div className="map-container">
-                                        <DirectionsMap Data={data}/>
+                                    <div className="map-containerDirection">
+                                        {this.state.percurso.length === 0 ? null :<DirectionsMap  Data={this.state.percurso}/>}
                                     </div>
                                 </div>
                             </div>
