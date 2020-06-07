@@ -97,7 +97,7 @@ class AppRoutes extends React.Component {
                             accounttype: this.setType,
                             user: this.setUser,
                             token: this.setToken}}/>
-                {!(this.state.username === '') ? <Options user={this.state.user} username={this.state.username} password={this.state.password} token={this.state.token} />
+                {!(this.state.username === '') ? <Options user={this.state.user} username={this.state.username} change={{user: this.setUser}} token={this.state.token} />
                 : <Redirect to="/" />}
               </Route>
 
