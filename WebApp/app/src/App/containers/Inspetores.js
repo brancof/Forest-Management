@@ -3,6 +3,20 @@ import axios from 'axios';
 import DirectionsMap from './DirectionsMap';
 import './Inspetores.css'
 
+const data = [
+    {
+      latitude: 41.847927,
+      longitude: -8.6517938
+    },
+    {
+      latitude: 41.747927,
+      longitude: -8.8517938
+    },
+    {
+      latitude: 41.9546904,
+      longitude: -8.6517938
+    }
+  ];
   class Inspetores extends React.Component {
     constructor(props) {
         super(props);
@@ -11,7 +25,7 @@ import './Inspetores.css'
             percurso: []
         };
         this.sugestaoPercurso = this.sugestaoPercurso.bind(this);
-        
+    
     }
 
     componentDidMount()
@@ -20,9 +34,9 @@ import './Inspetores.css'
         
     }
 
-    async sugestaoPercurso() 
+    sugestaoPercurso() 
     {
-        await axios.get('https://localhost:44301/inspetores/Sugestaoinspecao', {
+        axios.get('https://localhost:44301/inspetores/Sugestaoinspecao', {
                 params: {
                     Username: this.props.user.username
                 },
@@ -69,8 +83,9 @@ import './Inspetores.css'
                                             <path fillRule="evenodd" d="M6.5 12a5.5 5.5 0 100-11 5.5 5.5 0 000 11zM13 6.5a6.5 6.5 0 11-13 0 6.5 6.5 0 0113 0z" clipRule="evenodd"/>
                                         </svg>
                                     </form>
+                                    <p className="linktext">Opções</p>
                                     <div className="map-container">
-                                        <DirectionsMap Data={this.state.percurso}/>
+                                        <DirectionsMap Data={data}/>
                                     </div>
                                 </div>
                             </div>
