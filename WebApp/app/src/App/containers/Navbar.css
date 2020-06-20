@@ -8,6 +8,22 @@
     border-right: 10%;
   }
 
+  .notif-page-text {
+    text-align: left;
+    margin: 0;
+  }
+
+  .notif-page-date {
+    text-align: left;
+    font-size: small;
+    margin: 3px 0;
+    color:rgb(85, 85, 85);
+  }
+
+  .notif-page-div {
+    margin-bottom: 4%;
+  }
+
   .notifsPorLer {
     color: honeydew;
   }
