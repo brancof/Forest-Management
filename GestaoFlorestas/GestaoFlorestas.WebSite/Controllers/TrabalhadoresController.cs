@@ -80,7 +80,6 @@ namespace GestaoFlorestas.WebSite.Controllers
 
         //-------------------------------------Endpoints
 
-        [Authorize]
         [Route("Registo")]
         [HttpPost] 
         public ActionResult Registo([FromBody] string trabalhador)
@@ -98,7 +97,6 @@ namespace GestaoFlorestas.WebSite.Controllers
             return Ok();
         }
 
-        [Authorize]
         [Route("Login")]
         [HttpGet]
 

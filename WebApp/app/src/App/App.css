@@ -1,7 +1,11 @@
 .App {
   text-align: center;
-  background-image: url("./ponte.jpg");
+  background-position: center center;
+  background-image: url("./forest2.jpg");
   background-color: green;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
   height: 1050px;
   overflow: hidden;
 }

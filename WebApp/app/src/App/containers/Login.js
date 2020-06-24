@@ -76,10 +76,10 @@ class Login extends React.Component {
                 <div className="row">
                     <div className="col"></div>
                     <div className="col-md-7">
-                        <div className="card login-card">
-                            <div className="card-block">
-                                <h4 className="card-title login-title">Gestão de Florestas</h4>
-                                <p className="card-text login-text">Website dedicado à gestão da limpeza 
+                        <div className="card loginOnly-card">
+                            <div className="card-block" >
+                                <h3 style={{marginBottom: '20px'}} className="card-title login-title">Gestão de Florestas</h3>
+                                <p style={{marginBottom: '40px'}} class="text-secondary">Website dedicado à gestão da limpeza 
                                 e organização de florestas e territórios.</p>
                                 <form className="login-form">
                                     <div className="form-group">

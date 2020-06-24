@@ -186,8 +186,10 @@ namespace GestaoFlorestas.WebSite.Controllers
         {
             string[] campos = body.Split('|');
             if (MiddleWare(Authorization, campos[0])){
-                this.GestaoFlorestasService.atualizaLocalizacao(campos[0], Double.Parse(campos[1]), Double.Parse(campos[2]));
-                return new JsonResult(campos[2]);
+                String lat = campos[1].Replace(".", ",");
+                String lo = campos[2].Replace(".", ",");
+                this.GestaoFlorestasService.atualizaLocalizacao(campos[0], Double.Parse(lat), Double.Parse(lo));
+                return Ok();
             }
             return Unauthorized();
         }

@@ -176,9 +176,9 @@ class Register extends React.Component {
                 <div className="row">
                     <div className="col"></div>
                     <div className="col-md-7">
-                        <div className="card login-card">
+                        <div className="card loginOnly-card">
                             <div className="card-block">
-                                <h4 className="card-title login-title">Gestão de Florestas</h4>
+                                <h3 className="card-title login-title">Gestão de Florestas</h3>
                                 <p className="card-text login-text">Registar novo utilizador</p>
                                 <form className="login-form">
                                     <div className="form-group">

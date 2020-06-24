@@ -29,6 +29,7 @@ namespace GestaoFlorestas.WebSite.Models
             this.password = "";
             this.concelho = "";
             this.email = "";
+            this.terrenosALimpar = new TerrenoDAO();
             this.notificacoes = new NotificacaoDAO();
             this.notificacoesPorLer = 0;
         }
@@ -42,6 +43,7 @@ namespace GestaoFlorestas.WebSite.Models
             this.concelho = concel;
             this.idsLimpezasPendentes = lp;
             this.email = email;
+            this.terrenosALimpar = new TerrenoDAO();
             this.notificacoes = new NotificacaoDAO();
             this.notificacoesPorLer = Nnotificacao;
         }
@@ -53,6 +55,7 @@ namespace GestaoFlorestas.WebSite.Models
             this.password = password;
             this.concelho = concel;
             this.email = email;
+            this.terrenosALimpar = new TerrenoDAO();
             this.idsLimpezasPendentes = new List<int>();
             this.notificacoes = new NotificacaoDAO();
             this.notificacoesPorLer = Nnotificacao;

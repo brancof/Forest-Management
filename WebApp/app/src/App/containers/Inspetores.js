@@ -1,7 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 import DirectionsMap from './DirectionsMap';
-import Geolocation from './Geolocation';
 import './Inspetores.css'
 
 
@@ -13,12 +12,14 @@ import './Inspetores.css'
             percurso: [],
             latitude: null,
             longitude: null,
-            morada: null
+            morada: null,
+            sucesso: 0
         };
         this.getLocation = this.getLocation.bind(this);
         this.getCoordinates = this.getCoordinates.bind(this);
         this.getAddress = this.getAddress.bind(this);
         this.sugestaoPercurso = this.sugestaoPercurso.bind(this);
+        this.atualizaGPS = this.atualizaGPS.bind(this);
         
     }
 
@@ -26,6 +27,28 @@ import './Inspetores.css'
     {
         this.sugestaoPercurso();
         
+    }
+
+    atualizaGPS(){
+        axios({
+            method: 'put',
+            url: 'https://localhost:44301/inspetores/Localizacao',
+            data: JSON.stringify(this.props.user.username + '|' + this.state.latitude + '|' + this.state.longitude), 
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": this.state.auth
+            }
+        })
+        .then(response => {
+            console.log(response);
+            this.setState({sucesso: 1});
+            this.state.percurso.push({ latitude: this.state.latitude, longitude: this.state.longitude});
+            this.sugestaoPercurso();
+        }) 
+        .catch(response => {
+            alert("Erro na atualização das coordenadas.");
+            console.log(response);
+        })
     }
 
     getLocation(){
@@ -39,6 +62,7 @@ import './Inspetores.css'
     getCoordinates(position){
         this.setState({ latitude: position.coords.latitude, longitude: position.coords.longitude})
         this.getAddress();
+        this.atualizaGPS();
     }
 
     getAddress() {
@@ -83,7 +107,7 @@ import './Inspetores.css'
                 console.log(response);
             })
     }
-     
+    
   
     render() {
         return (
@@ -114,10 +138,13 @@ import './Inspetores.css'
                                             <path fillRule="evenodd" d="M6.5 12a5.5 5.5 0 100-11 5.5 5.5 0 000 11zM13 6.5a6.5 6.5 0 11-13 0 6.5 6.5 0 0113 0z" clipRule="evenodd"/>
                                         </svg>
                                     </form>
-                                    <div>
-                                        <button onClick={this.getLocation}> Localização </button>
-                                        <h4> Coordinates </h4>
-                                        <p> morada: {this.state.morada} </p>
+                                    <div class="text-left">
+                                        <button type="button" class="btn btn-dark" onClick={this.getLocation}>Localização</button>
+                                        {this.state.morada === null? '': '   Morada: '+ this.state.morada}
+                                    </div>
+                                    <div className="map-containerDirection">
+                                        {this.state.percurso.length === 0 && this.state.sucesso === 0  ? null :<DirectionsMap  Data={this.state.percurso}/>}
+                                        {this.state.sucesso === 0  ? null :<DirectionsMap  Data={this.state.percurso}/>}
                                     </div>
                                 </div>
                             </div>
@@ -132,7 +159,5 @@ import './Inspetores.css'
 export default Inspetores;
 
 /*
-<div className="map-containerDirection">
-                                        {this.state.percurso.length === 0 ? null :<DirectionsMap  Data={this.state.percurso}/>}
-                                    </div>
+
                                     */

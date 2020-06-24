@@ -1,5 +1,10 @@
 .card.login-card {
     padding: 8% 10% 100%;
+  }
+
+  .card.loginOnly-card {
+    margin-top: 20%;
+    padding: 8% 10% 10%;
     
   }
   
