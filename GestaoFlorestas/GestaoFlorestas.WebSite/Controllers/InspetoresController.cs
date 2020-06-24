@@ -178,5 +178,18 @@ namespace GestaoFlorestas.WebSite.Controllers
             }
             else return Unauthorized();
         }
+
+        [Authorize]
+        [Route("Localizacao")]
+        [HttpPut]
+        public ActionResult AtulizaLocalizacao ([FromBody] string body, [FromHeader] string Authorization)//body:"username|latitude|longitude"
+        {
+            string[] campos = body.Split('|');
+            if (MiddleWare(Authorization, campos[0])){
+                this.GestaoFlorestasService.atualizaLocalizacao(campos[0], Double.Parse(campos[1]), Double.Parse(campos[2]));
+                return new JsonResult(campos[2]);
+            }
+            return Unauthorized();
+        }
     }
 }
