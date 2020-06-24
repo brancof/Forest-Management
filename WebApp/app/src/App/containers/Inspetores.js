@@ -1,37 +1,68 @@
 import React from 'react';
 import axios from 'axios';
 import DirectionsMap from './DirectionsMap';
+import Geolocation from './Geolocation';
 import './Inspetores.css'
 
-const data = [
-    {
-      latitude: 41.847927,
-      longitude: -8.6517938
-    },
-    {
-      latitude: 41.747927,
-      longitude: -8.8517938
-    },
-    {
-      latitude: 41.9546904,
-      longitude: -8.6517938
-    }
-  ];
+
   class Inspetores extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             auth: "Bearer " + this.props.token,
-            percurso: []
+            percurso: [],
+            latitude: null,
+            longitude: null,
+            morada: null
         };
+        this.getLocation = this.getLocation.bind(this);
+        this.getCoordinates = this.getCoordinates.bind(this);
+        this.getAddress = this.getAddress.bind(this);
         this.sugestaoPercurso = this.sugestaoPercurso.bind(this);
-    
+        
     }
 
     componentDidMount()
     {
         this.sugestaoPercurso();
         
+    }
+
+    getLocation(){
+        if(navigator.geolocation){
+            navigator.geolocation.getCurrentPosition(this.getCoordinates, this.handleError, {enableHighAccuracy:true});
+        } else {
+            alert("Localização não suportada.")
+        }
+    }
+
+    getCoordinates(position){
+        this.setState({ latitude: position.coords.latitude, longitude: position.coords.longitude})
+        this.getAddress();
+    }
+
+    getAddress() {
+        fetch('https://maps.googleapis.com/maps/api/geocode/json?latlng='+this.state.latitude+','+ this.state.longitude+'&sensor=false&key=AIzaSyD94bNwC33Z03mXP2n1toNLXj8eCAQgOYQ')
+        .then(response => response.json())
+        .then(data => this.setState({
+            morada : data.results[0].formatted_address
+        }))
+        .catch(error => alert(error))
+    }
+
+    handleError(error){
+        switch(error.code) {
+            case error.PERMISSION_DENIED:
+                alert("Não permitiu saber a sua localização.")
+                break;
+            case error.POSITION_UNAVAILABLE:
+                alert("Localização não disponível.")
+                break;
+            case error.TIMEOUT:
+                alert("Excedido o tempo limite.")
+                break;
+            default: alert("Erro desconhecido.")
+            }
     }
 
     async sugestaoPercurso() 
@@ -83,8 +114,10 @@ const data = [
                                             <path fillRule="evenodd" d="M6.5 12a5.5 5.5 0 100-11 5.5 5.5 0 000 11zM13 6.5a6.5 6.5 0 11-13 0 6.5 6.5 0 0113 0z" clipRule="evenodd"/>
                                         </svg>
                                     </form>
-                                    <div className="map-containerDirection">
-                                        {this.state.percurso.length === 0 ? null :<DirectionsMap  Data={this.state.percurso}/>}
+                                    <div>
+                                        <button onClick={this.getLocation}> Localização </button>
+                                        <h4> Coordinates </h4>
+                                        <p> morada: {this.state.morada} </p>
                                     </div>
                                 </div>
                             </div>
@@ -98,3 +131,8 @@ const data = [
 
 export default Inspetores;
 
+/*
+<div className="map-containerDirection">
+                                        {this.state.percurso.length === 0 ? null :<DirectionsMap  Data={this.state.percurso}/>}
+                                    </div>
+                                    */

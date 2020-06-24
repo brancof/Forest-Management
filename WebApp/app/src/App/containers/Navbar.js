@@ -65,6 +65,14 @@ import './Navbar.css';
                     </div>
                 )
             }
+            if(this.props.accounttype === "inspetores")
+            {
+                return(
+                    <div className="navbar-nav">
+                        <Link to="/" className="nav-item nav-link">Página Inicial</Link>
+                    </div>
+                )
+            }
         }
 
         showNotifs()
