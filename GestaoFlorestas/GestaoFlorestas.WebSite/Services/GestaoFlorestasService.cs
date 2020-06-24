@@ -257,6 +257,11 @@ namespace GestaoFlorestas.WebSite.Services
         }
 
 
+        public void atualizaLocalizacao(string username, Double latitude, Double longitude)
+        {
+            inspetores.AtualizarCoordenadas(username, latitude, longitude);
+        }
+
         //----------------------------------------------Supervisores----------------------------------------
 
         public void registoSupervisor(String nome, String username, String mail, String password, String concelho)
