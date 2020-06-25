@@ -15,8 +15,8 @@ import './Trabalhadores.css'
 
         this.terrenosPendentes = this.terrenosPendentes.bind(this);
         this.terrenostable = this.terrenostable.bind(this);
-        
-        
+        this.handleAlterar = this.handleAlterar.bind(this);
+        this.handleCheck = this.handleCheck.bind(this);
     }
 
     componentDidMount()
@@ -42,6 +42,39 @@ import './Trabalhadores.css'
                 alert("Erro no carregamento de terrenos pendentes.");
                 console.log(response);
             })
+    }
+
+
+    handleAlterar(event) {
+        event.preventDefault();
+
+        if (!this.state.terrenos.length > 0) return;
+        var i;
+        for (i = 0; i < this.state.checked.length; i++) {
+            if (this.state.checked[i]) {
+                axios({
+                    method: 'put',
+                    url: 'https://localhost:44301/trabalhadores/Limpeza',
+                    data: JSON.stringify(this.props.user.username + ',' + this.state.terrenos[i].id_Terreno), 
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": this.state.auth
+                    }
+                })
+                .then(response => {
+                    console.log(response);
+                    this.terrenosPendentes();
+                }) 
+                .catch(response => {
+                    alert("Erro na realizaçao da limpeza.");
+                    console.log(response);
+                })
+            }
+        }
+    }
+
+    handleCheck(event) {
+        this.state.checked[event.target.value] = event.target.checked;
     }
 
     terrenostable(){
@@ -74,7 +107,7 @@ import './Trabalhadores.css'
                                 <div className="div-space">
                                 <table className="table table-hover">
                                     <thead>
-                                        <tr class="table-active">
+                                        <tr>
                                             <th scope="col"></th>
                                             <th scope="col">Morada</th>
                                             <th scope="col colexpand">Estado</th>
@@ -84,6 +117,9 @@ import './Trabalhadores.css'
                                         {this.state.displayTable ? this.terrenostable() : null}
                                     </tbody>
                                 </table>
+                                <div>
+                                    <input className="btn btn-success btn-sm btn-add-prop" type='submit' onClick={this.handleAlterar} value="Alterar Estado" />
+                                </div>
                                 </div>
                             </div>
                         </div>

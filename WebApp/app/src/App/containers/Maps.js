@@ -10,7 +10,7 @@ class Maps extends React.Component {
             activeMarker: {},
             selectedPlace: {},
             query:'',
-            zoom: 11,
+            zoom: 10,
             center: {
                 lat:41.5618, lng:-8.29563
             },
@@ -33,6 +33,7 @@ class Maps extends React.Component {
             
         });
     }
+   
 
     onMapClicked = (props) => {
         if (this.state.showingInfoWindow) {
@@ -41,7 +42,7 @@ class Maps extends React.Component {
                 activeMarker: null
             })
         }
-        this.setState({zoom: 11, lat:41.5618, lng:-8.29563})
+        this.setState({zoom: 10, lat:41.5618, lng:-8.29563})
     }
 
 
