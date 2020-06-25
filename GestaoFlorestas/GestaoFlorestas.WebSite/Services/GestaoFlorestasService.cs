@@ -502,7 +502,7 @@ namespace GestaoFlorestas.WebSite.Services
             this.notifications.visualizarNotificacoes(username, "Trabalhador");
         }
 
-        public Terreno getSugestaoLimpeza(string username)
+        public List<Terreno> getSugestaoLimpeza(string username)
         {
             Trabalhador_da_Camara i = trabalhadores.get(username);
 
@@ -533,7 +533,9 @@ namespace GestaoFlorestas.WebSite.Services
                     else { index = j; break; }
 
                 }
-           return t[index];
+            List<Terreno> result = new List<Terreno>();
+            result.Add(t[index]);
+            return result;
                
         }
 

@@ -93,14 +93,14 @@ class SupervisoresMarcarLimp extends React.Component {
             <tr key={terreno.id_Terreno}>
                <td style={{textAlign: "left", paddingLeft: "2%"}}>
                     <div class="custom-control custom-checkbox">
-                        <input style={{display: "inline", visibility: terreno.limpezaPendente ? "hidden" : "visible"}} type="checkbox" key={terreno.id_Terreno} onChange={this.handleCheckTerr} defaultChecked={this.state.checkedTerr[index]? "checked": null} value={index} className="form-check-input" id="checkmark"/>
+                        <input style={{display: "inline", visibility: terreno.limpezaPendente || terreno.estadoLimpeza ? "hidden" : "visible"}} type="checkbox" key={terreno.id_Terreno} onChange={this.handleCheckTerr} defaultChecked={this.state.checkedTerr[index]? "checked": null} value={index} className="form-check-input" id="checkmark"/>
                     </div>
                </td>
                <td className="colexpand" style={{textAlign: "left"}}>
                     <p style={{display: "inline"}}>{terreno.morada} - {terreno.cod_postal}</p> 
                </td>
                <td style={{textAlign: "left"}}>
-                    <p style={{display: "inline"}}>{terreno.limpezaPendente? "Agendado": ''}</p> 
+                    <p style={{display: "inline"}}>{terreno.limpezaPendente? "Agendado": terreno.estadoLimpeza? "Limpo" : "Não Limpo"}</p> 
                </td>
             </tr>
             ) : "Nenhuma zona encontrado.")

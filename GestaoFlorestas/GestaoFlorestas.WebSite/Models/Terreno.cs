@@ -130,7 +130,7 @@ namespace GestaoFlorestas.WebSite.Models
 
         public string getConcelho()
         {
-            string[] campos = this.morada.Split(", ");
+            string[] campos = this.morada.Split("| ");
             return campos[1];
         }
 

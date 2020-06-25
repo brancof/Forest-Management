@@ -176,7 +176,7 @@ namespace GestaoFlorestas.WebSite.Services
                     latitude = (Decimal)reader[5];
                     longitude = (Decimal)reader[6];
                     nif = "" + ((int)reader[7]);
-                    morada = ((String)reader[8]) + ", " + ((String)reader[9]) + ", " + ((String)reader[10]);
+                    morada = ((String)reader[8]) + "| " + ((String)reader[9]) + "| " + ((String)reader[10]);
 
 
 

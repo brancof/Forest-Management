@@ -70,6 +70,16 @@ import './Navbar.css';
                 return(
                     <div className="navbar-nav">
                         <Link to="/" className="nav-item nav-link">Página Inicial</Link>
+                        <Link to="/inspetores/Inspecionar" className="nav-item nav-link">Inspecionar Terreno</Link>
+                    </div>
+                )
+            }
+            if(this.props.accounttype === "trabalhadores")
+            {
+                return(
+                    <div className="navbar-nav">
+                        <Link to="/" className="nav-item nav-link">Página Inicial</Link>
+                        <Link to="/trabalhadores/limpeza" className="nav-item nav-link">Limpar Terreno</Link>
                     </div>
                 )
             }
