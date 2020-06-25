@@ -335,7 +335,28 @@ namespace GestaoFlorestas.WebSite.Services
         
         }
 
-        
+        public void AtualizarCoordenadas(String username, Double latitude, Double longitude)
+        {
+            String query;
+
+            query = "UPDATE Trabalhador SET latitude=@lat, longitude=@long WHERE username=@username ;";
+
+            SqlCommand cmd = new SqlCommand(query, con);
+            cmd.Parameters.AddWithValue("@lat", latitude);
+            cmd.Parameters.AddWithValue("@long", longitude);
+            cmd.Parameters.AddWithValue("@username", username);
+
+
+            if (this.OpenConnection() == true)
+            {
+                int r = cmd.ExecuteNonQuery();
+                this.CloseConnection();
+            }
+
+
+        }
+
+
 
     }
 }

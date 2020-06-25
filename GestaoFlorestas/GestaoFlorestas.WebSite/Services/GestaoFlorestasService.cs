@@ -539,5 +539,10 @@ namespace GestaoFlorestas.WebSite.Services
                
         }
 
+        public void atualizaLocalizacaoTrabalhadores(string username, Double latitude, Double longitude)
+        {
+            trabalhadores.AtualizarCoordenadas(username, latitude, longitude);
+        }
+
     }
 }

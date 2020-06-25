@@ -209,5 +209,22 @@ namespace GestaoFlorestas.WebSite.Controllers
             }
             else return Unauthorized();
         }
+
+
+        [Authorize]
+        [Route("Localizacao")]
+        [HttpPut]
+        public ActionResult AtulizaLocalizacao([FromBody] string body, [FromHeader] string Authorization)//body:"username|latitude|longitude"
+        {
+            string[] campos = body.Split('|');
+            if (MiddleWare(Authorization, campos[0]))
+            {
+                String lat = campos[1].Replace(".", ",");
+                String lo = campos[2].Replace(".", ",");
+                this.GestaoFlorestasService.atualizaLocalizacaoTrabalhadores(campos[0], Double.Parse(lat), Double.Parse(lo));
+                return Ok();
+            }
+            return Unauthorized();
+        }
     }
 }
