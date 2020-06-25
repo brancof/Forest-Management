@@ -11,15 +11,81 @@ import './Trabalhadores.css'
         this.state = {
             auth: "Bearer " + this.props.token,
             sugTerreno: [],
+            latitude: null,
+            longitude: null,
+            morada: null,
             sucesso: 0
         };
 
+        this.getLocation = this.getLocation.bind(this);
+        this.getCoordinates = this.getCoordinates.bind(this);
+        this.getAddress = this.getAddress.bind(this);
         this.sugestaoTerreno =  this.sugestaoTerreno.bind(this);
+        this.atualizaGPS = this.atualizaGPS.bind(this);
     }
 
     componentDidMount()
     {
         this.sugestaoTerreno();
+    }
+
+    atualizaGPS(){
+        axios({
+            method: 'put',
+            url: 'https://localhost:44301/trabalhadores/Localizacao',
+            data: JSON.stringify(this.props.user.username + '|' + this.state.latitude + '|' + this.state.longitude), 
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": this.state.auth
+            }
+        })
+        .then(response => {
+            console.log(response);
+            this.setState({sucesso: 1});
+            this.state.sugTerreno.push({ latitude: this.state.latitude, longitude: this.state.longitude});
+        }) 
+        .catch(response => {
+            alert("Erro na atualização das coordenadas.");
+            console.log(response);
+        })
+    }
+
+    getLocation(){
+        if(navigator.geolocation){
+            navigator.geolocation.getCurrentPosition(this.getCoordinates, this.handleError, {enableHighAccuracy:true});
+        } else {
+            alert("Localização não suportada.")
+        }
+    }
+
+    getCoordinates(position){
+        this.setState({ latitude: position.coords.latitude, longitude: position.coords.longitude})
+        this.getAddress();
+        this.atualizaGPS();
+    }
+
+    getAddress() {
+        fetch('https://maps.googleapis.com/maps/api/geocode/json?latlng='+this.state.latitude+','+ this.state.longitude+'&sensor=false&key=AIzaSyD94bNwC33Z03mXP2n1toNLXj8eCAQgOYQ')
+        .then(response => response.json())
+        .then(data => this.setState({
+            morada : data.results[0].formatted_address
+        }))
+        .catch(error => alert(error))
+    }
+
+    handleError(error){
+        switch(error.code) {
+            case error.PERMISSION_DENIED:
+                alert("Não permitiu saber a sua localização.")
+                break;
+            case error.POSITION_UNAVAILABLE:
+                alert("Localização não disponível.")
+                break;
+            case error.TIMEOUT:
+                alert("Excedido o tempo limite.")
+                break;
+            default: alert("Erro desconhecido.")
+            }
     }
 
     async sugestaoTerreno() {
@@ -55,10 +121,15 @@ import './Trabalhadores.css'
                                     <h4 className="card-title login-title">{this.props.user.nome}</h4>
                                     <p className="card-text login-text">Gestão de Trabalho</p>
                                     <h5 style={{ textAlign: 'left' }} className="card-title login-title">{this.props.user.concelho}</h5>
+                                    <div class="text-left">
+                                        <button type="button" class="btn btn-dark" onClick={this.getLocation}>Localização</button>
+                                        {this.state.morada === null? '': '   Morada: '+ this.state.morada}
+                                    </div>
                                     <p>Sugerimos que o terreno a limpar seja:</p>
                                     {this.state.sugTerreno.length === 0 ? null :<p>{this.state.sugTerreno[0].morada}</p>}
                                     <div className="map-containerDirection">
-                                        {this.state.sugTerreno.length === 0 ? null :<DirectionsMap  Data={this.state.sugTerreno}/>}
+                                        {this.state.sugTerreno.length === 0 && this.state.sucesso === 0 ? null :<DirectionsMap  Data={this.state.sugTerreno}/>}
+                                        {this.state.sucesso === 0 ? null :<DirectionsMap  Data={this.state.sugTerreno}/>}
                                     </div> 
                                 </div>                               
                             </div>
