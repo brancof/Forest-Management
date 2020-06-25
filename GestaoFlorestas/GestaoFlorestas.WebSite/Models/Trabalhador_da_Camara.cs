@@ -14,6 +14,9 @@ namespace GestaoFlorestas.WebSite.Models
         public String email { get; set; }
         public List<int> idsLimpezasPendentes { get; set; }
 
+        public Double latitude { get; set; }
+        public Double longitude { get; set; }
+
         private TerrenoDAO terrenosALimpar;
         public String concelho { get; set; }
         public int notificacoesPorLer { get; set; }
@@ -35,7 +38,7 @@ namespace GestaoFlorestas.WebSite.Models
         }
 
 
-        public Trabalhador_da_Camara(String nome, String username, String email, String password, String concel, int Nnotificacao, List<int> lp)
+        public Trabalhador_da_Camara(String nome, String username, String email, String password, String concel, int Nnotificacao,double lat, double longi, List<int> lp)
         {
             this.nome = nome;
             this.username = username;
@@ -46,6 +49,8 @@ namespace GestaoFlorestas.WebSite.Models
             this.terrenosALimpar = new TerrenoDAO();
             this.notificacoes = new NotificacaoDAO();
             this.notificacoesPorLer = Nnotificacao;
+            this.latitude = lat;
+            this.longitude = longi;
         }
 
         public Trabalhador_da_Camara(String nome, String username, String email, String password, String concel, int Nnotificacao)
@@ -78,6 +83,8 @@ namespace GestaoFlorestas.WebSite.Models
         public String getEmail() { return this.email; }
         public List<int> getTerrenosPendentes() { return this.idsLimpezasPendentes; }
         public int getNNotificacoes() { return this.notificacoesPorLer; }
+        public double getLatitude() { return this.latitude; }
+        public double getLongitude() { return this.longitude; }
 
         public void setNome(String nome) { this.nome = nome; }
         public void setUsername(String username) { this.username = username; }
