@@ -90,9 +90,6 @@ namespace GestaoFlorestas.WebSite.Services
             return f.getConcelhoObject();
         }
 
-
-
-
         public List<Notificacao> notificacoesProprietario (string username)
         {
             Proprietario p = proprietarios.get(username);
@@ -192,11 +189,6 @@ namespace GestaoFlorestas.WebSite.Services
                 inspetores.putInspecaoRealizada(inspec);
             }
             else throw new ExistingUserException();
-
-
-            
-
-
         }
 
 
@@ -486,7 +478,7 @@ namespace GestaoFlorestas.WebSite.Services
                 {
                     Terreno terreno = terrenos.get(idTerreno);
                     terreno.setEstadoLimpeza(true);
-                    terrenos.put(terreno); //muda na bd
+                    terrenos.updateLimpeza(terreno); //muda na bd
                     this.trabalhadores.LimpezaRealizada(idTerreno, username);
                 }
             }
@@ -510,12 +502,40 @@ namespace GestaoFlorestas.WebSite.Services
             this.notifications.visualizarNotificacoes(username, "Trabalhador");
         }
 
+        public Terreno getSugestaoLimpeza(string username)
+        {
+            Trabalhador_da_Camara i = trabalhadores.get(username);
 
-        
+            List<Terreno> t =i.getTerrenosALimparObj();
 
+            Double l1 = i.getLatitude() * Math.PI / 180;
+            Double lo1 = i.getLongitude() * Math.PI / 180;
 
+            double nivelPrioridade = 0;
+            int index = -1;
+                for (int j = 0; j < t.Count(); j++)
+                {
+                    Terreno te = t[j];
+                    Double dist;
+                    Double l2 = te.getLatitude() * Math.PI / 180;
+                    Double lo2 = te.getLongitude() * Math.PI / 180;
+                    dist = 6371 * Math.Acos(Math.Cos(l1) * Math.Cos(l2) * Math.Cos(lo2 - lo1) + Math.Sin(l1) * Math.Sin(l2));
+                    if (dist != 0)
+                    {
+                        int nCritico = te.nivelCritico();
+                        double np = (nCritico * nCritico * nCritico) / dist;
+                        if (np > nivelPrioridade)
+                        {
+                            index = j;
+                            nivelPrioridade = np;
+                        }
+                    }
+                    else { index = j; break; }
 
-
+                }
+           return t[index];
+               
+        }
 
     }
 }

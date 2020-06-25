@@ -98,6 +98,24 @@ namespace GestaoFlorestas.WebSite.Services
 
         }
 
+
+        public void updateLimpeza(Terreno t)
+        {
+            String query;
+            query = "UPDATE Terreno SET estado=@estado WHERE idTerreno=@id;";
+            
+            SqlCommand cmd = new SqlCommand(query, con);
+            if (t.getEstadoLimpeza()) cmd.Parameters.AddWithValue("@estado", 1);
+            else cmd.Parameters.AddWithValue("@estado", 0);
+            cmd.Parameters.AddWithValue("@id", t.getId_Terreno());
+
+            if (this.OpenConnection() == true)
+            {
+                int r = cmd.ExecuteNonQuery();
+                this.CloseConnection();
+            }
+        }
+
         public bool contains(int t)
         {
             bool r = false;

@@ -192,5 +192,22 @@ namespace GestaoFlorestas.WebSite.Controllers
             }
             else return Unauthorized();
         }
+
+
+
+        //-------sugestão de limpeza (algoritmo)---------------
+
+        [Authorize]
+        [Route("Sugestao")]
+        [HttpGet]
+        public ActionResult GetSugestao([FromQuery] string username, [FromHeader] string Authorization)
+        {
+            if (MiddleWare(Authorization, username))
+            {
+                object r = this.GestaoFlorestasService.getSugestaoLimpeza(username);
+                return new JsonResult(r);
+            }
+            else return Unauthorized();
+        }
     }
 }

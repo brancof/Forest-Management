@@ -435,7 +435,8 @@ namespace GestaoFlorestas.WebSite.Services
             String nomeConcelho = "";
             String nome = "";
             String email = "";
-
+            Decimal lat = 0;
+            Decimal longi = 0;
 
             string query = "SELECT * FROM Trabalhador as T"
                             + " where nomeConcelho = @conc;";
@@ -454,8 +455,10 @@ namespace GestaoFlorestas.WebSite.Services
                         nomeConcelho = ((String)reader[3]);
                         nome = ((String)reader[2]);
                         email = (String)reader[4];
+                        lat = (Decimal)reader[6];
+                        longi = (Decimal)reader[7];
 
-                        Trabalhador_da_Camara tc = new Trabalhador_da_Camara(nome, username, email, password, nomeConcelho, -1, new List<int>());
+                        Trabalhador_da_Camara tc = new Trabalhador_da_Camara(nome, username, email, password, nomeConcelho, -1,Decimal.ToDouble(lat), Decimal.ToDouble(longi), new List<int>());
                         res.Add(tc);
                     }
 

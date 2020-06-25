@@ -235,6 +235,8 @@ namespace GestaoFlorestas.WebSite.Services
             String email = "";
             string query = "Select * from Trabalhador " +
                                "where username=@username ;";
+            Decimal latitude = 0;
+            Decimal longitude = 0;
 
             SqlCommand cmd = new SqlCommand(query, con);
             cmd.Parameters.AddWithValue("@username", user);
@@ -251,6 +253,8 @@ namespace GestaoFlorestas.WebSite.Services
                     nomeConcelho = ((String)reader[3]);
                     nome = ((String)reader[2]);
                     email = (String)reader[4];
+                    longitude = (Decimal)reader[6];
+                    latitude = (Decimal)reader[7];
 
                 }
 
@@ -284,7 +288,7 @@ namespace GestaoFlorestas.WebSite.Services
                     count = (int)reader[0];
                 }
                 this.CloseConnection();
-                return new Trabalhador_da_Camara(nome, username, email, password, nomeConcelho, count, terrenos);
+                return new Trabalhador_da_Camara(nome, username, email, password, nomeConcelho, count, Decimal.ToDouble(latitude),Decimal.ToDouble(longitude),terrenos);
             }
             return null;
         }
@@ -293,7 +297,7 @@ namespace GestaoFlorestas.WebSite.Services
         {
             if (containsLimpeza(terreno, trabalhador))
             {
-                String query = "DELETE FROM LimpezaPendentes WHERE idTerreno=@idTerreno,Trabalhador=@trabalhador;";
+                String query = "DELETE FROM LimpezasPendentes WHERE idTerreno=@idTerreno AND Trabalhador=@trabalhador;";
 
                 SqlCommand cmd = new SqlCommand(query, con);
                 cmd.Parameters.AddWithValue("@idTerreno", terreno);
