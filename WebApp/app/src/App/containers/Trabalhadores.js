@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import DirectionsMap from './DirectionsMap';
 import TrabalhadoresLimpeza from "./TrabalhadoresLimpeza";
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Link } from 'react-router-dom';
 import './Trabalhadores.css'
 
   class Trabalhadores extends React.Component {
@@ -14,7 +14,8 @@ import './Trabalhadores.css'
             latitude: null,
             longitude: null,
             morada: null,
-            sucesso: 0
+            sucesso: 0,
+            idSelected: ""
         };
 
         this.getLocation = this.getLocation.bind(this);
@@ -22,11 +23,14 @@ import './Trabalhadores.css'
         this.getAddress = this.getAddress.bind(this);
         this.sugestaoTerreno =  this.sugestaoTerreno.bind(this);
         this.atualizaGPS = this.atualizaGPS.bind(this);
+        this.terrenosPendentes = this.terrenosPendentes.bind(this);
+        this.handleClickLink = this.handleClickLink.bind(this);
     }
 
     componentDidMount()
     {
         this.sugestaoTerreno();
+        this.terrenosPendentes();
     }
 
     atualizaGPS(){
@@ -107,6 +111,29 @@ import './Trabalhadores.css'
             })
     }
 
+    terrenosPendentes() {
+        axios.get('https://localhost:44301/trabalhadores/LimpezasPendentes', {
+            params: {
+                Username: this.props.username
+            },
+            headers: {
+                "Authorization": this.state.auth
+            }
+        })
+            .then(response => {
+                this.setState({ terrenos: response.data , displayTable : 1});
+                console.log(response.data);
+            })
+            .catch(response => {
+                alert("Erro no carregamento de terrenos pendentes.");
+                console.log(response);
+            })
+    }
+
+    handleClickLink(){
+        this.setState({idSelected: this.state.sugTerreno[0].id_Terreno});
+    }
+
     render() {
         return (
 
@@ -121,12 +148,15 @@ import './Trabalhadores.css'
                                     <h4 className="card-title login-title">{this.props.user.nome}</h4>
                                     <p className="card-text login-text">Gestão de Trabalho</p>
                                     <h5 style={{ textAlign: 'left' }} className="card-title login-title">{this.props.user.concelho}</h5>
+                                    <p>Sugerimos que o terreno a limpar seja:</p>
+                                    {this.state.sugTerreno.length === 0 ? null :
+                                        <Link to='/trabalhadores/limpeza' class="btn btn-link" onClick={this.handleClickLink}>
+                                            {this.state.sugTerreno[0].morada}
+                                        </Link>}
                                     <div class="text-left">
                                         <button type="button" class="btn btn-dark" onClick={this.getLocation}>Localização</button>
                                         {this.state.morada === null? '': '   Morada: '+ this.state.morada}
                                     </div>
-                                    <p>Sugerimos que o terreno a limpar seja:</p>
-                                    {this.state.sugTerreno.length === 0 ? null :<p>{this.state.sugTerreno[0].morada}</p>}
                                     <div className="map-containerDirection">
                                         {this.state.sugTerreno.length === 0 && this.state.sucesso === 0 ? null :<DirectionsMap  Data={this.state.sugTerreno}/>}
                                         {this.state.sucesso === 0 ? null :<DirectionsMap  Data={this.state.sugTerreno}/>}
@@ -140,7 +170,7 @@ import './Trabalhadores.css'
             </Route>
                 
                 <Route path='/trabalhadores/limpeza'>
-                    <TrabalhadoresLimpeza username={this.props.username} user={this.props.user} token={this.props.token} />
+                    <TrabalhadoresLimpeza username={this.props.username} user={this.props.user} token={this.props.token} idSelected={this.state.idSelected}/>
                 </Route>
 
             </Switch>
