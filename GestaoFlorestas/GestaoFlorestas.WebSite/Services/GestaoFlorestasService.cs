@@ -3,6 +3,7 @@ using GestaoFlorestas.WebSite.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Threading.Tasks;
 
 namespace GestaoFlorestas.WebSite.Services
@@ -542,6 +543,46 @@ namespace GestaoFlorestas.WebSite.Services
         public void atualizaLocalizacaoTrabalhadores(string username, Double latitude, Double longitude)
         {
             trabalhadores.AtualizarCoordenadas(username, latitude, longitude);
+        }
+
+
+
+
+        //-------Recuperar Palavra Pass-------
+
+
+        public void enviaemail()
+        {
+            email("1234", "aemiranda7", "aemiranda7@gmail.com");
+        }
+
+        public static void email(string tok,string username, string mail)
+        {
+
+
+            SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+
+            MailAddress addressFrom = new MailAddress("gestaoFlorestalPortugal@gmail.com");
+            MailAddress addressTo = new MailAddress(mail);
+            MailMessage message = new MailMessage(addressFrom, addressTo);
+
+            message.Subject = "Alteração password da sua conta GestãoFlorestal";
+            message.IsBodyHtml = true;
+            string htmlString = "<html><body><h2 style=\"color: mediumseagreen; \"><i>Gestão Florestal</i></h2><p> Caro "+username+
+                                ",</p><p> O seu código para a alteração da sua palavra pass é : <b style=\"color:mediumseagreen\">"+ tok +
+                                "</b>.</p><p> Se você não solicitou a alteração da mesma, não coloque este código e continue a usar a sua conta normalmente.</p>" +
+                                "<p> Os melhores cumprimentos,<br> -A equipa da GestãoFlorestal </br></p></body></html>";
+            message.Body = htmlString;
+
+            SmtpServer.Port = 587;
+            SmtpServer.Credentials = new System.Net.NetworkCredential("gestaoFlorestalPortugal@gmail.com", "gestaoFlorestal2020");
+            SmtpServer.EnableSsl = true;
+
+            SmtpServer.Send(message);
+
+
+
+
         }
 
     }
