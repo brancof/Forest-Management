@@ -16,6 +16,7 @@ class TrabalhadoresLimpeza extends React.Component {
         this.terrenostable = this.terrenostable.bind(this);
         this.handleAlterar = this.handleAlterar.bind(this);
         this.handleCheck = this.handleCheck.bind(this);
+        this.handleCheckedProp = this.handleCheckedProp.bind(this);
     }
 
     componentDidMount()
@@ -75,12 +76,17 @@ class TrabalhadoresLimpeza extends React.Component {
         this.state.checked[event.target.value] = event.target.checked;
     }
 
+    handleCheckedProp(index) {
+        this.state.checked[index] = 1;
+    }
+
     terrenostable(){
         return (this.state.terrenos.length > 0 ? this.state.terrenos.map((terreno, index) =>
             <tr key={terreno.id_Terreno}>
                <td style={{textAlign: "left", paddingLeft: "1%"}}>
                     <div class="custom-control custom-checkbox">
-                        <input style={{display: "inline"}} type="checkbox"  disabled={terreno.estadoLimpeza} key={terreno.id_Terreno} onChange={this.handleCheck} value={index} className="form-check-input" id="checkmark"/>
+                        {terreno.id_Terreno==this.props.idSelected? this.handleCheckedProp(index): null}
+                        <input style={{display: "inline"}} type="checkbox" defaultChecked={terreno.id_Terreno==this.props.idSelected}  disabled={terreno.estadoLimpeza} key={terreno.id_Terreno} onChange={this.handleCheck} value={index} className="form-check-input" id="checkmark"/>
                    </div>
                </td>
                <td className="colexpand" style={{textAlign: "left"}}>
@@ -90,7 +96,7 @@ class TrabalhadoresLimpeza extends React.Component {
             </tr>
             ) :this.setState({displayTable: 0}))
     }
-    
+
   
     render() {
         return (

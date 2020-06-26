@@ -508,6 +508,7 @@ namespace GestaoFlorestas.WebSite.Services
             Trabalhador_da_Camara i = trabalhadores.get(username);
 
             List<Terreno> t =i.getTerrenosALimparObj();
+            if (t.Count == 0) return new List<Terreno>();
 
             Double l1 = i.getLatitude() * Math.PI / 180;
             Double lo1 = i.getLongitude() * Math.PI / 180;
