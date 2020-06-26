@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 
 namespace GestaoFlorestas.WebSite.Services
@@ -125,6 +126,20 @@ namespace GestaoFlorestas.WebSite.Services
         public void visualizarNotificacoesProp(string username)
         {
             this.notifications.visualizarNotificacoes(username, "Proprietario");
+        }
+
+
+        public void criaTokenPasswordProp(string username) 
+        {
+            RandomNumberGenerator rng = RandomNumberGenerator.Create();
+            Byte[] bytes = new Byte[6];
+            rng.GetBytes(bytes);
+
+            String token = Convert.ToBase64String(bytes);
+            Proprietario p = proprietarios.get(username);
+            email(token, username, p.getMail());
+            proprietarios.geraTokenPassword(username, token);
+
         }
 
         //---------------------------------------------------------Inspetores---------------------------------------------------------------------
@@ -552,10 +567,7 @@ namespace GestaoFlorestas.WebSite.Services
         //-------Recuperar Palavra Pass-------
 
 
-        public void enviaemail()
-        {
-            email("1234", "aemiranda7", "aemiranda7@gmail.com");
-        }
+      
 
         public static void email(string tok,string username, string mail)
         {

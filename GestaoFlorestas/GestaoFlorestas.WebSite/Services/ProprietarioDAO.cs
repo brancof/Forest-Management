@@ -338,5 +338,24 @@ namespace GestaoFlorestas.WebSite.Services
 
 
         }
+
+        public void geraTokenPassword(string username,string token)
+        {
+            DateTime time = DateTime.UtcNow; 
+            string query = "INSERT INTO tokens (usernameUser, TipoUser, token,dataEmissao) VALUES(@username,@tipo,@tok,@date);";
+            //falta codificar o token com um hash
+            SqlCommand cmd = new SqlCommand(query, con);
+            cmd.Parameters.AddWithValue("@username", username);
+            cmd.Parameters.AddWithValue("@tipo", "Proprietario");
+            cmd.Parameters.AddWithValue("@tok", token);
+            cmd.Parameters.AddWithValue("@date", time);
+
+            if (this.OpenConnection() == true)
+            {
+                int r = cmd.ExecuteNonQuery();
+                this.CloseConnection();
+            }
+        }
+
     }
 }

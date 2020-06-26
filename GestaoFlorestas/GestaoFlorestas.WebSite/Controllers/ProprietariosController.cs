@@ -229,13 +229,7 @@ namespace GestaoFlorestas.WebSite.Controllers
 
 
 
-        [Route("Mail")]
-        [HttpPut]
-        public ActionResult Mail()
-        {
-            this.GestaoFlorestasService.enviaemail();
-            return Ok();
-        }
+       
 
 
         /*em principio nao sera preciso
