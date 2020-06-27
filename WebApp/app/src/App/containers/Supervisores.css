@@ -20,6 +20,18 @@ s.table.table-prop {
     margin-right:auto;
 }
 
+.colequipa {
+    width: 35%
+}
+
+.colterrnum {
+    width: 2%
+}
+
+.colcheck {
+    width: 1%
+}
+
 .table-responsive {
     max-height: 300px;
 }
