@@ -475,7 +475,7 @@ namespace GestaoFlorestas.WebSite.Services
             String query;
             String salt = "";
 
-            query = "UPDATE Inspetor SET passsword=@pass WHERE username=@username ;";
+            query = "UPDATE Inspetor SET password=@pass WHERE username=@username ;";
             salt = getSalt(username);
             if (salt != null)
             {
@@ -483,7 +483,7 @@ namespace GestaoFlorestas.WebSite.Services
 
                 SqlCommand cmd = new SqlCommand(query, con);
                 cmd.Parameters.AddWithValue("@username", username);
-                cmd.Parameters.AddWithValue("@password", password);
+                cmd.Parameters.AddWithValue("@pass", passHashed);
 
                 if (this.OpenConnection() == true)
                 {

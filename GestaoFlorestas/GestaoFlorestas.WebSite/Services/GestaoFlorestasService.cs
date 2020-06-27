@@ -167,7 +167,8 @@ namespace GestaoFlorestas.WebSite.Services
                     }
                     this.token.DeleteToken(username, tipo);
                 }
-            }else this.token.DeleteToken(username, tipo);
+            }
+            else { this.token.DeleteToken(username, tipo);res = 0; }
             return res;
         }
 

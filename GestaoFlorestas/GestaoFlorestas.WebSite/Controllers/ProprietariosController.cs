@@ -229,6 +229,26 @@ namespace GestaoFlorestas.WebSite.Controllers
 
 
 
+        [Route("Resetpassword")]
+        [HttpPut]
+        public ActionResult resetPass([FromBody] string body)
+        {
+            this.GestaoFlorestasService.criaTokenPassword(body, "Proprietario");
+            return Ok();
+        }
+
+        [Route("Verificatoken")]
+        [HttpPut]
+        public ActionResult verifyToken([FromBody] string body) //body:"username-|-token-|-password"
+        {
+            string[] campos = body.Split("-|-");
+
+            int r = this.GestaoFlorestasService.VerificaTokenPassword(campos[0], "Proprietario", campos[1], campos[2]);
+
+            if (r == 1) return Ok();
+            else return Unauthorized();
+        }
+
        
 
 
