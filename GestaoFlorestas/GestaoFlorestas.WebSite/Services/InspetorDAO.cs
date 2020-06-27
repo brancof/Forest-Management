@@ -443,7 +443,57 @@ namespace GestaoFlorestas.WebSite.Services
             return null;
         }
 
+        public String getSalt(String user)
+        {
+            String salt = "";
 
+            string query = "Select salt from Inspetor " +
+                               "where username=@username ;";
+
+            SqlCommand cmd = new SqlCommand(query, con);
+            cmd.Parameters.AddWithValue("@username", user);
+
+            if (this.OpenConnection() == true)
+            {
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+
+                    reader.Read();
+
+                    salt = ((String)reader[0]);
+
+                }
+                this.CloseConnection();
+                return salt;
+            }
+            return null;
+        }
+
+
+        public int updatePassword(String username, String password)
+        {
+            String query;
+            String salt = "";
+
+            query = "UPDATE Inspetor SET passsword=@pass WHERE username=@username ;";
+            salt = getSalt(username);
+            if (salt != null)
+            {
+                String passHashed = creatHash(password, salt);
+
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@username", username);
+                cmd.Parameters.AddWithValue("@password", password);
+
+                if (this.OpenConnection() == true)
+                {
+                    int r = cmd.ExecuteNonQuery();
+                    this.CloseConnection();
+                    return 1;
+                }
+            }
+            return 0;
+        }
     }
 }
 

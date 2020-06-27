@@ -19,6 +19,7 @@ namespace GestaoFlorestas.WebSite.Services
         private TrabalhadorCamDAO trabalhadores;
         private SupervisorDAO supervisores;
         private NotificacaoDAO notifications;
+        private TokenDAO token;
        
 
         public GestaoFlorestasService()
@@ -31,6 +32,7 @@ namespace GestaoFlorestas.WebSite.Services
             trabalhadores = new TrabalhadorCamDAO();
             supervisores = new SupervisorDAO();
             notifications = new NotificacaoDAO();
+            token = new TokenDAO();
         }
 
 
@@ -129,17 +131,44 @@ namespace GestaoFlorestas.WebSite.Services
         }
 
 
-        public void criaTokenPasswordProp(string username) 
+        public void criaTokenPassword(string username, String tipo) 
         {
             RandomNumberGenerator rng = RandomNumberGenerator.Create();
             Byte[] bytes = new Byte[6];
             rng.GetBytes(bytes);
 
-            String token = Convert.ToBase64String(bytes);
+            String tokenn = Convert.ToBase64String(bytes);
             Proprietario p = proprietarios.get(username);
-            email(token, username, p.getMail());
-            proprietarios.geraTokenPassword(username, token);
+            this.token.insertToken(username, tipo, tokenn);
+            email(tokenn, username, p.getMail());
 
+        }
+
+        public int VerificaTokenPassword(string username, String tipo, String token, String password)
+        {
+            int TTL = 15; //MIN
+            int res = 1; //Correu tudo bem
+            Token tok = this.token.getToken(username, tipo);
+            DateTime timeNow = DateTime.UtcNow;
+            DateTime time = tok.getDataEmissao().AddMinutes(TTL);
+
+            //Respeita o time to live
+            if (DateTime.Compare(time, timeNow) >= 0)
+            {
+                //Verifica a igualdade de tokens
+                if (this.token.verificarToken(token, tok.getToken()))
+                {
+                    switch (tipo)
+                    {
+                        case "Proprietario": res = proprietarios.updatePassword(username, password); break;
+                        case "Supervisor": res = supervisores.updatePassword(username, password); break;
+                        case "Inspetor": res = inspetores.updatePassword(username, password); break;
+                        case "Trabalhador": res = trabalhadores.updatePassword(username, password); break;
+                    }
+                    this.token.DeleteToken(username, tipo);
+                }
+            }else this.token.DeleteToken(username, tipo);
+            return res;
         }
 
         //---------------------------------------------------------Inspetores---------------------------------------------------------------------
