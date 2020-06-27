@@ -58,12 +58,23 @@ class Maps extends React.Component {
                 style={{height: '25%', width: '80%'}}
                 >
                 {this.props.mapInfo.map((marker, i) =>
+                 marker.estado?
                     <Marker
                         key={i}
                         ref={(e) => {if (e) this.markers[i] = e.marker}}
                         onClick={this.onMarkerClick}
                         title = {marker.name}
                         name={marker.name}
+                        icon={{url: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'}}
+                        position = {{lat:marker.lat,lng:marker.lng}}
+                    /> :
+                    <Marker
+                        key={i}
+                        ref={(e) => {if (e) this.markers[i] = e.marker}}
+                        onClick={this.onMarkerClick}
+                        title = {marker.name}
+                        name={marker.name}
+                        icon={{url: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'}}
                         position = {{lat:marker.lat,lng:marker.lng}}
                     />
                 )}

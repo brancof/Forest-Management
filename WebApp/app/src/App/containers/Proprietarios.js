@@ -64,6 +64,7 @@ class Proprietarios extends React.Component {
                         name: terreno.morada,
                         lat: terreno.latitude,
                         lng: terreno.longitude,
+                        estado: terreno.estadoLimpeza
                     };
                 });
                 this.setState({ mapInfo: mapterr });
