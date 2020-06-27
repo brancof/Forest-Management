@@ -102,6 +102,7 @@ class Login extends React.Component {
                                     <div className="form-group">
                                         <p>{this.state.warning ? 'Campo username/password vazio.' : ''}</p>
                                         <p>{this.state.wrongwarning ? 'Username/password incorretos.' : ''}</p>
+                                        <Link to="/recuperar" className="forgotlink">Esqueci-me da password</Link>
                                     </div>
                                     <input className="btn login-btn btn-success btn-sm" type='submit' onClick={this.handleLoginButton} value="Login" />
                                     <Link to="/registo"><input className="btn login-btn btn-success btn-sm" type='button' value="Registar" /></Link>
