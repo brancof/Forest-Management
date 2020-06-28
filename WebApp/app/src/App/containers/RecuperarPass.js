@@ -37,7 +37,18 @@ class RecuperarPass extends React.Component {
         if (this.state.username.length === 0) {
             this.setState({ warning: true });
         } else {
-            this.props.history.push("/recuperar/token");
+            this.setState({warning: false});
+            axios({
+                method: 'put',
+                url: 'https://localhost:44301/' + this.state.accounttype + '/Resetpassword',
+                data: JSON.stringify(this.state.username),
+                headers: {
+                    "Content-Type": "application/json",
+                }
+           })
+        .then(
+            this.props.history.push("/recuperar/token")
+        )
         }
     }
 
@@ -83,9 +94,8 @@ class RecuperarPass extends React.Component {
                 </Route>
 
                 <Route path="/recuperar/token">
-                    <RecuperarTkn username={this.state.username} />
+                    <RecuperarTkn username={this.state.username} accounttype={this.state.accounttype}/>
                 </Route>
-
             </Switch>
         );
     }

@@ -12,21 +12,49 @@ class RecuperarPass extends React.Component {
         this.state = {
             password: '',
             passwordconfirm: '',
+            token: '',
             warning: false,
+            success: false,
+            failure: false
         };
 
         this.handleRecuperarButton = this.handleRecuperarButton.bind(this);
+        this.handleChangeTkn = this.handleChangeTkn.bind(this);
+        this.handleChangePassword = this.handleChangePassword.bind(this);
+        this.handleChangePasswordConfirm = this.handleChangePasswordConfirm.bind(this);
     }
 
+    handleChangeTkn(event) {
+        this.setState({ token: event.target.value });
+    }
+    handleChangePassword(event) {
+        this.setState({ password: event.target.value });
+    }
+    handleChangePasswordConfirm(event) {
+        this.setState({ passwordconfirm: event.target.value });
+    }
 
     handleRecuperarButton(event) {
         event.preventDefault();
 
-        if(this.state.password.length === 0 || this.state.password != this.state.passwordconfirm)
-        {
-            this.setState({warning: true});
+        if (this.state.password.length === 0 || this.state.token.length === 0 || this.state.password != this.state.passwordconfirm) {
+            this.setState({ warning: true });
         } else {
-            //axios request change
+            this.setState({warning: false});
+            axios({
+                method: 'put',
+                url: 'https://localhost:44301/' + this.props.accounttype + '/Verificatoken',
+                data: JSON.stringify(this.props.username + '-|-' + this.state.token + '-|-' + this.state.password),
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            })
+                .then(
+                    this.setState({ failure: false, success: true, warning: false })
+                )
+                .catch(
+                    this.setState({ success: false, warning: false, failure: true })
+                )
         }
     }
 
@@ -51,7 +79,9 @@ class RecuperarPass extends React.Component {
                                         <input type="password" value={this.state.passwordconfirm} className="form-control" id="passwordConfirmInput" onChange={this.handleChangePasswordConfirm} placeholder="Confirme Password"></input>
                                     </div>
                                     <div className="form-group">
-                                        <p>{this.state.warning ? 'Verifique que as passwords são iguas e o código está correto.' : ''}</p>
+                                        <p>{this.state.warning ? 'Verifique que as passwords são iguais, e que o código está correto.' : ''}</p>
+                                        <p>{this.state.failure ? 'Código incorreto. Verifique o código e tente novamente.' : ''}</p>
+                                        <p>{this.state.success ? 'Password alterada com successo.' : ''}</p>
                                     </div>
                                     <input className="btn login-btn btn-success btn-sm" type='submit' onClick={this.handleRecuperarButton} value="Recuperar" />
                                     <Link to="/login"><input className="btn login-btn btn-success btn-sm" type='button' value="Voltar" /></Link>

@@ -1,9 +1,7 @@
 import React from 'react';
 import {
-  BrowserRouter as Router,
   Switch,
   Route,
-  useHistory,
   Redirect
 } from "react-router-dom";
 import Login from './Login';
@@ -66,7 +64,6 @@ class AppRoutes extends React.Component {
             token: this.setToken
           }} />
           : null}
-        <Router>
           <Switch>
             <Route path="/login">
               {this.state.username === '' ? <Login change={{
@@ -108,7 +105,6 @@ class AppRoutes extends React.Component {
               {this.state.username === '' ? <Redirect to="/login" /> : <Redirect to={"/" + this.state.accounttype} />}
             </Route>
           </Switch>
-        </Router>
       </div>
     );
   }
