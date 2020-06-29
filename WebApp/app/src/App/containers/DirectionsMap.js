@@ -1,10 +1,14 @@
 /* global google */
 import React from "react";
-import { Map, GoogleApiWrapper } from "google-maps-react";
+import { Map, InfoWindow, Marker, GoogleApiWrapper } from "google-maps-react";
 
 class DirectionsMap extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      origem:  { lat: this.props.Data[0].latitude, lng:this.props.Data[0].longitude},
+      destino: {lat: this.props.Data[this.props.Data.length-1].latitude, lng: this.props.Data[this.props.Data.length-1].longitude}
+    }
     this.handleMapReady = this.handleMapReady.bind(this);
   }
   
@@ -17,23 +21,27 @@ class DirectionsMap extends React.Component {
     const directionsDisplay = new google.maps.DirectionsRenderer();
     directionsDisplay.setMap(map);
      
+    var aux = this.props.Data.slice();
+    aux.pop();
+    aux.shift();
     
-    const waypoints = this.props.Data.map(item =>{
+    const waypoints = aux.map(item =>{
       return{
         location: {lat: item.latitude, lng:item.longitude},
         stopover: true
       }
     })
-    const origin = { lat: this.props.Data[0].latitude, lng:this.props.Data[0].longitude};
-    const destination = {lat: this.props.Data[this.props.Data.length-1].latitude, lng: this.props.Data[this.props.Data.length-1].longitude} ;
+    const origin = this.state.origem;
+    const destination = this.state.destino ;
     
     directionsService.route({
       origin: origin,
       destination: destination,
       waypoints: waypoints,
-      travelMode: 'DRIVING'
+      travelMode: 'DRIVING',
     }, (response, status) => {
       if (status === 'OK') {
+        console.log(response);
         directionsDisplay.setDirections(response);
       } else {
         window.alert('Directions request failed due to ' + status);
@@ -50,7 +58,8 @@ class DirectionsMap extends React.Component {
           zoom={10}
           initialCenter={{ lat:41.5618, lng:-8.29563 }}
           onReady={this.handleMapReady}
-        />
+        >
+        </Map>
         </div>
       
     );

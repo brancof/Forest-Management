@@ -70,7 +70,7 @@ import './Navbar.css';
                 return(
                     <div className="navbar-nav">
                         <Link to="/" className="nav-item nav-link">Página Inicial</Link>
-                        <Link to="/inspetores/Inspecionar" className="nav-item nav-link">Inspecionar Terreno</Link>
+                        <Link to="/inspetores/inspecionar" className="nav-item nav-link">Inspecionar Terreno</Link>
                     </div>
                 )
             }
