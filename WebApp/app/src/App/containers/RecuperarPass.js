@@ -94,7 +94,7 @@ class RecuperarPass extends React.Component {
                 </Route>
 
                 <Route path="/recuperar/token">
-                    <RecuperarTkn username={this.state.username} accounttype={this.state.accounttype}/>
+                    <RecuperarTkn username={this.state.username} accounttype={this.state.accounttype} pwinfo={this.props.pwinfo}/>
                 </Route>
             </Switch>
         );

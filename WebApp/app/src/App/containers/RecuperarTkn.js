@@ -49,12 +49,16 @@ class RecuperarPass extends React.Component {
                     "Content-Type": "application/json",
                 }
             })
-                .then(
-                    this.setState({ failure: false, success: true, warning: false })
-                )
-                .catch(
+                .then(response => {
+                    this.setState({ failure: false, success: true, warning: false });
+                    console.log(response);
+                    this.props.pwinfo.set(true);
+                    this.props.history.push("/login");
+                })
+                .catch(response => {
+                    console.log(response);
                     this.setState({ success: false, warning: false, failure: true })
-                )
+                })
         }
     }
 
