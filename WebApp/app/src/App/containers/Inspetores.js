@@ -23,10 +23,9 @@ function toLetters(num) {
             latitude: null,
             longitude: null,
             morada: null,
-            percursoMoradas: [],
             sucesso: 0,
             displayPercurso: 0,
-            idSelected:""
+            terrenoSelected: null
         };
         this.getLocation = this.getLocation.bind(this);
         this.getCoordinates = this.getCoordinates.bind(this);
@@ -136,7 +135,7 @@ function toLetters(num) {
                     <div>
                         <p>{this.state.morada}</p>
                     </div>
-                    :<Link to='/inspetores/inspecionar' class="btn btn-link" onClick={this.handleClickLink.bind(this, terreno.id_Terreno)}>
+                    :<Link to='/inspetores/inspecionar' class="btn btn-link" onClick={this.handleClickLink.bind(this, terreno)}>
                         {terreno.morada + "-" + terreno.cod_postal}
                     </Link>
                 }
@@ -145,8 +144,8 @@ function toLetters(num) {
             ) :this.setState({displayPercurso: 0}))
     }
     
-    handleClickLink(id){
-        this.setState({idSelected: id});
+    handleClickLink(terreno){
+        this.setState({terrenoSelected: terreno});
     }
   
     render() {
@@ -163,14 +162,15 @@ function toLetters(num) {
                                     <h4 className="card-title login-title">{this.props.user.nome}</h4>
                                     <p className="card-text login-text">Propriedades para Inspeção</p>
                                     {this.state.displayPercurso === 0? "Não existem terrenos para inspecionar.":
-                                        <table style={{maxHeight: "200px"}} className="table table-responsive table-hover">
+                                        <table style={{maxHeight: "200px", marginTop:"8%"}} className="table table-responsive table-hover">
                                             <tbody>
                                                 {this.constPercurso()}
                                             </tbody>
                                         </table>
                                     }
-                                    <div class="text-left">
-                                        <button type="button" class="btn btn-dark" onClick={this.getLocation}>Localização</button>
+                                    <div style={{marginBottom:"8%"}}>
+                                        <h6 style={{float:"Left", paddingTop:"1%"}}>Percurso sugerido</h6>
+                                        <button style={{float:"Right"}} type="button" class="btn btn-dark btn-sm" onClick={this.getLocation}>Localiza-me</button>
                                     </div>
                                     <div className="map-containerDirection">
                                         {this.state.percurso.length === 0 ? null :<DirectionsMap  Data={this.state.percurso}/>}
@@ -183,11 +183,11 @@ function toLetters(num) {
                 </div>
             </div>
             </Route>
-                
+                {this.state.terrenoSelected !== ''?
                 <Route path='/inspetores/inspecionar'>
-                    <InspetoresInspecionar username={this.props.username} user={this.props.user} token={this.props.token} idSelected={this.state.idSelected} terrenos={this.state.terrenos}/>
+                    <InspetoresInspecionar username={this.props.username} user={this.props.user} token={this.props.token} selected={this.state.terrenoSelected} terrenos={this.state.terrenos}/>
                 </Route>
-
+                : null}
             </Switch>
         );
     }
@@ -195,12 +195,3 @@ function toLetters(num) {
 
 export default Inspetores;
 
-/*
-<form>
-                                        <input className="searchbox" type="text" placeholder="Procurar propriedade..." name="procurar" />
-                                        <svg className="bi bi-search" width="1.2em" height="1.2em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                            <path fillRule="evenodd" d="M10.442 10.442a1 1 0 011.415 0l3.85 3.85a1 1 0 01-1.414 1.415l-3.85-3.85a1 1 0 010-1.415z" clipRule="evenodd"/>
-                                            <path fillRule="evenodd" d="M6.5 12a5.5 5.5 0 100-11 5.5 5.5 0 000 11zM13 6.5a6.5 6.5 0 11-13 0 6.5 6.5 0 0113 0z" clipRule="evenodd"/>
-                                        </svg>
-                                    </form>
-                                    */

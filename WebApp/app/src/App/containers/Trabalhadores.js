@@ -10,9 +10,11 @@ import './Trabalhadores.css'
         super(props);
         this.state = {
             auth: "Bearer " + this.props.token,
-            sugTerreno: [],
+            sugTerrenos: [],
+            sugTer: null,
             latitude: null,
             longitude: null,
+
             morada: null,
             sucesso: 0,
             idSelected: ""
@@ -46,7 +48,7 @@ import './Trabalhadores.css'
         .then(response => {
             console.log(response);
             this.setState({sucesso: 1});
-            this.state.sugTerreno.push({ latitude: this.state.latitude, longitude: this.state.longitude});
+            this.state.sugTerrenos.unshift({ latitude: this.state.latitude, longitude: this.state.longitude});
         }) 
         .catch(response => {
             alert("Erro na atualização das coordenadas.");
@@ -102,7 +104,8 @@ import './Trabalhadores.css'
             }
         })
             .then(response => {
-                this.setState({sugTerreno : response.data});
+                this.setState({sugTerrenos : response.data});
+                this.setState({sugTer : this.state.sugTerrenos[0]});
                 console.log(response.data);
             })
             .catch(response => {
@@ -131,7 +134,7 @@ import './Trabalhadores.css'
     }
 
     handleClickLink(){
-        this.setState({idSelected: this.state.sugTerreno[0].id_Terreno});
+        this.setState({idSelected: this.state.sugTer.id_Terreno});
     }
 
     render() {
@@ -148,18 +151,22 @@ import './Trabalhadores.css'
                                     <h4 className="card-title login-title">{this.props.user.nome}</h4>
                                     <p className="card-text login-text">Gestão de Trabalho</p>
                                     <h5 style={{ textAlign: 'left' }} className="card-title login-title">{this.props.user.concelho}</h5>
-                                    <p>Sugerimos que o terreno a limpar seja:</p>
-                                    {this.state.sugTerreno.length === 0 ? null :
-                                        <Link to='/trabalhadores/limpeza' class="btn btn-link" onClick={this.handleClickLink}>
-                                            {this.state.sugTerreno[0].morada}
-                                        </Link>}
-                                    <div class="text-left">
-                                        <button type="button" class="btn btn-dark" onClick={this.getLocation}>Localização</button>
-                                        {this.state.morada === null? '': '   Morada: '+ this.state.morada}
-                                    </div>
+                                    {this.state.sugTerrenos.length === 0 || this.state.sugTer === null?
+                                        <p>Não existem terrenos que necessitem de limpeza</p>  
+                                        :
+                                        <div>
+                                            <p>Sugerimos que o terreno a limpar seja:</p>
+                                            <Link to='/trabalhadores/limpeza' class="btn btn-link" onClick={this.handleClickLink}>
+                                                {this.state.sugTer.morada}
+                                            </Link>                                    
+                                            <div style={{marginBottom:"8%", marginTop:"3%"}}>
+                                                <button style={{float:"Right"}} type="button" class="btn btn-dark btn-sm" onClick={this.getLocation}>Localiza-me</button>
+                                            </div>
+                                        </div>
+                                    }
                                     <div className="map-containerDirection">
-                                        {this.state.sugTerreno.length === 0 && this.state.sucesso === 0 ? null :<DirectionsMap  Data={this.state.sugTerreno}/>}
-                                        {this.state.sucesso === 0 ? null :<DirectionsMap  Data={this.state.sugTerreno}/>}
+                                        {this.state.sugTerrenos.length === 0 && this.state.sucesso === 0 ? null :<DirectionsMap  Data={this.state.sugTerrenos}/>}
+                                        {this.state.sucesso === 0 ? null :<DirectionsMap  Data={this.state.sugTerrenos}/>}
                                     </div> 
                                 </div>                               
                             </div>
