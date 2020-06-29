@@ -4,6 +4,7 @@ import DirectionsMap from './DirectionsMap';
 import { Switch, Route, Link } from 'react-router-dom';
 import './Inspetores.css'
 import InspetoresInspecionar from './InspetoresInspecionar';
+import Notificacoes from './Notificacoes';
 
 function toLetters(num) {
     "use strict";
@@ -188,6 +189,11 @@ function toLetters(num) {
                     <InspetoresInspecionar username={this.props.username} user={this.props.user} token={this.props.token} selected={this.state.terrenoSelected} terrenos={this.state.terrenos}/>
                 </Route>
                 : null}
+
+                <Route path='/inspetores/notificacoes'>
+                    <Notificacoes user={this.props.user} username={this.props.username} change={{ user: this.props.change }} accounttype={this.props.accounttype} token={this.props.token} />
+                </Route>
+
             </Switch>
         );
     }

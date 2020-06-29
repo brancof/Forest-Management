@@ -86,7 +86,7 @@ import './Navbar.css';
 
         showNotifs()
         {
-            return (this.state.notifs.length > 0 ? this.state.notifs.slice(0,10).map((notif, index) =>
+            return (this.state.notifs.length > 0 ? this.state.notifs.slice(0,6).map((notif, index) =>
                 <div key={notif.id}>
                     <Link to={"/" + this.props.accounttype + "/notificacoes"} className="dropdown-item notif-text">
                         {notif.conteudo.length > 30 ? notif.conteudo.substring(0,28) + '...'

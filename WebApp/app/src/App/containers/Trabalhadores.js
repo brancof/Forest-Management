@@ -3,7 +3,8 @@ import axios from 'axios';
 import DirectionsMap from './DirectionsMap';
 import TrabalhadoresLimpeza from "./TrabalhadoresLimpeza";
 import { Switch, Route, Link } from 'react-router-dom';
-import './Trabalhadores.css'
+import './Trabalhadores.css';
+import Notificacoes from './Notificacoes';
 
   class Trabalhadores extends React.Component {
     constructor(props) {
@@ -178,6 +179,10 @@ import './Trabalhadores.css'
                 
                 <Route path='/trabalhadores/limpeza'>
                     <TrabalhadoresLimpeza username={this.props.username} user={this.props.user} token={this.props.token} idSelected={this.state.idSelected}/>
+                </Route>
+                
+                <Route path='/trabalhadores/notificacoes'>
+                    <Notificacoes user={this.props.user} username={this.props.username} change={{ user: this.props.change }} accounttype={this.props.accounttype} token={this.props.token} />
                 </Route>
 
             </Switch>
