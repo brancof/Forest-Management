@@ -99,6 +99,26 @@ namespace GestaoFlorestas.WebSite.Services
 
         }
 
+        public bool contains(String username, String tipo)
+        {
+            bool r = false;
+            string query = "Select usernameUser from tokens " +
+                           "where usernameUser=@username AND tipoUser=@tipo;";
+
+            SqlCommand cmd = new SqlCommand(query, con);
+            cmd.Parameters.AddWithValue("@username", username);
+            cmd.Parameters.AddWithValue("@tipo", tipo);
+
+            if (this.OpenConnection() == true)
+            {
+                var value = cmd.ExecuteScalar();
+                if (value != null) r = true;
+                else r = false;
+                this.CloseConnection();
+            }
+            return r;
+        }
+
 
         public void insertToken(string username, string tipo, string token)
         {
@@ -122,28 +142,30 @@ namespace GestaoFlorestas.WebSite.Services
 
         public Token getToken(string username, string tipo)
         {
-           
-            DateTime data = new DateTime();
-            String token = null;
-            string query = "Select token, dataEmissao from tokens where usernameUser=@username AND tipoUser=@tipo ;";
-            
-            SqlCommand cmd = new SqlCommand(query, con);
-            cmd.Parameters.AddWithValue("@username", username);
-            cmd.Parameters.AddWithValue("@tipo", tipo);
-
-            if (this.OpenConnection() == true)
+            if (contains(username, tipo))
             {
-                using (SqlDataReader reader = cmd.ExecuteReader())
+                DateTime data = new DateTime();
+                String token = null;
+                string query = "Select token, dataEmissao from tokens where usernameUser=@username AND tipoUser=@tipo ;";
+
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@username", username);
+                cmd.Parameters.AddWithValue("@tipo", tipo);
+
+                if (this.OpenConnection() == true)
                 {
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
 
-                    reader.Read();
+                        reader.Read();
 
-                    token = (String)reader[0];
-                    data = (DateTime)reader[1];
+                        token = (String)reader[0];
+                        data = (DateTime)reader[1];
 
+                    }
+                    this.CloseConnection();
+                    return new Token(username, tipo, token, data);
                 }
-                this.CloseConnection();
-                return new Token(username, tipo, token, data);
             }
             return null;
         }

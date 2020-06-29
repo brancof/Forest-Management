@@ -26,6 +26,10 @@ class Login extends React.Component {
     componentDidMount() {
     }
 
+    componentWillUnmount() {
+        this.props.pwinfo.set(false);
+    }
+
     handleChangePassword(event) {
         this.setState({password: event.target.value});
     }
@@ -102,6 +106,7 @@ class Login extends React.Component {
                                     <div className="form-group">
                                         <p>{this.state.warning ? 'Campo username/password vazio.' : ''}</p>
                                         <p>{this.state.wrongwarning ? 'Username/password incorretos.' : ''}</p>
+                                        <p>{this.props.pwinfo.show ? 'Password alterada com sucesso!' : ''}</p>
                                     </div>
                                     <input className="btn login-btn btn-success btn-sm" type='submit' onClick={this.handleLoginButton} value="Login" />
                                     <Link to="/registo"><input className="btn login-btn btn-success btn-sm" type='button' value="Registar" /></Link>

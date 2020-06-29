@@ -22,13 +22,15 @@ class AppRoutes extends React.Component {
       username: '',
       token: '',
       accounttype: 'proprietarios',
-      user: ''
+      user: '',
+      pwmessage: false
     };
 
     this.setUsername = this.setUsername.bind(this);
     this.setType = this.setType.bind(this);
     this.setUser = this.setUser.bind(this);
     this.setToken = this.setToken.bind(this);
+    this.setPwmessage = this.setPwmessage.bind(this);
   }
 
   setUsername(newusername) {
@@ -37,6 +39,10 @@ class AppRoutes extends React.Component {
 
   setToken(newtoken) {
     this.setState({ token: newtoken });
+  }
+
+  setPwmessage(value) {
+    this.setState({ pwmessage: value });
   }
 
   setUser(newuser) {
@@ -66,7 +72,8 @@ class AppRoutes extends React.Component {
           : null}
           <Switch>
             <Route path="/login">
-              {this.state.username === '' ? <Login change={{
+              {this.state.username === '' ? <Login pwinfo={{show: this.state.pwmessage, set: this.setPwmessage}} 
+              change={{
                 username: this.setUsername,
                 accounttype: this.setType,
                 user: this.setUser,
@@ -99,7 +106,7 @@ class AppRoutes extends React.Component {
                 : <Redirect to="/" />}
             </Route>
 
-            <Route path="/recuperar" component={RecuperarPass} />
+            <Route path="/recuperar"> <RecuperarPass  pwinfo={{show: this.state.pwmessage, set: this.setPwmessage}}/> </Route>
 
             <Route exact path="/">
               {this.state.username === '' ? <Redirect to="/login" /> : <Redirect to={"/" + this.state.accounttype} />}
