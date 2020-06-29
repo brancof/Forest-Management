@@ -1,0 +1,26 @@
+.card.login-card {
+    padding: 8% 10% 100%;
+  }
+
+  .card.loginOnly-card {
+    margin-top: 20%;
+    padding: 8% 10% 10%;
+    
+  }
+  
+  .form.login-form {
+    max-width: 350px;
+    margin: auto;
+  }
+  
+  .card-text.login-text {
+    margin: 10px 0 30px;
+  }
+  
+  .form-group {
+    margin: 2% 20% 0 20%;
+  }
+
+  input.login-btn {
+    margin: 1rem;
+  }

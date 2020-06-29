@@ -21,6 +21,10 @@
     margin: 2% 20% 0 20%;
   }
 
+  .forgotlink {
+    color: green;
+  }
+
   input.login-btn {
     margin: 1rem;
   }

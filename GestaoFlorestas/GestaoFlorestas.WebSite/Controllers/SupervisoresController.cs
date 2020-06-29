@@ -330,5 +330,26 @@ namespace GestaoFlorestas.WebSite.Controllers
             }
             else return Unauthorized();
         }
+
+
+        [Route("Resetpassword")]
+        [HttpPut]
+        public ActionResult resetPass([FromBody] string body)
+        {
+            this.GestaoFlorestasService.criaTokenPassword(body, "Supervisor");
+            return Ok();
+        }
+
+        [Route("Verificatoken")]
+        [HttpPut]
+        public ActionResult verifyToken([FromBody] string body) //body:"username-|-token-|-password"
+        {
+            string[] campos = body.Split("-|-");
+
+            int r = this.GestaoFlorestasService.VerificaTokenPassword(campos[0], "Supervisor", campos[1], campos[2]);
+
+            if (r == 1) return Ok();
+            else return Unauthorized();
+        }
     }
 }
