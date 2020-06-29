@@ -151,7 +151,7 @@ namespace GestaoFlorestas.WebSite.Services
             cmd.Parameters.AddWithValue("@username", tp.getUsername());
             if (i == 1) cmd.Parameters.AddWithValue("@password", password);
             cmd.Parameters.AddWithValue("@con", tp.getConcelho());
-            cmd.Parameters.AddWithValue("@email", tp.getEmail());
+            cmd.Parameters.AddWithValue("@email", tp.getMail());
             cmd.Parameters.AddWithValue("@nome", tp.getNome());
             if (i == 1) cmd.Parameters.AddWithValue("@salt", salt);
             if (this.OpenConnection() == true)

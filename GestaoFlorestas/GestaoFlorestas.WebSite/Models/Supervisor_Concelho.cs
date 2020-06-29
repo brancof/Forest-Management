@@ -45,7 +45,7 @@ namespace GestaoFlorestas.WebSite.Models
             this.nome = S.getNome();
             this.username = S.getUsername();
             this.password = S.getPassword();
-            this.email = S.getEmail();
+            this.email = S.getMail();
             this.notificacoesPorLer = S.getNNotificacoes();
             
         }
@@ -53,7 +53,7 @@ namespace GestaoFlorestas.WebSite.Models
         public String getNome() { return this.nome; }
         public String getPassword() { return this.password; }
         public String getUsername() { return this.username; }
-        public String getEmail() { return this.email; }
+        public String getMail() { return this.email; }
         public String getConcelho() { return this.concelho; }
         public int getNNotificacoes() { return this.notificacoesPorLer; }
 

@@ -137,10 +137,27 @@ namespace GestaoFlorestas.WebSite.Services
             Byte[] bytes = new Byte[6];
             rng.GetBytes(bytes);
 
+
             String tokenn = Convert.ToBase64String(bytes);
-            Proprietario p = proprietarios.get(username);
-            this.token.insertToken(username, tipo, tokenn);
-            email(tokenn, username, p.getMail());
+            switch (tipo)
+            {
+                case "Proprietario": Proprietario p = proprietarios.get(username);
+                                    this.token.insertToken(username, tipo, tokenn);
+                                    email(tokenn, username, p.getMail()); 
+                                    break;
+                case "Supervisor":  Supervisor_Concelho s = supervisores.get(username);
+                                    this.token.insertToken(username, tipo, tokenn);
+                                    email(tokenn, username, s.getMail());
+                                    break;
+                case "Inspetor": Inspetor i = inspetores.get(username);
+                                 this.token.insertToken(username, tipo, tokenn);
+                                 email(tokenn, username, i.getMail());
+                                 break;
+                case "Trabalhador": Trabalhador_da_Camara t = trabalhadores.get(username);
+                                    this.token.insertToken(username, tipo, tokenn);
+                                    email(tokenn, username, t.getMail());
+                                    break;
+            }
 
         }
 

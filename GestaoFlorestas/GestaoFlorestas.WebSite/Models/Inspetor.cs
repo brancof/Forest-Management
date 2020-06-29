@@ -81,7 +81,7 @@ namespace GestaoFlorestas.WebSite.Models
             this.nome = I.getNome();
             this.username = I.getUsername();
             this.password = I.getPassword();
-            this.email = I.getEmail();
+            this.email = I.getMail();
             this.latitude = I.getLatitude();
             this.longitude = I.getLongitude();
             this.terrenos = new TerrenoDAO();
@@ -93,7 +93,7 @@ namespace GestaoFlorestas.WebSite.Models
         public String getNome() { return this.nome; }
         public String getPassword() { return this.password; }
         public String getUsername() { return this.username; }
-        public String getEmail() { return this.email; }
+        public String getMail() { return this.email; }
         public List<int> getTerrenosAInspecionar() { return this.terrenosAInspecionar; }
         public int getNNotificacoes() { return this.notificacoesPorLer; }
 

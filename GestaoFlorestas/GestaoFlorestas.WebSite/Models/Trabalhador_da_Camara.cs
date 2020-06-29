@@ -72,7 +72,7 @@ namespace GestaoFlorestas.WebSite.Models
             this.username = t.getUsername();
             this.password = t.getPassword();
             this.concelho = t.getConcelho();
-            this.email = t.getEmail();
+            this.email = t.getMail();
             this.notificacoesPorLer = t.getNNotificacoes();
         }
 
@@ -80,7 +80,7 @@ namespace GestaoFlorestas.WebSite.Models
         public String getUsername() { return this.username; }
         public String getPassword() { return this.password; }
         public String getConcelho() { return this.concelho; }
-        public String getEmail() { return this.email; }
+        public String getMail() { return this.email; }
         public List<int> getTerrenosPendentes() { return this.idsLimpezasPendentes; }
         public int getNNotificacoes() { return this.notificacoesPorLer; }
         public double getLatitude() { return this.latitude; }
