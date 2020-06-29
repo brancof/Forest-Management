@@ -231,7 +231,7 @@ namespace GestaoFlorestas.WebSite.Controllers
 
         [Route("Resetpassword")]
         [HttpPut]
-        public ActionResult resetPass([FromBody] string body)
+        public ActionResult resetPass([FromBody] string body) //body:username
         {
             this.GestaoFlorestasService.criaTokenPassword(body, "Proprietario");
             return Ok();

@@ -166,6 +166,7 @@ namespace GestaoFlorestas.WebSite.Services
             int TTL = 15; //MIN
             int res = 1; //Correu tudo bem
             Token tok = this.token.getToken(username, tipo);
+            if (tok == null) return 0;
             DateTime timeNow = DateTime.UtcNow;
             DateTime time = tok.getDataEmissao().AddMinutes(TTL);
 
@@ -184,6 +185,7 @@ namespace GestaoFlorestas.WebSite.Services
                     }
                     this.token.DeleteToken(username, tipo);
                 }
+                else res = 0;
             }
             else { this.token.DeleteToken(username, tipo);res = 0; }
             return res;
