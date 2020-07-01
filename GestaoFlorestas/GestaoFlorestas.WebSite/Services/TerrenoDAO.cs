@@ -375,7 +375,30 @@ namespace GestaoFlorestas.WebSite.Services
         }
 
 
-       
+        public List<Inspecao> inspecoesRealizadas(int idTerreno)
+        {
+            List<Inspecao> insp = new List<Inspecao>();
+
+            string query = "Select idInspetor,relatorio,resultado,datahora from Inspecao " +
+                               "where idTerreno=@terreno AND estadoInspecao='Realizada' ;";
+
+            SqlCommand cmd = new SqlCommand(query, con);
+            cmd.Parameters.AddWithValue("@terreno", idTerreno);
+            if (this.OpenConnection() == true)
+            {
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        insp.Add(new Inspecao(idTerreno, (string)reader[0], (int)reader[2], (string)reader[1], (DateTime)reader[3]));
+
+                    }
+                }
+                this.CloseConnection();
+                return insp;
+            }
+            return null;
+        }
 
 
     }

@@ -207,6 +207,19 @@ namespace GestaoFlorestas.WebSite.Services
             return res;
         }
 
+
+        public List<Inspecao> inspecoesRealizadasTerreno(int idTerreno, string username)
+        {
+            Proprietario p = proprietarios.get(username);
+
+            if (p.hasTerreno(idTerreno))
+            {
+                return terrenos.inspecoesRealizadas(idTerreno);
+            }
+            else throw new ExistingUserException();
+        }
+
+
         //---------------------------------------------------------Inspetores---------------------------------------------------------------------
         public void registoInspetores(String username, String nome, String mail, String password)
         {

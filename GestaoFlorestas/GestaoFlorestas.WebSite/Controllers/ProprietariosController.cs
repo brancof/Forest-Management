@@ -164,6 +164,27 @@ namespace GestaoFlorestas.WebSite.Controllers
             else return Unauthorized();
         }
 
+        [Authorize]
+        [Route("Terrenos/Inspecoes")]
+        [HttpGet]
+        public ActionResult GetInspecoes([FromQuery] string Username,[FromQuery] string Idterreno,
+                                        [FromHeader] string Authorization)
+        {
+            if (MiddleWare(Authorization, Username))
+            {
+                try
+                {
+                    return new JsonResult(this.GestaoFlorestasService.inspecoesRealizadasTerreno(Int32.Parse(Idterreno),Username));
+                }
+                catch(ExistingUserException e) { return Unauthorized(); }
+            }
+
+            else return Unauthorized();
+        }
+
+
+        //-----------------------------------------------------------Mudança de informaçao pessoal-----------------------------------------
+
 
         [Authorize]
         [Route("Info/Changes/Nome")]

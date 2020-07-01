@@ -275,7 +275,7 @@ namespace GestaoFlorestas.WebSite.Services
         {
             bool r = false;
             string query = "Select * from Inspecao " +
-                           "where idInspetor=@username and idTerreno=@id ;";
+                           "where idInspetor=@username and idTerreno=@id and estadoInspecao='Em espera';";
 
             SqlCommand cmd = new SqlCommand(query, con);
             cmd.Parameters.AddWithValue("@username", inspetor);
@@ -365,7 +365,7 @@ namespace GestaoFlorestas.WebSite.Services
             List<Inspecao> insp = new List<Inspecao>();
             
             string query = "Select relatorio,resultado,datahora from Inspecao " +
-                               "where idTerreno=@terreno,idInspetor=@inspetor ;";
+                               "where idTerreno=@terreno AND idInspetor=@inspetor ;";
 
             SqlCommand cmd = new SqlCommand(query, con);
             cmd.Parameters.AddWithValue("@terreno", terreno);
