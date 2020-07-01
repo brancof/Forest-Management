@@ -208,9 +208,10 @@ namespace GestaoFlorestas.WebSite.Services
             String query;
             if (!containsInspecao(i.getInspetor(), i.getTerreno()))
             {
-                query = "INSERT INTO Inspecao VALUES(@idTerreno,@idInspetor,@resultado,@relatorio,@estado,@data);";
+                query = "INSERT INTO Inspecao VALUES(@idInspecao,@idTerreno,@idInspetor,@resultado,@relatorio,@estado,@data);";
 
                 SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@idInspecao", i.getId());
                 cmd.Parameters.AddWithValue("@idTerreno", i.getTerreno());
                 cmd.Parameters.AddWithValue("@idInspetor", i.getInspetor());
                 cmd.Parameters.AddWithValue("@resultado", i.getResultado());
@@ -231,7 +232,7 @@ namespace GestaoFlorestas.WebSite.Services
         {
             String query;
 
-            query = "Update Inspecao Set resultado=@resultado,relatorio=@relatorio,estadoInspecao='Realizada',dataHora = @data where idInspetor = @idI AND idTerreno = @idT;";
+            query = "Update Inspecao Set resultado=@resultado,relatorio=@relatorio,estadoInspecao='Realizada',dataHora = @data where idInspetor = @idI AND idTerreno = @idT AND idInspecao = id;";
 
             SqlCommand cmd = new SqlCommand(query, con);
             cmd.Parameters.AddWithValue("@resultado", i.getResultado());
@@ -239,6 +240,7 @@ namespace GestaoFlorestas.WebSite.Services
             cmd.Parameters.AddWithValue("@data", i.getDate());
             cmd.Parameters.AddWithValue("@idI", i.getInspetor());
             cmd.Parameters.AddWithValue("@idT", i.getTerreno());
+            cmd.Parameters.AddWithValue("@id", i.getId());
 
 
 
@@ -364,7 +366,7 @@ namespace GestaoFlorestas.WebSite.Services
         {
             List<Inspecao> insp = new List<Inspecao>();
             
-            string query = "Select relatorio,resultado,datahora from Inspecao " +
+            string query = "Select idInspecao, relatorio,resultado,datahora from Inspecao " +
                                "where idTerreno=@terreno AND idInspetor=@inspetor ;";
 
             SqlCommand cmd = new SqlCommand(query, con);
@@ -379,7 +381,7 @@ namespace GestaoFlorestas.WebSite.Services
                     while (reader.Read())
                     {
                         
-                        insp.Add(new Inspecao(terreno, inspetor, (int)reader[1], (string)reader[0], (DateTime)reader[2]));
+                        insp.Add(new Inspecao((string)reader[0],terreno, inspetor, (int)reader[2], (string)reader[1], (DateTime)reader[3]));
 
                     }
                 }
