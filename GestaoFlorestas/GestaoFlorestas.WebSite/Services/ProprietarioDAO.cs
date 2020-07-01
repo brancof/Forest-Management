@@ -162,7 +162,7 @@ namespace GestaoFlorestas.WebSite.Services
         }
 
 
-        
+
 
         public bool contains(String p)
         {
@@ -255,7 +255,7 @@ namespace GestaoFlorestas.WebSite.Services
                 cmd.Parameters.AddWithValue("@tipo", "Proprietario");
 
 
-                
+
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
                     reader.Read();
@@ -345,7 +345,7 @@ namespace GestaoFlorestas.WebSite.Services
         public String getSalt(String user)
         {
             String salt = "";
-           
+
             string query = "Select salt from proprietario " +
                                "where username=@username ;";
 
@@ -393,6 +393,10 @@ namespace GestaoFlorestas.WebSite.Services
             }
             return 0;
         }
+
+
+        
+
 
     }
 }

@@ -164,6 +164,27 @@ namespace GestaoFlorestas.WebSite.Controllers
             else return Unauthorized();
         }
 
+        [Authorize]
+        [Route("Terrenos/Inspecoes")]
+        [HttpGet]
+        public ActionResult GetInspecoes([FromQuery] string Username,[FromQuery] string Idterreno,
+                                        [FromHeader] string Authorization)
+        {
+            if (MiddleWare(Authorization, Username))
+            {
+                try
+                {
+                    return new JsonResult(this.GestaoFlorestasService.inspecoesRealizadasTerreno(Int32.Parse(Idterreno),Username));
+                }
+                catch(ExistingUserException e) { return Unauthorized(); }
+            }
+
+            else return Unauthorized();
+        }
+
+
+        //-----------------------------------------------------------Mudança de informaçao pessoal-----------------------------------------
+
 
         [Authorize]
         [Route("Info/Changes/Nome")]
@@ -178,6 +199,49 @@ namespace GestaoFlorestas.WebSite.Controllers
             {
                 this.GestaoFlorestasService.changeNameProp(campos[0], newName);
                 return Ok();
+            }
+
+            else return Unauthorized();
+        }
+
+        [Authorize]
+        [Route("Info/Changes/Email")]
+        [HttpPut]
+        public ActionResult ChangeEmail([FromBody] string body, [FromHeader] string Authorization) //body: "username,newEmail"
+        {
+            string[] campos = body.Split(',');
+
+            string newEmail = campos[1];
+
+            if (MiddleWare(Authorization, campos[0]))
+            {
+                this.GestaoFlorestasService.changeEmailProp(campos[0], newEmail);
+                return Ok();
+            }
+
+            else return Unauthorized();
+        }
+
+
+        [Authorize]
+        [Route("Info/Changes/Password")]
+        [HttpPut]
+        public ActionResult ChangePassword([FromBody] string body, [FromHeader] string Authorization) //body: "username,oldPassword,newPassword"
+        {
+            string[] campos = body.Split(',');
+
+
+            if (MiddleWare(Authorization, campos[0]))
+            {
+                try
+                {
+                    this.GestaoFlorestasService.changePasswordProp(campos[0], campos[1], campos[2]);
+                    return Ok();
+                }
+                catch(ExistingUserException e)
+                {
+                    return Unauthorized();
+                }
             }
 
             else return Unauthorized();
