@@ -102,6 +102,7 @@ namespace GestaoFlorestas.WebSite.Models
         public void setPassword(String password) { this.password = password; }
         public void setTerrenosAInspecionar(List<int> terr) { this.terrenosAInspecionar = terr; }
         public void setNNotificacoes(int n) { this.notificacoesPorLer = n; }
+        public void setMail(string newMail) { this.email=newMail; }
 
         public Double getLatitude() { return this.latitude; }
         public Double getLongitude() { return this.longitude; }

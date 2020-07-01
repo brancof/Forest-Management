@@ -183,6 +183,49 @@ namespace GestaoFlorestas.WebSite.Controllers
             else return Unauthorized();
         }
 
+        [Authorize]
+        [Route("Info/Changes/Email")]
+        [HttpPut]
+        public ActionResult ChangeEmail([FromBody] string body, [FromHeader] string Authorization) //body: "username,newEmail"
+        {
+            string[] campos = body.Split(',');
+
+            string newEmail = campos[1];
+
+            if (MiddleWare(Authorization, campos[0]))
+            {
+                this.GestaoFlorestasService.changeEmailProp(campos[0], newEmail);
+                return Ok();
+            }
+
+            else return Unauthorized();
+        }
+
+
+        [Authorize]
+        [Route("Info/Changes/Password")]
+        [HttpPut]
+        public ActionResult ChangePassword([FromBody] string body, [FromHeader] string Authorization) //body: "username,oldPassword,newPassword"
+        {
+            string[] campos = body.Split(',');
+
+
+            if (MiddleWare(Authorization, campos[0]))
+            {
+                try
+                {
+                    this.GestaoFlorestasService.changePasswordProp(campos[0], campos[1], campos[2]);
+                    return Ok();
+                }
+                catch(ExistingUserException e)
+                {
+                    return Unauthorized();
+                }
+            }
+
+            else return Unauthorized();
+        }
+
 
         //------------------------------------notificacoes -----------------------------------------
         [Authorize]

@@ -73,6 +73,22 @@ namespace GestaoFlorestas.WebSite.Services
             this.proprietarios.put(p);//atualiza a BD
         }
 
+        public void changeEmailProp(string username, string newEmail)
+        {
+            Proprietario p = proprietarios.get(username);
+            p.setMail(newEmail);
+            this.proprietarios.put(p);//atualiza a BD
+        }
+
+        public void changePasswordProp(string username, string oldPassword, string newPassword)
+        {
+            if (proprietarios.verificarPassword(oldPassword,username))
+            {
+                proprietarios.updatePassword(username, newPassword);
+            }
+            else throw new ExistingUserException();
+        }
+
 
         public List<Terreno> terrenosDoProprietario (string username)
         {
@@ -319,6 +335,30 @@ namespace GestaoFlorestas.WebSite.Services
             inspetores.AtualizarCoordenadas(username, latitude, longitude);
         }
 
+        public void changeNameInsp(string username, string newName)
+        {
+            Inspetor i = inspetores.get(username);
+            i.setNome(newName);
+            this.inspetores.put(i);//atualiza a BD
+        }
+
+        public void changeEmailInsp(string username, string newEmail)
+        {
+            Inspetor i = inspetores.get(username);
+            i.setMail(newEmail);
+            this.inspetores.put(i);//atualiza a BD
+        }
+
+        public void changePasswordInsp(string username, string oldPassword, string newPassword)
+        {
+            if (inspetores.verificarPassword(oldPassword,username))
+            {
+                inspetores.updatePassword(username, newPassword);
+            }
+            else throw new ExistingUserException();
+        }
+
+
         //----------------------------------------------Supervisores----------------------------------------
 
         public void registoSupervisor(String nome, String username, String mail, String password, String concelho)
@@ -505,6 +545,30 @@ namespace GestaoFlorestas.WebSite.Services
             return p.notificacoesPorLer;
         }
 
+
+        public void changeNameSup(string username, string newName)
+        {
+            Supervisor_Concelho s = supervisores.get(username);
+            s.setNome(newName);
+            this.supervisores.put(s);//atualiza a BD
+        }
+
+        public void changeEmailSup(string username, string newEmail)
+        {
+            Supervisor_Concelho s = supervisores.get(username);
+            s.setMail(newEmail);
+            this.supervisores.put(s);//atualiza a BD
+        }
+
+        public void changePasswordSup(string username, string oldPassword, string newPassword)
+        {
+            if (supervisores.verificarPassword(oldPassword,username))
+            {
+                supervisores.updatePassword(username, newPassword);
+            }
+            else throw new ExistingUserException();
+        }
+
         //---------------------------------------------Trabalhadores----------------------------------------------------------------
 
         public void registoTrabalhadores(String nome, String username,String mail, String password, String concelho)
@@ -610,13 +674,35 @@ namespace GestaoFlorestas.WebSite.Services
             trabalhadores.AtualizarCoordenadas(username, latitude, longitude);
         }
 
+        public void changeNameTrab(string username, string newName)
+        {
+            Trabalhador_da_Camara t = trabalhadores.get(username);
+            t.setNome(newName);
+            this.trabalhadores.put(t);//atualiza a BD
+        }
+
+        public void changeEmailTrab(string username, string newEmail)
+        {
+            Trabalhador_da_Camara t = trabalhadores.get(username);
+            t.setMail(newEmail);
+            this.trabalhadores.put(t);//atualiza a BD
+        }
+
+        public void changePasswordTrab(string username, string oldPassword, string newPassword)
+        {
+            if (trabalhadores.verificarPassword(oldPassword,username))
+            {
+                trabalhadores.updatePassword(username, newPassword);
+            }
+            else throw new ExistingUserException();
+        }
 
 
 
         //-------Recuperar Palavra Pass-------
 
 
-      
+
 
         public static void email(string tok,string username, string mail)
         {

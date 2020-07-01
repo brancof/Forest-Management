@@ -246,5 +246,66 @@ namespace GestaoFlorestas.WebSite.Controllers
             if (r == 1) return Ok();
             else return Unauthorized();
         }
+
+        [Authorize]
+        [Route("Info/Changes/Nome")]
+        [HttpPut]
+        public ActionResult ChangeName([FromBody] string body, [FromHeader] string Authorization) //body: "username,newName"
+        {
+            string[] campos = body.Split(',');
+
+            string newName = campos[1];
+
+            if (MiddleWare(Authorization, campos[0]))
+            {
+                this.GestaoFlorestasService.changeNameTrab(campos[0], newName);
+                return Ok();
+            }
+
+            else return Unauthorized();
+        }
+
+        [Authorize]
+        [Route("Info/Changes/Email")]
+        [HttpPut]
+        public ActionResult ChangeEmail([FromBody] string body, [FromHeader] string Authorization) //body: "username,newEmail"
+        {
+            string[] campos = body.Split(',');
+
+            string newEmail = campos[1];
+
+            if (MiddleWare(Authorization, campos[0]))
+            {
+                this.GestaoFlorestasService.changeEmailTrab(campos[0], newEmail);
+                return Ok();
+            }
+
+            else return Unauthorized();
+        }
+
+
+        [Authorize]
+        [Route("Info/Changes/Password")]
+        [HttpPut]
+        public ActionResult ChangePassword([FromBody] string body, [FromHeader] string Authorization) //body: "username,oldPassword,newPassword"
+        {
+            string[] campos = body.Split(',');
+
+
+            if (MiddleWare(Authorization, campos[0]))
+            {
+                try
+                {
+                    this.GestaoFlorestasService.changePasswordTrab(campos[0], campos[1], campos[2]);
+                    return Ok();
+                }
+                catch (ExistingUserException e)
+                {
+                    return Unauthorized();
+                }
+            }
+
+            else return Unauthorized();
+        }
     }
 }
