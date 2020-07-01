@@ -2,9 +2,10 @@ import React from 'react';
 import axios from 'axios';
 import Maps from './Maps';
 import './Proprietarios.css'
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Link } from 'react-router-dom';
 import Options from './Options';
 import Notificacoes from './Notificacoes';
+import ProprietarioRelatorio from './ProprietarioRelatorio';
 
 class Proprietarios extends React.Component {
     constructor(props) {
@@ -13,7 +14,8 @@ class Proprietarios extends React.Component {
             terrenos: '',
             mapInfo: [],
             auth: "Bearer " + this.props.token,
-            checked: []
+            checked: [], 
+            terrenoSelected: null
         };
 
         this.loadTerrenos = this.loadTerrenos.bind(this);
@@ -34,12 +36,18 @@ class Proprietarios extends React.Component {
             <tr key={terreno.id_Terreno}>
                 <td className="colmorada" style={{ textAlign: "left", paddingLeft: "5%" }}>
                     <input style={{ display: "inline", visibility: terreno.estadoLimpeza ? "hidden" : "visible" }} type="checkbox" disabled={terreno.estadoLimpeza} key={terreno.id_Terreno} onChange={this.handleCheck} value={index} className="form-check-input" id="checkmark" />
-                    <p style={{ display: "inline" }}>{terreno.morada} - {terreno.cod_postal}</p></td>
+                    <Link to='/proprietarios/relatorio' class="btn btn-link" onClick={this.handleClickLink.bind(this, terreno)}>
+                        {terreno.morada} - {terreno.cod_postal}
+                    </Link>
+                </td>
                 <td className="colestado" style={{ textAlign: "left" }}>{terreno.estadoLimpeza ? "Limpo" : "Não Limpo"}</td>
             </tr>
         ) : null)
     }
 
+    handleClickLink(terreno){
+        this.setState({terrenoSelected: terreno});
+    }
 
     loadTerrenos() {
         //const auth = "Bearer " + this.props.token;
@@ -104,9 +112,6 @@ class Proprietarios extends React.Component {
                     })
             }
         }
-
-
-        //alert(this.state.checked);
     }
 
 
@@ -152,6 +157,10 @@ class Proprietarios extends React.Component {
 
                 <Route path='/proprietarios/notificacoes'>
                     <Notificacoes user={this.props.user} username={this.props.username} change={{ user: this.props.change }} accounttype={this.props.accounttype} token={this.props.token} />
+                </Route>
+
+                <Route path='/proprietarios/relatorio'>
+                    <ProprietarioRelatorio user={this.props.user} username={this.props.username} selected={this.state.terrenoSelected} token={this.props.token} />
                 </Route>
 
             </Switch>

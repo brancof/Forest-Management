@@ -115,7 +115,10 @@ class Supervisores extends React.Component {
                                         <h4 className="card-title login-title">{this.props.user.nome}</h4>
                                         <p className="card-text login-text">Gestão de Concelhos</p>
                                         <h5 style={{ textAlign: 'left' }} className="card-title login-title">{this.props.user.concelho}</h5>
-                                        <p style={{ textAlign: 'left' }} className="card-text login-text">Número total de terrenos por limpar: {this.state.terrenosLimpos}</p>
+                                        <p style={{ textAlign: 'left' }} className="card-text login-text">
+                                            Número total de terrenos por limpar: 
+                                            <span style={{marginLeft:'1%'}} class="badge badge-pill badge-dark">{this.state.terrenosLimpos}</span>
+                                        </p>
 
                                         <div className="map-container">
                                             {this.state.mapInfo.length === 0 ? null : <Heat HeatData={this.state.mapInfo} Latitude={this.state.concelho.latitude} Longitude={this.state.concelho.longitude} />}
