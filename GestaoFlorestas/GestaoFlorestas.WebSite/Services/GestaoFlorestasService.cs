@@ -473,6 +473,8 @@ namespace GestaoFlorestas.WebSite.Services
 
             string concelhoZ = z.getConcelho();
 
+            
+
             string inspetor = z.getInspetor();
 
             if (concelhoZ.Equals(p.getConcelho()))
