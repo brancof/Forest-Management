@@ -16,6 +16,8 @@ class Heat extends Component {
     }
   };
 
+
+
     render() {
       return (
           <div style={{height: '50%', width: '75%'}}>
@@ -27,8 +29,9 @@ class Heat extends Component {
               >
             <HeatMap
               positions={this.props.HeatData}
-              opacity={1}
-              radius={20}
+              radius= {20}
+              opacity= {1}
+              maxIntensity={5}
             />
             </Map>
           </div>

@@ -12,7 +12,8 @@ import './Inspetores.css'
             auth: "Bearer " + this.props.token,
             textValue:'',
             resultado: '',
-            sucesso: 0
+            sucesso: 0,
+            selecionado: 0
         };
         this.handleAlterar = this.handleAlterar.bind(this);
         this.handleChangeTextArea = this.handleChangeTextArea.bind(this);
@@ -26,7 +27,7 @@ import './Inspetores.css'
     handleAlterar(event) {
         event.preventDefault();
 
-        if (!this.props.selected === null) return;
+        if (this.state.textValue === '' ||  this.state.resultado === '') return;
         axios({
             method: 'put',
             url: 'https://localhost:44301/inspetores/Realizarinspecao',
@@ -50,7 +51,10 @@ import './Inspetores.css'
 
 
     handleChangeTextArea(event) {
-        this.setState({textValue: event.target.value});
+        const regex = /^[^|]*$/;
+        if (event.target.value === '' || regex.test(event.target.value)) {
+            this.setState({textValue: event.target.value});
+        }
     }
 
     handleChangeResultado(event) {
@@ -84,7 +88,8 @@ import './Inspetores.css'
                             </div>   
                             <div style={{marginTop: "5%"}}>
                                 <h6>Relatório</h6>
-                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="7" value={this.state.textValue} onChange={this.handleChangeTextArea}/>
+                                <small class="text-secondary">(Máx. 200 caracteres)</small>
+                                <textarea maxLength="200" class="form-control" id="exampleFormControlTextarea1" rows="7" value={this.state.textValue} onChange={this.handleChangeTextArea}/>
                             </div>
                         </div>
                         {this.props.selected != null?

@@ -89,7 +89,7 @@ class Supervisores extends React.Component {
                     mapZonas[index] = {
                         lat: zonas.latitude,
                         lng: zonas.longitude,
-                        //weight: zonas.nivelCritico
+                        weight: zonas.nivelCritico
                     };
                 });
                 this.setState({ mapInfo: mapZonas });

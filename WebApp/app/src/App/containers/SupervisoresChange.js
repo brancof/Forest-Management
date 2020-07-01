@@ -61,7 +61,7 @@ class SupervisoresChange extends React.Component {
     {
         event.preventDefault();
         
-        if(!this.state.terrenos.length > 0) return;
+        if(!this.state.terrenos.length > 0 || this.state.nifNovo === '') return;
         var i;
         for(i = 0; i < this.state.checked.length; i++)
         {
