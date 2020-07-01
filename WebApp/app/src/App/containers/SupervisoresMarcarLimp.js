@@ -148,7 +148,7 @@ class SupervisoresMarcarLimp extends React.Component {
     }
 
     trabalhadorestableCamara(){
-        return( this.state.displayTableTrabalhadores ?
+        return( this.state.displayTableTrabalhadores?
             <div>
                 <table className="table table-responsive table-hover table-bordered ">
                     <thead>
@@ -227,6 +227,13 @@ class SupervisoresMarcarLimp extends React.Component {
                         })
                         .then(response => {
                             this.setState({marcado: 1});
+                            this.terrenosCamara();
+                            var v;
+                            for(v = 0; v < this.state.checkedTrab.length; v++)
+                            {
+                                this.state.checkedTrab[v] = 0;
+                            }
+                            this.trabalhadoresCamara();
                             console.log(response.data);
                         }) 
                         .catch(response => {

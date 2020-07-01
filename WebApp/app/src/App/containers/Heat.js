@@ -11,28 +11,27 @@ class Heat extends Component {
     this.state = {
         zoom: 12,
         center: {
-            lat:41.5618, lng:-8.29563
+          lat:41.5618, lng:-8.29563
         },
     }
   };
 
     render() {
       return (
-        <div style={{height: '50%', width: '75%'}}
-            >
-          <Map
-            google={this.props.google}
-            zoom={this.state.zoom}
-            style={{height: '50%', width: '80%'}}
-            initialCenter={{lat:this.props.Latitude, lng:this.props.Longitude}}
-          >
+          <div style={{height: '50%', width: '75%'}}>
+              <Map
+                google={this.props.google}
+                zoom={this.state.zoom}
+                style={{height: '50%', width: '80%'}}
+                initialCenter={{lat:this.props.Latitude, lng:this.props.Longitude}}
+              >
             <HeatMap
               positions={this.props.HeatData}
               opacity={1}
               radius={20}
             />
-          </Map>
-        </div>
+            </Map>
+          </div>
       );
     }
   }

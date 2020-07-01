@@ -9,7 +9,8 @@ class TrabalhadoresLimpeza extends React.Component {
             auth: "Bearer " + this.props.token,
             terrenos: '',
             checked: [],
-            displayTable: 0
+            displayTable: 0,
+            sucesso: 0
         };
 
         this.terrenosPendentes = this.terrenosPendentes.bind(this);
@@ -62,6 +63,10 @@ class TrabalhadoresLimpeza extends React.Component {
                     }
                 })
                 .then(response => {
+                    this.setState({sucesso: 1});
+                    this.terrenosPendentes();
+                    var v;
+                    for (v = 0; v < this.state.checked.length; v++) this.state.checked[v] = 0;
                     console.log(response);
                 }) 
                 .catch(response => {
@@ -110,7 +115,7 @@ class TrabalhadoresLimpeza extends React.Component {
                                 <h5 style={{ textAlign: 'left' }} className="card-title login-title">{this.props.user.concelho}</h5>
                                 <div className="div-space">
                                     {this.state.displayTable ===0? "Não existem limpezas pendentes de momento.":
-                                        <table className="table table-hover">
+                                        <table className="table table-hover table-responsive table-bordered">
                                             <thead>
                                                 <tr>
                                                     <th scope="col"></th>
@@ -123,6 +128,9 @@ class TrabalhadoresLimpeza extends React.Component {
                                             </tbody>
                                         </table>
                                     }
+                                <div>
+                                    {this.state.sucesso === 1? <p>O terreno foi limpo com sucesso</p> : null}
+                                </div>
                                 <div>
                                     {this.state.displayTable ===0? null: <input className="btn btn-success btn-sm btn-add-prop" type='submit' onClick={this.handleAlterar} value="Alterar Estado" />}
                                 </div>

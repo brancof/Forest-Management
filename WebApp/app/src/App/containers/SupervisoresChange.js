@@ -12,8 +12,8 @@ class SupervisoresChange extends React.Component {
             terrenos: '',
             mapInfo: [],
             checked: [],
-            nifAntigo : 0,
-            nifNovo: 0,
+            nifAntigo : '',
+            nifNovo: '',
             boolAlterado: 0,
             sucesso: 0,
             displayTable: 0
@@ -37,19 +37,22 @@ class SupervisoresChange extends React.Component {
     terrenostable(){
         return (this.state.terrenos.length > 0 ? this.state.terrenos.map((terreno, index) =>
             <tr key={terreno.id_Terreno}>
-               <td style={{textAlign: "left", paddingLeft: "5%"}}>
-                   <input style={{display: "inline"}} type="checkbox"  disabled={this.state.boolAlterado} key={terreno.id_Terreno} onChange={this.handleCheck} value={index} className="form-check-input" id="checkmark"/>
-               <p style={{display: "inline"}}>{terreno.morada} - {terreno.cod_postal}</p></td>
-               <td style={{textAlign: "left"}}>{terreno.nif}</td> 
+              <td style={{textAlign: "left", paddingLeft: "1%"}}>
+                    <div class="custom-control custom-checkbox">
+                        <input style={{display: "inline"}} type="checkbox"  disabled={this.state.boolAlterado} key={terreno.id_Terreno} onChange={this.handleCheck} value={index} className="form-check-input" id="checkmark"/>
+                    </div>
+                </td>
+               <td className="colexpand">{terreno.morada} - {terreno.cod_postal}</td>
+               <td className="colexpand" style={{textAlign: "left"}}>{terreno.nif}</td> 
             </tr>
-            ) : "Nenhum terreno encontrado.")
+            ) : 'Nenhum terreno encontrado')
     }
 
     novoNif(){
         return ( this.state.terrenos.length > 0 && !this.state.sucesso ?  
-        <div className="form-group">
+        <div style={{marginTop: '7%'}} className="form-group">
              <p style={{textAlign: "left"}} >{'Insira o Nif do novo proprietário '}</p>
-            <input type="text" className="form-control" id="nifInput" onChange={this.handleChangeNifNovo} placeholder="Nif"></input>
+            <input type="text" className="form-control" id="nifInput" value={this.state.nifNovo} onChange={this.handleChangeNifNovo} placeholder="Nif"></input>
             <input className="btn login-btn btn-success btn-sm" type='submit' onClick={this.handleChangeNifProprietario} value="Alterar" />
         </div>: null)
     }
@@ -78,6 +81,7 @@ class SupervisoresChange extends React.Component {
                         this.setState({boolAlterado: 1});
                         this.setState({sucesso: 1});
                         this.loadTerrenos(this.state.nifNovo);
+                        this.setState({nifAntigo: '', nifNovo: ''});
                     }) 
                     .catch(response => {
                         alert("Erro na troca de proprietário.");
@@ -89,11 +93,17 @@ class SupervisoresChange extends React.Component {
     }
 
     handleChangeNifAntigo(event) {
-        this.setState({nifAntigo: event.target.value});
+        const regex = /^[0-9\b]+$/;
+      if (event.target.value === '' || regex.test(event.target.value)) {
+            this.setState({nifAntigo: event.target.value});
+      }
     }
 
     handleChangeNifNovo(event) {
+        const regex = /^[0-9\b]+$/;
+      if (event.target.value === '' || regex.test(event.target.value)) {
         this.setState({nifNovo: event.target.value});
+      }
     }
 
     loadTerrenos(nif){
@@ -148,14 +158,19 @@ class SupervisoresChange extends React.Component {
                                     <p className="card-text login-text">{''}</p>
                                     <div className="form-group">
                                         <p style={{textAlign: 'left'}}>{'Insira o Nif do atual proprietário '}</p>
-                                        <input type="text" className="form-control" id="nifInput" onChange={this.handleChangeNifAntigo} placeholder="Nif"></input>
+                                        <input type="text" className="form-control" id="nifInput" value={this.state.nifAntigo} onChange={this.handleChangeNifAntigo} placeholder="Nif"></input>
                                         <input className="btn login-btn btn-success btn-sm" type='submit' onClick={this.handleProcurarButton} value="Procurar" />
                                     </div>
-                                    <table className="table table-hover table-bordered table-prop">
-                                        <tbody>
-                                            {this.state.displayTable ? this.terrenostable() : null}
-                                        </tbody>
-                                    </table>
+                                    {this.state.displayTable?
+                                    <div style={{marginTop:"4%"}}>
+                                        <h6 style={{textAlign: 'left'}}>Terrenos associados</h6>
+                                        <table style={{maxHeight: "200px"}} className="table table-hover table-responsive table-bordered">
+                                            <tbody>
+                                                {this.terrenostable()}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    : null }
                                     <div className="form-group">
                                         <p style={{textAlign: 'left'}}>{this.state.sucesso ? 'O terreno foi alterado de proprietário com sucesso.' : ''}</p>
                                     </div>
