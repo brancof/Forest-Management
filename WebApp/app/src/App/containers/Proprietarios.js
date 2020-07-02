@@ -36,7 +36,7 @@ class Proprietarios extends React.Component {
             <tr key={terreno.id_Terreno}>
                 <td className="colmorada" style={{ textAlign: "left", paddingLeft: "5%" }}>
                     <input style={{ display: "inline", visibility: terreno.estadoLimpeza ? "hidden" : "visible" }} type="checkbox" disabled={terreno.estadoLimpeza} key={terreno.id_Terreno} onChange={this.handleCheck} value={index} className="form-check-input" id="checkmark" />
-                    <Link to='/proprietarios/relatorio' class="btn btn-link" onClick={this.handleClickLink.bind(this, terreno)}>
+                    <Link to='/proprietarios/relatorio' onClick={this.handleClickLink.bind(this, terreno)}>
                         {terreno.morada} - {terreno.cod_postal}
                     </Link>
                 </td>
@@ -152,7 +152,7 @@ class Proprietarios extends React.Component {
                 </Route>
 
                 <Route path='/proprietarios/opcoes'>
-                    <Options user={this.props.user} username={this.props.username} change={{ user: this.props.change }} token={this.props.token} />
+                    <Options user={this.props.user} username={this.props.username} change={{ user: this.props.change }} token={this.props.token} accounttype={this.props.accounttype} />
                 </Route>
 
                 <Route path='/proprietarios/notificacoes'>

@@ -6,6 +6,7 @@ import SupervisoresMarcarInsp from './SupervisoresMarcarInsp';
 import SupervisoresMarcarLimp from './SupervisoresMarcarLimp';
 import Notificacoes from './Notificacoes';
 import { Switch, Route } from 'react-router-dom';
+import Options from './Options';
 import './Supervisores.css';
 
 class Supervisores extends React.Component {
@@ -146,6 +147,10 @@ class Supervisores extends React.Component {
 
                 <Route path='/supervisores/notificacoes'>
                     <Notificacoes user={this.props.user} username={this.props.username} change={{ user: this.props.change }} accounttype={this.props.accounttype} token={this.props.token} />
+                </Route>
+
+                <Route path='/supervisores/opcoes'>
+                    <Options user={this.props.user} username={this.props.username} change={{ user: this.props.change }} token={this.props.token} accounttype={this.props.accounttype} />
                 </Route>
 
             </Switch>

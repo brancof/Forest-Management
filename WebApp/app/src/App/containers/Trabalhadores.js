@@ -4,6 +4,7 @@ import DirectionsMap from './DirectionsMap';
 import TrabalhadoresLimpeza from "./TrabalhadoresLimpeza";
 import { Switch, Route, Link } from 'react-router-dom';
 import './Trabalhadores.css';
+import Options from './Options';
 import Notificacoes from './Notificacoes';
 
   class Trabalhadores extends React.Component {
@@ -183,6 +184,10 @@ import Notificacoes from './Notificacoes';
                 
                 <Route path='/trabalhadores/notificacoes'>
                     <Notificacoes user={this.props.user} username={this.props.username} change={{ user: this.props.change }} accounttype={this.props.accounttype} token={this.props.token} />
+                </Route>
+
+                <Route path='/trabalhadores/opcoes'>
+                    <Options user={this.props.user} username={this.props.username} change={{ user: this.props.change }} token={this.props.token} accounttype={this.props.accounttype} />
                 </Route>
 
             </Switch>

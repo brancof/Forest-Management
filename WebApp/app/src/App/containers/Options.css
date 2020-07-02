@@ -1,0 +1,43 @@
+.options-text {
+    text-align: left;
+    padding-bottom: 1%;
+}
+
+.options-header {
+    padding-bottom: 5%;
+}
+
+.optdiv {
+    position: relative;
+}
+
+.pencil {
+    position: absolute;
+    fill: rgb(27, 27, 27);
+    left: 93%;
+    top: 15%;
+}
+
+.pencil:hover {
+    cursor: pointer;
+}
+
+.passedit {
+    color: green;
+    text-align: left;
+    padding-bottom: 1%;
+}
+
+.passedit:hover {
+    text-decoration: underline;
+    color: rgb(0, 179, 0);
+    cursor: pointer;
+}
+
+.form-group-options {
+    width: 50%;
+}
+
+.form-control {
+    margin-top: 1em;
+}

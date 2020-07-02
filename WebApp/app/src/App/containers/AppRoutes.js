@@ -49,10 +49,6 @@ class AppRoutes extends React.Component {
     this.setState({ user: newuser });
   }
 
-  setPassword(newpass) {
-    this.setState({ password: newpass });
-  }
-
   setType(newtype) {
     this.setState({ accounttype: newtype });
   }

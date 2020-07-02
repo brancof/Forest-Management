@@ -4,6 +4,7 @@ import DirectionsMap from './DirectionsMap';
 import { Switch, Route, Link } from 'react-router-dom';
 import './Inspetores.css'
 import InspetoresInspecionar from './InspetoresInspecionar';
+import Options from './Options';
 import Notificacoes from './Notificacoes';
 
 function toLetters(num) {
@@ -192,6 +193,10 @@ function toLetters(num) {
 
                 <Route path='/inspetores/notificacoes'>
                     <Notificacoes user={this.props.user} username={this.props.username} change={{ user: this.props.change }} accounttype={this.props.accounttype} token={this.props.token} />
+                </Route>
+
+                <Route path='/inspetores/opcoes'>
+                    <Options user={this.props.user} username={this.props.username} change={{ user: this.props.change }} token={this.props.token} accounttype={this.props.accounttype} />
                 </Route>
 
             </Switch>
