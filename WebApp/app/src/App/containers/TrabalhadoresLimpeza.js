@@ -110,30 +110,32 @@ class TrabalhadoresLimpeza extends React.Component {
                         <div className="col"></div>
                         <div className="col-md-10">
                             <div className="card login-card">
-                                <h4 className="card-title login-title">{this.props.user.nome}</h4>
-                                <p className="card-text login-text">Gestão de Trabalho</p>
-                                <h5 style={{ textAlign: 'left' }} className="card-title login-title">{this.props.user.concelho}</h5>
-                                <div className="div-space">
-                                    {this.state.displayTable ===0? "Não existem limpezas pendentes de momento.":
-                                        <table className="table table-hover table-responsive table-bordered">
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col"></th>
-                                                    <th scope="col">Morada</th>
-                                                    <th scope="col colexpand">Estado</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {this.state.displayTable ? this.terrenostable() : null}
-                                            </tbody>
-                                        </table>
-                                    }
-                                <div>
-                                    {this.state.sucesso === 1? <p>O terreno foi limpo com sucesso</p> : null}
-                                </div>
-                                <div>
-                                    {this.state.displayTable ===0? null: <input className="btn btn-success btn-sm btn-add-prop" type='submit' onClick={this.handleAlterar} value="Alterar Estado" />}
-                                </div>
+                                    <h4 className="card-title login-title">{this.props.user.nome}</h4>
+                                    <div className="card-block">
+                                    <p className="card-text login-text">Gestão de Trabalho</p>
+                                    <h5 style={{ textAlign: 'left' }} className="card-title login-title">{this.props.user.concelho}</h5>
+                                    <div className="div-space">
+                                        {this.state.displayTable ===0? "Não existem limpezas pendentes de momento.":
+                                            <table className="table table-hover table-responsive table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col"></th>
+                                                        <th scope="col">Morada</th>
+                                                        <th scope="col colexpand">Estado</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {this.state.displayTable ? this.terrenostable() : null}
+                                                </tbody>
+                                            </table>
+                                        }
+                                    <div>
+                                        {this.state.sucesso === 1? <p>O terreno foi limpo com sucesso</p> : null}
+                                    </div>
+                                    <div>
+                                        {this.state.displayTable ===0? null: <input className="btn btn-success btn-sm btn-add-prop" type='submit' onClick={this.handleAlterar} value="Alterar Estado" />}
+                                    </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

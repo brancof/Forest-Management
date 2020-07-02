@@ -27,6 +27,12 @@
   .notifsPorLer {
     color: honeydew;
     position: relative;
+    left: -0.2em;
+    top: -0.1em;
+  }
+
+  .notifsLidas {
+    position: relative;
   }
 
   .bi-envelope-fill {
@@ -36,10 +42,23 @@
     z-index: 1;
   }
 
+  .bi-envelope-open {
+    position: relative;
+    top: -0.2em;
+  }
+
   .badge-pill {
     position: relative;
     left: .7em;
     top: -7px;
     scale: 90%;
     z-index: 2;
+    padding-right: .35em;
+    padding-left: .35em;
   }
+
+@media (min-width: 768px){
+  .navbar-moblink {
+    display: none;
+  }
+}

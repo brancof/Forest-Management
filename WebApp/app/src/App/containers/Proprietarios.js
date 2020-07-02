@@ -34,8 +34,10 @@ class Proprietarios extends React.Component {
     terrenostable() {
         return (this.state.terrenos.length > 0 ? this.state.terrenos.map((terreno, index) =>
             <tr key={terreno.id_Terreno}>
-                <td className="colmorada" style={{ textAlign: "left", paddingLeft: "5%" }}>
+                <td className="colcheck" style={{textAlign: "left", paddingLeft: "2%"}}>
                     <input style={{ display: "inline", visibility: terreno.estadoLimpeza ? "hidden" : "visible" }} type="checkbox" disabled={terreno.estadoLimpeza} key={terreno.id_Terreno} onChange={this.handleCheck} value={index} className="form-check-input" id="checkmark" />
+                </td>
+                <td className="colmorada" style={{ textAlign: "left", paddingLeft: "5%" }}>
                     <Link to='/proprietarios/relatorio' onClick={this.handleClickLink.bind(this, terreno)}>
                         {terreno.morada} - {terreno.cod_postal}
                     </Link>
@@ -131,6 +133,7 @@ class Proprietarios extends React.Component {
                                         <table className="table table-hover table-bordered table-prop">
                                             <thead>
                                                 <tr>
+                                                    <th scope="col"></th>
                                                     <th scope="col colmorada">Morada</th>
                                                     <th scope="col colestado">Estado</th>
                                                 </tr>

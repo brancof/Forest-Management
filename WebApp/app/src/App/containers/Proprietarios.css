@@ -16,9 +16,18 @@
 }
 
 .colmorada {
-    width: 17%;
+    width: 35%;
 }
 
 .colestado {
+    width: 3%;
+}
+
+.form-check-input {
+    position: inherit;
+    margin-left: -0.2rem;
+}
+
+.colcheck {
     width: 1%;
 }

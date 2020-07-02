@@ -1,7 +1,8 @@
 import React from 'react';
 import axios from 'axios';
 import {
-    Link
+    Link,
+    withRouter
 } from "react-router-dom";
 import './Navbar.css';
 
@@ -11,17 +12,25 @@ class Navbar extends React.Component {
         this.state = {
             auth: "Bearer " + this.props.token,
             notificacoesPorLer: this.props.user.notificacoesPorLer,
-            notifs: ''
+            notifs: '',
+            expanded: false
         };
         this.logoutClick = this.logoutClick.bind(this);
         this.leftSideLinks = this.leftSideLinks.bind(this);
         this.loadNotifs = this.loadNotifs.bind(this);
         this.showNotifs = this.showNotifs.bind(this);
         this.notifsDropClick = this.notifsDropClick.bind(this);
+        this.mobileLink = this.mobileLink.bind(this);
+    };
+
+    drawerHandler = () => {
+        this.setState((prevState) => {
+            return { expanded: !prevState.expanded };
+        });
     };
 
     componentDidMount() {
-        //this.loadNotifs();
+        this.loadNotifs();
         this.interval = setInterval(() => this.loadNotifs(), 300000);
     }
 
@@ -79,16 +88,25 @@ class Navbar extends React.Component {
     }
 
     showNotifs() {
-        return (this.state.notifs.length > 0 ? this.state.notifs.slice(0, 6).map((notif, index) =>
-            <div key={notif.id}>
-                <Link to={"/" + this.props.accounttype + "/notificacoes"} className="dropdown-item notif-text">
-                    {notif.conteudo.length > 30 ? notif.conteudo.substring(0, 28) + '...'
-                        : notif.conteudo}
-                    <p className="notif-date">{notif.dataEmissao.substring(11, 16) + " - " + notif.dataEmissao.substring(8, 10)
-                        + "/" + notif.dataEmissao.substring(5, 7) + "/" + notif.dataEmissao.substring(0, 4)}</p></Link>
-            </div>
-        ) : <p className="dropdown-item notif-date">Não tem notificações.</p>)
+            return (this.state.notifs.length > 0 ? this.state.notifs.slice(0, 6).map((notif, index) =>
+                <div key={notif.id}>
+                    <Link to={"/" + this.props.accounttype + "/notificacoes"} className="dropdown-item notif-text">
+                        {notif.conteudo.length > 30 ? notif.conteudo.substring(0, 28) + '...'
+                            : notif.conteudo}
+                        <p className="notif-date">{notif.dataEmissao.substring(11, 16) + " - " + notif.dataEmissao.substring(8, 10)
+                            + "/" + notif.dataEmissao.substring(5, 7) + "/" + notif.dataEmissao.substring(0, 4)}</p></Link>
+                </div>
+            ) : <p className="dropdown-item notif-date">Não tem notificações.</p>)
     }
+
+    mobileLink() {
+        if (!this.state.expanded) return null;
+        return(<>
+            <Link to={this.props.accounttype + '/notificacoes'} className="nav-item nav-link navbar-moblink">Notificações {this.state.notificacoesPorLer > 0 ? '(' + this.state.notificacoesPorLer + ')' : null}</Link>
+            <Link to={'/' + this.props.accounttype + "/opcoes"} className="nav-item nav-link navbar-moblink">Opções</Link>
+            <Link to="/login" className="nav-item nav-link navbar-moblink" onClick={this.logoutClick}>Logout</Link></>
+        )
+    };
 
     logoutClick() {
         this.props.change.token('');
@@ -118,16 +136,18 @@ class Navbar extends React.Component {
     }
 
     render() {
+        let divnamer;
+        if (this.state.expanded) { divnamer = "expanded navbar-collapse" } else { divnamer = "collapse navbar-collapse" };
         return (
             <nav className="navbar fixed-top navbar-expand-sm navbar-dark bg-dark">
                 <a className="navbar-brand"> Gestão de Florestas </a>
-                <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <button onClick={() => this.drawerHandler()} className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>
-                <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div className={divnamer} id="navbarNavAltMarkup">
                     {this.leftSideLinks()}
                     <div className="navbar-nav ml-auto">
-                        <li className="nav-item dropdown">
+                        <li className="nav-item dropdown collapse navbar-collapse">
                             <a className="nav-link dropdown" href="#" id="navbarDropdown" role="button" onClick={this.notifsDropClick} data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 {this.state.notificacoesPorLer < 1 ?
                                     <div className="notifsLidas">
@@ -141,19 +161,20 @@ class Navbar extends React.Component {
                                     <div className="notifsPorLer">
                                         <svg className="bi bi-envelope-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                             <path fillRule="evenodd" d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555zM0 4.697v7.104l5.803-3.558L0 4.697zM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757zm3.436-.586L16 11.801V4.697l-5.803 3.546z" />
-                                        </svg> <span className="badge badge-pill badge-danger">{this.state.notificacoesPorLer<100?this.state.notificacoesPorLer:'99+'}</span></div>
+                                        </svg> <span className="badge badge-pill badge-danger">{this.state.notificacoesPorLer < 100 ? this.state.notificacoesPorLer : '99+'}</span></div>
                                 }
                             </a>
                             <div className="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                 {this.showNotifs()}
                             </div>
                         </li>
-                        <Link to={'/' + this.props.accounttype + "/opcoes"} className="nav-item nav-link">
+                        {this.mobileLink()}
+                        <Link to={'/' + this.props.accounttype + "/opcoes"} className="nav-item nav-link collapse navbar-collapse">
                             <svg className="bi bi-gear-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                 <path fillRule="evenodd" d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872l-.1-.34zM8 10.93a2.929 2.929 0 1 0 0-5.86 2.929 2.929 0 0 0 0 5.858z" />
                             </svg>
                         </Link>
-                        <Link to="/login" className="nav-item nav-link" onClick={this.logoutClick}>
+                        <Link to="/login" className="nav-item nav-link collapse navbar-collapse" onClick={this.logoutClick}>
                             <svg className="bi bi-box-arrow-right" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                 <path fillRule="evenodd" d="M11.646 11.354a.5.5 0 0 1 0-.708L14.293 8l-2.647-2.646a.5.5 0 0 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0z" />
                                 <path fillRule="evenodd" d="M4.5 8a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5z" />
@@ -167,4 +188,4 @@ class Navbar extends React.Component {
     }
 }
 
-export default Navbar
+export default withRouter(Navbar)
