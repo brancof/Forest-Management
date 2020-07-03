@@ -172,7 +172,8 @@ namespace GestaoFlorestas.WebSite.Services
 
             List<Notificacao> l = new List<Notificacao>();
             string query = "Select idNotificacao, conteudo, visualizacao, dataEmissao from Notificacao " +
-                               "where usernameUser=@username AND tipoUser=@tipo ;";
+                               "where usernameUser=@username AND tipoUser=@tipo "
+                               +"order by dataEmissao desc";
 
             SqlCommand cmd = new SqlCommand(query, con);
             cmd.Parameters.AddWithValue("@username", user);
