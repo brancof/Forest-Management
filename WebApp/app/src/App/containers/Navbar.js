@@ -5,6 +5,7 @@ import {
     withRouter
 } from "react-router-dom";
 import './Navbar.css';
+import TrabalhadoresLimpeza from './TrabalhadoresLimpeza';
 
 class Navbar extends React.Component {
     constructor(props) {
@@ -32,6 +33,21 @@ class Navbar extends React.Component {
     componentDidMount() {
         this.loadNotifs();
         this.interval = setInterval(() => this.loadNotifs(), 300000);
+    }
+
+    componentDidUpdate() {
+        axios.get('https://localhost:44301/' + this.props.accounttype + '/notificacoes', {
+            params: {
+                Username: this.props.user.username
+            },
+            headers: {
+                "Authorization": this.state.auth
+            }
+        })
+            .then(response => {
+                if(response.data.length != this.state.notifs.length) this.setState({ notifs: response.data });
+                //console.log(response.data);
+            })
     }
 
     async loadNotifs() {
@@ -148,7 +164,7 @@ class Navbar extends React.Component {
                     {this.leftSideLinks()}
                     <div className="navbar-nav ml-auto">
                         <li className="nav-item dropdown collapse navbar-collapse">
-                            <a className="nav-link dropdown" href="#" id="navbarDropdown" role="button" onClick={this.notifsDropClick} data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a className="nav-link dropdown" href="#" id="navbarDropdown" role="button" onClick={() => this.notifsDropClick()} data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 {this.state.notificacoesPorLer < 1 ?
                                     <div className="notifsLidas">
                                         <svg className="bi bi-envelope-open" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -164,7 +180,7 @@ class Navbar extends React.Component {
                                         </svg> <span className="badge badge-pill badge-danger">{this.state.notificacoesPorLer < 100 ? this.state.notificacoesPorLer : '99+'}</span></div>
                                 }
                             </a>
-                            <div className="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <div id={this.props.notify} className="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                 {this.showNotifs()}
                             </div>
                         </li>

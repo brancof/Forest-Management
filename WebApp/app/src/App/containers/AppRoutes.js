@@ -23,6 +23,7 @@ class AppRoutes extends React.Component {
       token: '',
       accounttype: 'proprietarios',
       user: '',
+      notifier: 0,
       pwmessage: false
     };
 
@@ -53,12 +54,15 @@ class AppRoutes extends React.Component {
     this.setState({ accounttype: newtype });
   }
 
+  notifUpdater = () => {
+    this.setState({ notifier: this.state.notifier++});
+  };
 
   render() {
 
     return (
       <div className="AppRouter">
-        {!(this.state.username === '') ? <Navbar user={this.state.user} token={this.state.token} accounttype={this.state.accounttype}
+        {!(this.state.username === '') ? <Navbar user={this.state.user} token={this.state.token} accounttype={this.state.accounttype} notify={this.state.notifier}
           change={{
             username: this.setUsername,
             accounttype: this.setType,
@@ -83,22 +87,22 @@ class AppRoutes extends React.Component {
             </Route>
 
             <Route path="/proprietarios">
-              {!(this.state.username === '') ? <Proprietarios user={this.state.user} username={this.state.username} accounttype={this.state.accounttype} change={{ user: this.setUser }} token={this.state.token} />
+              {!(this.state.username === '') ? <Proprietarios user={this.state.user} username={this.state.username} accounttype={this.state.accounttype} change={{ user: this.setUser }} token={this.state.token} updateNotifs={this.notifUpdater} />
                 : <Redirect to="/" />}
             </Route>
 
             <Route path="/inspetores">
-              {!(this.state.username === '') ? <Inspetores username={this.state.username} user={this.state.user} accounttype={this.state.accounttype} token={this.state.token} />
+              {!(this.state.username === '') ? <Inspetores username={this.state.username} user={this.state.user} accounttype={this.state.accounttype} token={this.state.token} updateNotifs={this.notifUpdater} />
                 : <Redirect to="/" />}
             </Route>
 
             <Route path="/trabalhadores">
-              {!(this.state.username === '') ? <Trabalhadores user={this.state.user} username={this.state.username} accounttype={this.state.accounttype} token={this.state.token} />
+              {!(this.state.username === '') ? <Trabalhadores user={this.state.user} username={this.state.username} accounttype={this.state.accounttype} token={this.state.token} updateNotifs={this.notifUpdater} />
                 : <Redirect to="/" />}
             </Route>
 
             <Route path="/supervisores">
-              {!(this.state.username === '') ? <Supervisores username={this.state.username} user={this.state.user} accounttype={this.state.accounttype} token={this.state.token} />
+              {!(this.state.username === '') ? <Supervisores username={this.state.username} user={this.state.user} accounttype={this.state.accounttype} token={this.state.token} updateNotifs={this.notifUpdater} />
                 : <Redirect to="/" />}
             </Route>
 

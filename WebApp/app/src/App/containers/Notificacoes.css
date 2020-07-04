@@ -2,3 +2,13 @@
     overflow: auto;
     max-height: 100vh;
 }
+
+.notiftrashcan {
+    position: relative;
+    left: 1.5%;
+    fill: rgb(124, 124, 124);
+}
+
+.notiftrashcan:hover {
+    cursor: pointer;
+}

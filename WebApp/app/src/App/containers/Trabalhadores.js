@@ -183,7 +183,7 @@ import Notificacoes from './Notificacoes';
                 </Route>
                 
                 <Route path='/trabalhadores/notificacoes'>
-                    <Notificacoes user={this.props.user} username={this.props.username} change={{ user: this.props.change }} accounttype={this.props.accounttype} token={this.props.token} />
+                    <Notificacoes user={this.props.user} username={this.props.username} change={{ user: this.props.change }} accounttype={this.props.accounttype} token={this.props.token} updateNotifs={this.props.updateNotifs} />
                 </Route>
 
                 <Route path='/trabalhadores/opcoes'>
