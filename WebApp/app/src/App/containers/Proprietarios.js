@@ -28,7 +28,6 @@ class Proprietarios extends React.Component {
 
     handleCheck(event) {
         this.state.checked[event.target.value] = event.target.checked;
-        //this.forceUpdate();
     }
 
     terrenostable() {
@@ -64,7 +63,7 @@ class Proprietarios extends React.Component {
             .then(response => {
                 //alert("Login efectuado com successo.");
                 this.setState({ terrenos: response.data });
-                console.log(response.data);
+                //console.log(response.data);
                 response.data.map((terreno, index) => {
                     this.state.checked[index] = false;
                 });
@@ -104,7 +103,7 @@ class Proprietarios extends React.Component {
                     }
                 })
                     .then(response => {
-                        console.log(response);
+                        //console.log(response);
                         this.loadTerrenos();
                         //this.forceUpdate();
                     })

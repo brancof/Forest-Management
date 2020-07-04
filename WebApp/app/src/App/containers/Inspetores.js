@@ -57,7 +57,7 @@ function toLetters(num) {
             .then(response => {
                 this.setState({percurso: response.data, terrenos: response.data});
                 this.setState({displayPercurso: 1});
-                console.log(response.data);
+                //console.log(response.data);
             }) 
             .catch(response => {
                 console.log(response);
@@ -75,7 +75,7 @@ function toLetters(num) {
             }
         })
         .then(response => {
-            console.log(response);
+            //console.log(response);
             this.setState({sucesso: 1});
             this.state.percurso.unshift({ latitude: this.state.latitude, longitude: this.state.longitude});
         }) 

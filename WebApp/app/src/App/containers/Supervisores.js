@@ -45,7 +45,7 @@ class Supervisores extends React.Component {
         })
             .then(response => {
                 this.setState({ terrenosLimpos: response.data });
-                console.log(response.data);
+                //console.log(response.data);
             })
             .catch(response => {
                 alert("Erro no carregamento de terrenos.");
@@ -64,7 +64,7 @@ class Supervisores extends React.Component {
         })
             .then(response => {
                 this.setState({ concelho: response.data });
-                console.log(response.data);
+                //console.log(response.data);
             })
             .catch(response => {
                 alert("Erro no carregamento do concelho.");
@@ -84,7 +84,7 @@ class Supervisores extends React.Component {
         })
             .then(response => {
                 this.setState({ zonas: response.data });
-                console.log(response.data);
+                //console.log(response.data);
                 var mapZonas = [];
                 response.data.map((zonas, index) => {
                     mapZonas[index] = {

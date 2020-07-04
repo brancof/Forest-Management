@@ -37,7 +37,7 @@ class TrabalhadoresLimpeza extends React.Component {
         })
             .then(response => {
                 this.setState({ terrenos: response.data , displayTable : 1});
-                console.log(response.data);
+                //console.log(response.data);
             })
             .catch(response => {
                 alert("Erro no carregamento de terrenos pendentes.");
@@ -67,7 +67,7 @@ class TrabalhadoresLimpeza extends React.Component {
                     this.terrenosPendentes();
                     var v;
                     for (v = 0; v < this.state.checked.length; v++) this.state.checked[v] = 0;
-                    console.log(response);
+                    //console.log(response);
                 }) 
                 .catch(response => {
                     alert("Erro na realizaçao da limpeza.");

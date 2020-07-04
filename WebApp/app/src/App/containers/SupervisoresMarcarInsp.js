@@ -45,7 +45,7 @@ class SupervisoresMarcarInsp extends React.Component {
             })
             .then(response => {
                 this.setState({zonas: response.data});
-                console.log(response.data);
+                //console.log(response.data);
             }) 
             .catch(response => {
                 console.log(response);
@@ -81,7 +81,7 @@ class SupervisoresMarcarInsp extends React.Component {
                     }
                     this.setState({numberChecked: count});
                     this.zonasConcelho();
-                    console.log(response.data);
+                    //console.log(response.data);
                 }) 
                 .catch(response => {
                     alert("Erro na marcação de uma inspeção.");

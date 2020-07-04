@@ -38,7 +38,7 @@ import './Inspetores.css'
                 }
             })
             .then(response => {
-                console.log(response);
+                //console.log(response);
                 this.setState({sucesso: 1});
             }) 
             .catch(response => {

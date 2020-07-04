@@ -33,7 +33,7 @@ class ProprietarioRelatorio extends React.Component {
         })
         .then(response => {
             this.setState({relatorios: response.data});
-            console.log(response.data);
+            //console.log(response.data);
         }) 
         .catch(response => {
             console.log(response);

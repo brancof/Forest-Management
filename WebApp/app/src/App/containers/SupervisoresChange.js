@@ -77,7 +77,7 @@ class SupervisoresChange extends React.Component {
                     }
                 })
                     .then(response => {
-                        console.log(response);
+                        //console.log(response);
                         this.setState({boolAlterado: 1});
                         this.setState({sucesso: 1});
                         this.loadTerrenos(this.state.nifNovo);
@@ -120,7 +120,7 @@ class SupervisoresChange extends React.Component {
             .then(response => {
                 //alert("Login efectuado com successo.");
                 this.setState({terrenos: response.data});
-                console.log(response.data);
+                //console.log(response.data);
                 response.data.map((terreno, index) => {
                     this.state.checked[index]=false;
                 });                

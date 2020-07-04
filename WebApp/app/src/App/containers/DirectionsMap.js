@@ -41,7 +41,7 @@ class DirectionsMap extends React.Component {
       travelMode: 'DRIVING',
     }, (response, status) => {
       if (status === 'OK') {
-        console.log(response);
+        //console.log(response);
         directionsDisplay.setDirections(response);
       } else {
         window.alert('Directions request failed due to ' + status);

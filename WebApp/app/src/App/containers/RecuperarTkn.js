@@ -51,7 +51,7 @@ class RecuperarPass extends React.Component {
             })
                 .then(response => {
                     this.setState({ failure: false, success: true, warning: false });
-                    console.log(response);
+                    //console.log(response);
                     this.props.pwinfo.set(true);
                     this.props.history.push("/login");
                 })

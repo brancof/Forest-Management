@@ -61,7 +61,7 @@ class SupervisoresMarcarLimp extends React.Component {
             })
             .then(response => {
                 this.setState({terrenos: response.data});
-                console.log(response.data);
+                //console.log(response.data);
             }) 
             .catch(response => {
                 console.log(response);
@@ -80,7 +80,7 @@ class SupervisoresMarcarLimp extends React.Component {
             })
             .then(response => {
                 this.setState({trabalhadores: response.data});
-                console.log(response.data);
+                //console.log(response.data);
             }) 
             .catch(response => {
                 console.log(response);

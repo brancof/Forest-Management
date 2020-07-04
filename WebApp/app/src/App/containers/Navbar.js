@@ -45,7 +45,7 @@ class Navbar extends React.Component {
         })
             .then(response => {
                 this.setState({ notifs: response.data });
-                console.log(response.data);
+                //console.log(response.data);
             })
             .catch(response => {
                 console.log(response);

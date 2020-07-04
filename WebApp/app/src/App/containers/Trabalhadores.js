@@ -48,7 +48,7 @@ import Notificacoes from './Notificacoes';
             }
         })
         .then(response => {
-            console.log(response);
+            //console.log(response);
             this.setState({sucesso: 1});
             this.state.sugTerrenos.unshift({ latitude: this.state.latitude, longitude: this.state.longitude});
         }) 
@@ -108,7 +108,7 @@ import Notificacoes from './Notificacoes';
             .then(response => {
                 this.setState({sugTerrenos : response.data});
                 this.setState({sugTer : this.state.sugTerrenos[0]});
-                console.log(response.data);
+                //console.log(response.data);
             })
             .catch(response => {
                 alert("Erro no carregamento do terreno sugerido.");
@@ -127,7 +127,7 @@ import Notificacoes from './Notificacoes';
         })
             .then(response => {
                 this.setState({ terrenos: response.data , displayTable : 1});
-                console.log(response.data);
+                //console.log(response.data);
             })
             .catch(response => {
                 alert("Erro no carregamento de terrenos pendentes.");
