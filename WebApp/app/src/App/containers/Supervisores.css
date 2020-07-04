@@ -25,11 +25,24 @@ s.table.table-prop {
 }
 
 .colterrnum {
-    width: 2%
+    width: 3%
 }
 
 .colcheck {
     width: 1%
+}
+
+.checksuper {
+    margin-left: -1.2rem;
+    margin-right: 1rem;
+}
+
+.checksuperlimp {
+    margin-left: -1.5rem;
+}
+
+.checksupereqp {
+    margin-left: -0.7rem;
 }
 
 .table-responsive {

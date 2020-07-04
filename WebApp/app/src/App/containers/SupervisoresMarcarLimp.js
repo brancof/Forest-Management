@@ -92,7 +92,7 @@ class SupervisoresMarcarLimp extends React.Component {
         return (this.state.terrenos.length > 0 ? this.state.terrenos.map((terreno, index) =>
             <tr key={terreno.id_Terreno}>
                <td className="colcheck" style={{textAlign: "left", paddingLeft: "2%"}}>
-                    <div class="custom-control custom-checkbox">
+                    <div class="custom-control custom-checkbox checksuperlimp">
                         <input style={{display: "inline", visibility: terreno.limpezaPendente || terreno.estadoLimpeza ? "hidden" : "visible"}} type="checkbox" key={terreno.id_Terreno} onChange={this.handleCheckTerr} defaultChecked={this.state.checkedTerr[index]? "checked": null} value={index} className="form-check-input" id="checkmark"/>
                     </div>
                </td>
@@ -133,7 +133,7 @@ class SupervisoresMarcarLimp extends React.Component {
         return (this.state.trabalhadores.length > 0 ? this.state.trabalhadores.map((trab, index) =>
             <tr key={trab.username}>
                <td className="colcheck" style={{textAlign: "left", paddingLeft: "1%"}}>
-                    <div class="custom-control custom-checkbox">
+                    <div class="custom-control custom-checkbox checksupereqp">
                         <input style={{display: "inline"}} type="checkbox" key={trab.username} onChange={this.handleCheckTrab} defaultChecked={this.state.checkedTrab[index]? "checked": null} value={index} className="form-check-input" id="checkmark"/>
                     </div>
                </td>
