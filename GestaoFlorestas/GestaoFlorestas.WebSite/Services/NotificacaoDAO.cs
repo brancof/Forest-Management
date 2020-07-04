@@ -242,5 +242,27 @@ namespace GestaoFlorestas.WebSite.Services
             }
         }
 
+
+        public int eliminaNotificacao(String idNot,String username,String tipoUser)
+        {
+            int i;
+            String query;
+            i = 0;
+            query = "Delete from Notificacao where usernameUser = @user AND tipoUser = @tipo AND idNotificacao = @id;";
+
+              SqlCommand cmd = new SqlCommand(query, con);
+
+            cmd.Parameters.AddWithValue("@id", idNot);
+            cmd.Parameters.AddWithValue("@user", username);
+            cmd.Parameters.AddWithValue("@tipo", tipoUser);
+            if (this.OpenConnection() == true)
+            {
+                int r = cmd.ExecuteNonQuery();
+                this.CloseConnection();
+                return r;
+            }
+            return -1;
+        }
+
     }
 }

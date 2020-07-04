@@ -180,6 +180,27 @@ namespace GestaoFlorestas.WebSite.Controllers
         }
 
         [Authorize]
+        [Route("Notificacoes/Elim")]
+        [HttpDelete]
+        public ActionResult EliminaNotificacao([FromBody] string body,
+                                               [FromHeader] string Authorization)//body: "username-|-idNotificacao"
+        {
+            string[] campos = body.Split("-|-");
+
+            if (MiddleWare(Authorization, campos[0]))
+            {
+                try
+                {
+                    this.GestaoFlorestasService.eliminaNotificacaoInspetores(campos[0], campos[1]);
+                    return Ok();
+                }
+                catch (ExistingUserException e) { return Unauthorized(); }
+
+            }
+            else return Unauthorized();
+        }
+
+        [Authorize]
         [Route("Localizacao")]
         [HttpPut]
         public ActionResult AtulizaLocalizacao ([FromBody] string body, [FromHeader] string Authorization)//body:"username|latitude|longitude"

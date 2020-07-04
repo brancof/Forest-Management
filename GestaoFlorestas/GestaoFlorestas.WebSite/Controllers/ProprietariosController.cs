@@ -292,6 +292,27 @@ namespace GestaoFlorestas.WebSite.Controllers
         }
 
 
+        [Authorize]
+        [Route("Notificacoes/Elim")]
+        [HttpDelete]
+        public ActionResult EliminaNotificacao([FromBody] string body,
+                                               [FromHeader] string Authorization)//body: "username-|-idNotificacao"
+        {
+            string[] campos = body.Split("-|-");
+
+            if (MiddleWare(Authorization, campos[0]))
+            {
+                try
+                {
+                    this.GestaoFlorestasService.eliminaNotificacaoProprietario(campos[0], campos[1]);
+                    return Ok();
+                }
+                catch(ExistingUserException e) { return Unauthorized(); }
+                
+            }
+            else return Unauthorized();
+        }
+
 
         [Route("Resetpassword")]
         [HttpPut]

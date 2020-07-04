@@ -122,6 +122,14 @@ namespace GestaoFlorestas.WebSite.Services
             return p.notificacoesPorLer;
         }
 
+        public void eliminaNotificacaoProprietario(string username,string idNot)
+        {
+            int r = this.notifications.eliminaNotificacao(idNot, username, "Proprietario");
+
+            if (r != 1) throw new ExistingUserException();
+
+        }
+
 
         public void limparTerreno(int idTerreno, string username)
         {
@@ -342,6 +350,13 @@ namespace GestaoFlorestas.WebSite.Services
             this.notifications.visualizarNotificacoes(username, "Inspetor");
         }
 
+        public void eliminaNotificacaoInspetores(string username, string idNot)
+        {
+            int r = this.notifications.eliminaNotificacao(idNot, username, "Inspetor");
+
+            if (r != 1) throw new ExistingUserException();
+
+        }
 
         public void atualizaLocalizacao(string username, Double latitude, Double longitude)
         {
@@ -560,6 +575,14 @@ namespace GestaoFlorestas.WebSite.Services
             return p.notificacoesPorLer;
         }
 
+        public void eliminaNotificacaoSupervisor(string username, string idNot)
+        {
+            int r = this.notifications.eliminaNotificacao(idNot, username, "Supervisor");
+
+            if (r != 1) throw new ExistingUserException();
+
+        }
+
 
         public void changeNameSup(string username, string newName)
         {
@@ -644,6 +667,14 @@ namespace GestaoFlorestas.WebSite.Services
         public void visualizarNotificacoesTrabalhador(string username)
         {
             this.notifications.visualizarNotificacoes(username, "Trabalhador");
+        }
+
+        public void eliminaNotificacaoTrabalhador(string username, string idNot)
+        {
+            int r = this.notifications.eliminaNotificacao(idNot, username, "Trabalhador");
+
+            if (r != 1) throw new ExistingUserException();
+
         }
 
         public List<Terreno> getSugestaoLimpeza(string username)
