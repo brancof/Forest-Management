@@ -10,7 +10,7 @@ class Maps extends React.Component {
             activeMarker: {},
             selectedPlace: {},
             query:'',
-            zoom: 10,
+            zoom: 9,
             center: {
                 lat:41.5618, lng:-8.29563
             },

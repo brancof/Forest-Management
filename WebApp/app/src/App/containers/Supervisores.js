@@ -53,8 +53,8 @@ class Supervisores extends React.Component {
             })
     }
 
-    async concelho() {
-        await axios.get('https://localhost:44301/supervisores/Concelho', {
+    concelho() {
+         axios.get('https://localhost:44301/supervisores/Concelho', {
             params: {
                 Username: this.props.username
             },
@@ -122,7 +122,7 @@ class Supervisores extends React.Component {
                                         </p>
 
                                         <div className="map-container">
-                                            {this.state.mapInfo.length === 0 ? null : <Heat HeatData={this.state.mapInfo} Latitude={this.state.concelho.latitude} Longitude={this.state.concelho.longitude} />}
+                                            {this.state.mapInfo.length === 0? null : <Heat HeatData={this.state.mapInfo} Latitude={this.state.concelho.latitude} Longitude={this.state.concelho.longitude} />}
                                         </div>
 
                                     </div>

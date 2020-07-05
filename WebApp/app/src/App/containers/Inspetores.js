@@ -78,6 +78,7 @@ function toLetters(num) {
             //console.log(response);
             this.setState({sucesso: 1});
             this.state.percurso.unshift({ latitude: this.state.latitude, longitude: this.state.longitude});
+        
         }) 
         .catch(response => {
             alert("Erro na atualização das coordenadas.");
@@ -135,10 +136,10 @@ function toLetters(num) {
                <td className="colexpand" style={{textAlign: "left"}}>
                {index === 0 && this.state.morada != null?
                     <div>
-                        <p>{this.state.morada.replace(/\|/g,",")}</p>
+                        <p>{this.state.morada}</p>
                     </div>
                     :<Link to='/inspetores/inspecionar' class="btn btn-link" onClick={this.handleClickLink.bind(this, terreno)}>
-                        {terreno.morada.replace(/\|/g,",") + "-" + terreno.cod_postal}
+                        {terreno.morada + "-" + terreno.cod_postal}
                     </Link>
                 }
                </td>

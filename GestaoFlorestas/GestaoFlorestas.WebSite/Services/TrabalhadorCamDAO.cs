@@ -143,7 +143,7 @@ namespace GestaoFlorestas.WebSite.Services
             else
             {
                 i = 1;
-                query = "INSERT INTO Trabalhador (username,password,nome,nomeConcelho,email,salt) VALUES(@username,@password,@nome,@con,@email,@salt);";
+                query = "INSERT INTO Trabalhador (username,password,nome,nomeConcelho,email,salt,latitude,longitude) VALUES(@username,@password,@nome,@con,@email,@salt,0,0);";
                 salt = Convert.ToBase64String(createSalt());
                 password = creatHash(tp.getPassword(), salt);
             }

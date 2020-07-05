@@ -18,14 +18,15 @@ class Heat extends Component {
 
 
 
+
     render() {
       return (
           <div style={{height: '50%', width: '75%'}}>
               <Map
                 google={this.props.google}
-                zoom={this.state.zoom}
+                zoom={this.props.Latitude==null? 10: this.state.zoom}
                 style={{height: '50%', width: '80%'}}
-                initialCenter={{lat:this.props.Latitude, lng:this.props.Longitude}}
+                initialCenter={this.props.Latitude==null? this.state.center : {lat:this.props.Latitude, lng:this.props.Longitude}}
               >
             <HeatMap
               positions={this.props.HeatData}

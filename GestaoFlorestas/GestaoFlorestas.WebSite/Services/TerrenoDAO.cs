@@ -83,8 +83,7 @@ namespace GestaoFlorestas.WebSite.Services
 
             cmd.Parameters.AddWithValue("@area", t.getArea());
             cmd.Parameters.AddWithValue("@nif", Int32.Parse(t.getNif()));
-            if (t.getProprietario() == null) cmd.Parameters.AddWithValue("@pro", null);
-            else cmd.Parameters.AddWithValue("@pro", t.getProprietario());
+            cmd.Parameters.AddWithValue("@pro", t.getProprietario());
             cmd.Parameters.AddWithValue("@lat", t.getLatitude());
             cmd.Parameters.AddWithValue("@lon", t.getLongitude());
             cmd.Parameters.AddWithValue("@id", t.getId_Terreno());
@@ -95,6 +94,38 @@ namespace GestaoFlorestas.WebSite.Services
                 this.CloseConnection();
             }
 
+
+
+        }
+
+        public void putAltera(Terreno t)
+        {
+            String query;
+            if (contains(t.getId_Terreno()))
+            {
+                if ((t.getProprietario() == null))
+                    query = "UPDATE Terreno SET estado=@estado,Area=@area,Proprietario=NULL,latitude=@lat,longitude=@lon,nifProprietario=@nif WHERE idTerreno=@id ;";
+                else {
+                    query = "UPDATE Terreno SET estado=@estado,Area=@area,Proprietario=@pro,latitude=@lat,longitude=@lon,nifProprietario=@nif WHERE idTerreno=@id ;";
+                }
+
+                SqlCommand cmd = new SqlCommand(query, con);
+                if (t.getEstadoLimpeza()) cmd.Parameters.AddWithValue("@estado", 1);
+                else cmd.Parameters.AddWithValue("@estado", 0);
+
+                cmd.Parameters.AddWithValue("@area", t.getArea());
+                cmd.Parameters.AddWithValue("@nif", Int32.Parse(t.getNif()));
+                if((t.getProprietario() != null)) cmd.Parameters.AddWithValue("@pro", t.getProprietario());
+                cmd.Parameters.AddWithValue("@lat", t.getLatitude());
+                cmd.Parameters.AddWithValue("@lon", t.getLongitude());
+                cmd.Parameters.AddWithValue("@id", t.getId_Terreno());
+                cmd.Parameters.AddWithValue("@cod", t.getCod_Postal());
+                if (this.OpenConnection() == true)
+                {
+                    int r = cmd.ExecuteNonQuery();
+                    this.CloseConnection();
+                }
+            }
 
 
         }

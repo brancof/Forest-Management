@@ -445,7 +445,7 @@ namespace GestaoFlorestas.WebSite.Services
             }
             else throw new ExistingUserException();
 
-            terrenos.put(t); //atualiza terreno na bd
+            terrenos.putAltera(t); //atualiza terreno na bd
         }
 
         public int terrenosPorLimparConcelho(string username)
@@ -763,7 +763,7 @@ namespace GestaoFlorestas.WebSite.Services
             message.Subject = "Alteração password da sua conta GestãoFlorestal";
             message.IsBodyHtml = true;
             string htmlString = "<html><body><h2 style=\"color: mediumseagreen; \"><i>Gestão Florestal</i></h2><p> Caro "+username+
-                                ",</p><p> O seu código para a alteração da sua palavra pass é : <b style=\"color:mediumseagreen\">"+ tok +
+                                ",</p><p> O seu código para a alteração da sua palavra-passe é : <b style=\"color:mediumseagreen\">"+ tok +
                                 "</b>.</p><p> Se você não solicitou a alteração da mesma, não coloque este código e continue a usar a sua conta normalmente.</p>" +
                                 "<p> Os melhores cumprimentos,<br> -A equipa da GestãoFlorestal </br></p></body></html>";
             message.Body = htmlString;
