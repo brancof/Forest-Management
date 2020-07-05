@@ -83,7 +83,8 @@ namespace GestaoFlorestas.WebSite.Services
 
             cmd.Parameters.AddWithValue("@area", t.getArea());
             cmd.Parameters.AddWithValue("@nif", Int32.Parse(t.getNif()));
-            cmd.Parameters.AddWithValue("@pro", t.getProprietario());
+            if (t.getProprietario() == null) cmd.Parameters.AddWithValue("@pro", null);
+            else cmd.Parameters.AddWithValue("@pro", t.getProprietario());
             cmd.Parameters.AddWithValue("@lat", t.getLatitude());
             cmd.Parameters.AddWithValue("@lon", t.getLongitude());
             cmd.Parameters.AddWithValue("@id", t.getId_Terreno());

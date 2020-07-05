@@ -42,7 +42,7 @@ class SupervisoresChange extends React.Component {
                         <input style={{display: "inline"}} type="checkbox"  disabled={this.state.boolAlterado} key={terreno.id_Terreno} onChange={this.handleCheck} value={index} className="form-check-input" id="checkmark"/>
                     </div>
                 </td>
-               <td className="colexpand">{terreno.morada} - {terreno.cod_postal}</td>
+               <td className="colexpand">{terreno.morada.replace(/\|/g,",")} - {terreno.cod_postal}</td>
                <td className="colexpand" style={{textAlign: "left"}}>{terreno.nif}</td> 
             </tr>
             ) : 'Nenhum terreno encontrado')

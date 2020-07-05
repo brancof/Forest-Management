@@ -68,7 +68,7 @@ import './Inspetores.css'
                 <div style={{textAlign:"Left"}}>
                     <h5>Terreno Selecionado</h5>
                     {this.props.selected != null?
-                        <p>{this.props.selected.morada} - {this.props.selected.cod_postal}</p>
+                        <p>{this.props.selected.morada.replace(/\|/g,",")} - {this.props.selected.cod_postal}</p>
                         :   <p>Nenhum</p>
                     }
                     <form>

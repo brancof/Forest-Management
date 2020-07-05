@@ -159,7 +159,7 @@ import Notificacoes from './Notificacoes';
                                         <div>
                                             <p>Sugerimos que o terreno a limpar seja:</p>
                                             <Link to='/trabalhadores/limpeza' class="btn btn-link" onClick={this.handleClickLink}>
-                                                {this.state.sugTer.morada}
+                                                {this.state.sugTer.morada.replace(/\|/g,",")}
                                             </Link>                                    
                                             <div style={{marginBottom:"8%", marginTop:"3%"}}>
                                                 <button style={{float:"Right"}} type="button" class="btn btn-dark btn-sm" onClick={this.getLocation}>Localiza-me</button>

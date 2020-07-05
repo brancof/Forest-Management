@@ -95,7 +95,7 @@ class TrabalhadoresLimpeza extends React.Component {
                    </div>
                </td>
                <td className="colexpand" style={{textAlign: "left"}}>
-                    <p style={{display: "inline"}}>{terreno.morada} - {terreno.cod_postal}</p> 
+                    <p style={{display: "inline"}}>{terreno.morada.replace(/\|/g,",")} - {terreno.cod_postal}</p> 
                </td>
                <td style={{textAlign: "left"}}>{terreno.estadoLimpeza? 'Realizada' : 'Pendente'}</td> 
             </tr>

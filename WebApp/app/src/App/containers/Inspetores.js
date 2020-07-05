@@ -135,10 +135,10 @@ function toLetters(num) {
                <td className="colexpand" style={{textAlign: "left"}}>
                {index === 0 && this.state.morada != null?
                     <div>
-                        <p>{this.state.morada}</p>
+                        <p>{this.state.morada.replace(/\|/g,",")}</p>
                     </div>
                     :<Link to='/inspetores/inspecionar' class="btn btn-link" onClick={this.handleClickLink.bind(this, terreno)}>
-                        {terreno.morada + "-" + terreno.cod_postal}
+                        {terreno.morada.replace(/\|/g,",") + "-" + terreno.cod_postal}
                     </Link>
                 }
                </td>
