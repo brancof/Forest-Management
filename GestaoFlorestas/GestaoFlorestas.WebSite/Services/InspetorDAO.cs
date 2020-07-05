@@ -232,7 +232,7 @@ namespace GestaoFlorestas.WebSite.Services
         {
             String query;
 
-            query = "Update Inspecao Set resultado=@resultado,relatorio=@relatorio,estadoInspecao='Realizada',dataHora = @data where idInspetor = @idI AND idTerreno = @idT AND idInspecao = id;";
+            query = "Update Inspecao Set resultado=@resultado,relatorio=@relatorio,estadoInspecao='Realizada',dataHora = @data where idInspetor = @idI AND idTerreno = @idT AND estadoInspecao='Em espera';";
 
             SqlCommand cmd = new SqlCommand(query, con);
             cmd.Parameters.AddWithValue("@resultado", i.getResultado());
@@ -240,7 +240,6 @@ namespace GestaoFlorestas.WebSite.Services
             cmd.Parameters.AddWithValue("@data", i.getDate());
             cmd.Parameters.AddWithValue("@idI", i.getInspetor());
             cmd.Parameters.AddWithValue("@idT", i.getTerreno());
-            cmd.Parameters.AddWithValue("@id", i.getId());
 
 
 

@@ -88,7 +88,7 @@ class TrabalhadoresLimpeza extends React.Component {
     terrenostable(){
         return (this.state.terrenos.length > 0 ? this.state.terrenos.map((terreno, index) =>
             <tr key={terreno.id_Terreno}>
-               <td style={{textAlign: "left", paddingLeft: "1%"}}>
+               <td style={{textAlign: "left"}}>
                     <div class="custom-control custom-checkbox">
                         {terreno.id_Terreno==this.props.idSelected? this.handleCheckedProp(index): null}
                         <input style={{display: "inline"}} type="checkbox" defaultChecked={terreno.id_Terreno==this.props.idSelected}  disabled={terreno.estadoLimpeza} key={terreno.id_Terreno} onChange={this.handleCheck} value={index} className="form-check-input" id="checkmark"/>
