@@ -97,7 +97,7 @@ class SupervisoresMarcarLimp extends React.Component {
                     </div>
                </td>
                <td className="colequipa" style={{textAlign: "left"}}>
-                    <p style={{display: "inline"}}>{terreno.morada} - {terreno.cod_postal}</p> 
+                    <p style={{display: "inline"}}>{terreno.morada.replace(/\|/g,",")} - {terreno.cod_postal}</p> 
                </td>
                <td className="colterrnum" style={{textAlign: "left"}}>
                     <p style={{display: "inline"}}>{terreno.limpezaPendente? "Agendado": terreno.estadoLimpeza? "Limpo" : "Não Limpo"}</p> 

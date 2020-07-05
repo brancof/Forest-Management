@@ -62,7 +62,7 @@ class Notificacoes extends React.Component {
         return (this.state.notifs.length > 0 ? this.state.notifs.map((notif, index) =>
             <div style={{ textAlign: "Left" }} className="list-group-item flex-column align-items-start">
                 <div className="d-flex w-100 justify-content-between">
-                    <p className="mb-1 notif-page-text">{notif.conteudo}</p>
+                    <p className="mb-1 notif-page-text">{notif.conteudo.replace(/\|/g,",")}</p>
                 </div>
                 <small class="text-muted trashdiv">{notif.dataEmissao.substring(11, 16) + " - " + notif.dataEmissao.substring(8, 10)
                     + "/" + notif.dataEmissao.substring(5, 7) + "/" + notif.dataEmissao.substring(0, 4)}</small>

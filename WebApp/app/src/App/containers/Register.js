@@ -17,7 +17,9 @@ class Register extends React.Component {
             passwordconfirm: '',
             concelho: '',
             accounttype: 'proprietarios',
-            warning: false
+            warning: false,
+            success: false,
+            exists: false
         };
 
         this.handleChangeName = this.handleChangeName.bind(this);
@@ -126,10 +128,9 @@ class Register extends React.Component {
     }
 
     handleRegisterButton(event) {
-        
         if(this.validateInfo())
         {
-            this.setState({warning: false});
+            this.setState({success: false, warning: false, exists: false});
             axios({
                 method: 'post',
                 url: 'https://localhost:44301/' + this.state.accounttype + '/registo',
@@ -143,10 +144,12 @@ class Register extends React.Component {
                 params: this.paramBuilder()
             })*/
             .then(response => {
-                alert("Utilizador registado!");
+                this.setState({success: true});
+                //alert("Utilizador registado!");
             }) 
             .catch(response => {
-                alert("Username já existente.");
+                this.setState({exists: true});
+                //alert("Username já existente.");
                 console.log(response);
             })
         } else {
@@ -212,6 +215,8 @@ class Register extends React.Component {
                                     </div>
                                     <div className="form-group">
                                         <p>{this.state.warning ? 'Preencha todos os campos com informação válida e confirme as passwords.' : ''}</p>
+                                        <p>{this.state.success ? 'Utilizador registado com successo!' : ''}</p>
+                                        <p>{this.state.exists ? 'Username já existente.' : ''}</p>
                                     </div>
                                     <input className="btn login-btn btn-success btn-sm" type='submit' onClick={this.handleRegisterButton} value="Registar" />
                                     <Link to="/login"><input className="btn login-btn btn-success btn-sm" type='button' value="Voltar" /></Link>

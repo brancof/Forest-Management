@@ -107,8 +107,8 @@ class Navbar extends React.Component {
             return (this.state.notifs.length > 0 ? this.state.notifs.slice(0, 6).map((notif, index) =>
                 <div key={notif.id}>
                     <Link to={"/" + this.props.accounttype + "/notificacoes"} className="dropdown-item notif-text">
-                        {notif.conteudo.length > 30 ? notif.conteudo.substring(0, 28) + '...'
-                            : notif.conteudo}
+                        {notif.conteudo.length > 30 ? notif.conteudo.replace(/\|/g,",").substring(0, 28) + '...'
+                            : notif.conteudo.replace(/\|/g,",")}
                         <p className="notif-date">{notif.dataEmissao.substring(11, 16) + " - " + notif.dataEmissao.substring(8, 10)
                             + "/" + notif.dataEmissao.substring(5, 7) + "/" + notif.dataEmissao.substring(0, 4)}</p></Link>
                 </div>

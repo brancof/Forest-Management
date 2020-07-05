@@ -38,7 +38,7 @@ class Proprietarios extends React.Component {
                 </td>
                 <td className="colmorada" style={{ textAlign: "left", paddingLeft: "5%" }}>
                     <Link to='/proprietarios/relatorio' onClick={this.handleClickLink.bind(this, terreno)}>
-                        {terreno.morada} - {terreno.cod_postal}
+                        {terreno.morada.replace(/\|/g,",")} - {terreno.cod_postal}
                     </Link>
                 </td>
                 <td className="colestado" style={{ textAlign: "left" }}>{terreno.estadoLimpeza ? "Limpo" : "Não Limpo"}</td>
@@ -70,7 +70,7 @@ class Proprietarios extends React.Component {
                 var mapterr = [];
                 response.data.map((terreno, index) => {
                     mapterr[index] = {
-                        name: terreno.morada,
+                        name: terreno.morada.replace(/\|/g,","),
                         lat: terreno.latitude,
                         lng: terreno.longitude,
                         estado: terreno.estadoLimpeza

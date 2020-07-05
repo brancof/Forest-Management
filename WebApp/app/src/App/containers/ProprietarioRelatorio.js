@@ -65,7 +65,7 @@ class ProprietarioRelatorio extends React.Component {
                             <h4 className="card-title login-title">{this.props.user.nome}</h4>
                             <div style={{marginTop: '4%'}} >
                                 <h5 className="card-text login-text">Relatórios</h5>
-                                <p>{this.props.selected.morada + '-' + this.props.selected.cod_postal}</p>
+                                <p>{this.props.selected.morada.replace(/\|/g,",") + '-' + this.props.selected.cod_postal}</p>
                                 <div class="list-group">
                                     {this.printRelatorios()}
                                 </div>
